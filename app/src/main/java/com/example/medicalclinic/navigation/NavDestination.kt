@@ -3,10 +3,7 @@ package com.example.medicalclinic.navigation
 import kotlinx.serialization.Serializable
 import org.koin.core.component.getScopeName
 
-@Serializable
-sealed class NavDestination(
-    val route: String = this.getScopeName().toString().replace("$", ".")
-) {
+sealed class NavDestination {
     @Serializable
     data object Register : NavDestination()
 
