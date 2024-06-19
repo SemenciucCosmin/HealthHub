@@ -12,6 +12,12 @@ compose-bom = "2024.06.00"
 koin-android = "3.5.6"
 koin-compose = "3.5.6"
 
+# KOTLINX
+kotlin-serialization = "1.6.3"
+
+# NAVIGATION
+navigation-compose = "2.8.0-beta03"
+
 # PERMISSIONS
 accompanist-permissions = "0.33.2-alpha"
 
@@ -48,6 +54,12 @@ compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin-android" }
 koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin-compose" }
 
+# KOTLINX
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
+
+# NAVIGATION
+navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
+
 # PERMISSIONS
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist-permissions" }
 
@@ -64,3 +76,4 @@ android-application = { id = "com.android.application", version.ref = "android-g
 android-library = { id = "com.android.library", version.ref = "android-gradle-plugin" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "google-ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-android" }

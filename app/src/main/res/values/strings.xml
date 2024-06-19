@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MedicalClinic</string>
+
+    <!--  BOTTOM NAVIGATION  -->
+    <string name="lbl_home">Home</string>
+    <string name="lbl_appointments">Appointments</string>
+    <string name="lbl_medical_file">Medical file</string>
+    <string name="lbl_info">Info</string>
 </resources>

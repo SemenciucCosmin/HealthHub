@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.ksp)
 }
 
@@ -66,9 +67,15 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
 
+    // KOTLINX
+    implementation(libs.kotlinx.serialization.json)
+
     // KOIN
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+
+    // NAVIGATION
+    implementation(libs.navigation.compose)
 
     // PERMISSIONS
     implementation(libs.google.accompanist.permissions)
