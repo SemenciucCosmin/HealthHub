@@ -12,7 +12,7 @@ val MedicalClinicLightColorScheme = lightColorScheme(
      *  Bottom sheet tint
      *  Alert Dialog text buttons
      */
-    primary = Color(0xFF1C274C),
+    primary = Color(0xFFEE6633),
 
     /**
      *
@@ -22,12 +22,12 @@ val MedicalClinicLightColorScheme = lightColorScheme(
     /**
      * Floating Action Button
      */
-    primaryContainer = Color(0xFFDBE3FF),
+    primaryContainer = Color(0xFFFFCCBB),
 
     /**
      * Floating Action Button content
      */
-    onPrimaryContainer = Color(0xFF1C274C),
+    onPrimaryContainer = Color(0xFFEE6633),
 
     /**
      *
@@ -48,13 +48,13 @@ val MedicalClinicLightColorScheme = lightColorScheme(
      *  Pair devices button
      *  Device action buttons
      */
-    secondaryContainer = Color(0xFFDBE3FF),
+    secondaryContainer = Color(0xFFFFCCBB),
 
     /**
      *  Pair devices button content
      *  Device action buttons content
      */
-    onSecondaryContainer = Color(0xFF1C274C),
+    onSecondaryContainer = Color(0xFFEE6633),
 
     /**
      *
@@ -100,7 +100,7 @@ val MedicalClinicLightColorScheme = lightColorScheme(
     /**
      *  Alert dialog title
      */
-    onSurface = Color(0xFF1C274C),
+    onSurface = Color(0xFFEE6633),
 
     /**
      * Locked button not checked
@@ -119,7 +119,7 @@ val MedicalClinicLightColorScheme = lightColorScheme(
      *  Device card tint
      *  Bottom sheet tint
      */
-    surfaceTint = Color(0xFF1C274C),
+    surfaceTint = Color(0xFFEE6633),
 
     /**
      *
@@ -134,12 +134,12 @@ val MedicalClinicLightColorScheme = lightColorScheme(
     /**
      * Outline buttons
      */
-    outline = Color(0xFF1C274C),
+    outline = Color(0xFFEE6633),
 
     /**
      * Divider
      */
-    outlineVariant = Color(0xFF1C274C),
+    outlineVariant = Color(0xFFEE6633),
 )
 
 val MedicalClinicDarkColorScheme = darkColorScheme(
@@ -150,7 +150,7 @@ val MedicalClinicDarkColorScheme = darkColorScheme(
      *  Bottom sheet tint
      *  Alert Dialog text buttons
      */
-    primary = Color(0xFFDBE3FF),
+    primary = Color(0xFFFFCCBB),
 
     /**
      *
@@ -160,12 +160,12 @@ val MedicalClinicDarkColorScheme = darkColorScheme(
     /**
      * Floating Action Button
      */
-    primaryContainer = Color(0xFF1C274C),
+    primaryContainer = Color(0xFFEE6633),
 
     /**
      * Floating Action Button content
      */
-    onPrimaryContainer = Color(0xFFDBE3FF),
+    onPrimaryContainer = Color(0xFFFFCCBB),
 
     /**
      *
@@ -186,13 +186,13 @@ val MedicalClinicDarkColorScheme = darkColorScheme(
      *  Pair devices button
      *  Device action buttons
      */
-    secondaryContainer = Color(0xFF1C274C),
+    secondaryContainer = Color(0xFFEE6633),
 
     /**
      *  Pair devices button content
      *  Device action buttons content
      */
-    onSecondaryContainer = Color(0xFFDBE3FF),
+    onSecondaryContainer = Color(0xFFFFCCBB),
 
     /**
      *
@@ -238,7 +238,7 @@ val MedicalClinicDarkColorScheme = darkColorScheme(
     /**
      *  Alert dialog title
      */
-    onSurface = Color(0xFFDBE3FF),
+    onSurface = Color(0xFFFFCCBB),
 
     /**
      * Locked button not checked
@@ -257,7 +257,7 @@ val MedicalClinicDarkColorScheme = darkColorScheme(
      *  Device card tint
      *  Bottom sheet tint
      */
-    surfaceTint = Color(0xFFDBE3FF),
+    surfaceTint = Color(0xFFFFCCBB),
 
     /**
      *
@@ -272,10 +272,10 @@ val MedicalClinicDarkColorScheme = darkColorScheme(
     /**
      * Outline buttons
      */
-    outline = Color(0xFFDBE3FF),
+    outline = Color(0xFFFFCCBB),
 
     /**
      * Divider
      */
-    outlineVariant = Color(0xFFDBE3FF),
+    outlineVariant = Color(0xFFFFCCBB),
 )
