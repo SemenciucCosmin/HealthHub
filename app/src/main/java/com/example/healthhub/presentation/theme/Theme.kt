@@ -1,4 +1,4 @@
-package com.example.medicalclinic.presentation.theme
+package com.example.healthhub.presentation.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -10,13 +10,13 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 @Composable
-fun MedicalClinicTheme(
+fun HealthHubTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        darkTheme -> MedicalClinicDarkColorScheme
-        else -> MedicalClinicLightColorScheme
+        darkTheme -> HealthHubDarkColorScheme
+        else -> HealthHubLightColorScheme
     }
 
     val view = LocalView.current

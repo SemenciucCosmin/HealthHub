@@ -1,1 +1,1 @@
-# MedicalClinic
+# HealthHub

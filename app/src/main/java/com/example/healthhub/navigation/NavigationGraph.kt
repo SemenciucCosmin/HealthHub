@@ -1,16 +1,16 @@
-package com.example.medicalclinic.navigation
+package com.example.healthhub.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.medicalclinic.presentation.appointments.AppointmentsRoute
-import com.example.medicalclinic.presentation.home.HomeRoute
-import com.example.medicalclinic.presentation.info.InfoRoute
-import com.example.medicalclinic.presentation.login.LoginRoute
-import com.example.medicalclinic.presentation.login.RegistrationRoute
-import com.example.medicalclinic.presentation.medicalfile.MedicalFileRoute
+import com.example.healthhub.presentation.appointments.AppointmentsRoute
+import com.example.healthhub.presentation.home.HomeRoute
+import com.example.healthhub.presentation.info.InfoRoute
+import com.example.healthhub.presentation.login.LoginRoute
+import com.example.healthhub.presentation.login.RegistrationRoute
+import com.example.healthhub.presentation.medicalfile.MedicalFileRoute
 
 @Composable
 fun NavigationGraph(

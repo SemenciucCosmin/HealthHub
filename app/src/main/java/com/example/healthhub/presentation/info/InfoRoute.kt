@@ -1,4 +1,4 @@
-package com.example.medicalclinic.presentation.info
+package com.example.healthhub.presentation.info
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

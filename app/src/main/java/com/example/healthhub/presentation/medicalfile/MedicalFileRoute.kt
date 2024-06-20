@@ -1,4 +1,4 @@
-package com.example.medicalclinic.presentation.medicalfile
+package com.example.healthhub.presentation.medicalfile
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

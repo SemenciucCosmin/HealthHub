@@ -1,4 +1,4 @@
-package com.example.medicalclinic.navigation
+package com.example.healthhub.navigation
 
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.toRoute

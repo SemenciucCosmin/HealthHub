@@ -1,4 +1,4 @@
-package com.example.medicalclinic
+package com.example.healthhub
 
 import org.junit.Test
 

@@ -1,10 +1,10 @@
-package com.example.medicalclinic.presentation.theme
+package com.example.healthhub.presentation.theme
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-val MedicalClinicLightColorScheme = lightColorScheme(
+val HealthHubLightColorScheme = lightColorScheme(
     /**
      *  Status bar
      *  Device card tint
@@ -142,7 +142,7 @@ val MedicalClinicLightColorScheme = lightColorScheme(
     outlineVariant = Color(0xFFEE6633),
 )
 
-val MedicalClinicDarkColorScheme = darkColorScheme(
+val HealthHubDarkColorScheme = darkColorScheme(
     /**
      *  Status bar
      *  Device card tint

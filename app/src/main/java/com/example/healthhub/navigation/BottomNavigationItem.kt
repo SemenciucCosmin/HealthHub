@@ -1,6 +1,6 @@
-package com.example.medicalclinic.navigation
+package com.example.healthhub.navigation
 
-import com.example.medicalclinic.R
+import com.example.healthhub.R
 
 data class BottomNavigationItem(
     val label: Int,

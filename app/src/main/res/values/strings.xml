@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MedicalClinic</string>
+    <string name="app_name">HealthHub</string>
 
     <!--  BOTTOM NAVIGATION  -->
     <string name="lbl_home">Home</string>

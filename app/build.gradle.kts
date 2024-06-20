@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.medicalclinic"
+    namespace = "com.example.healthhub"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.medicalclinic"
+        applicationId = "com.example.healthhub"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
