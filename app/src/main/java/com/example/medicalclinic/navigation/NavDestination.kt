@@ -1,7 +1,6 @@
 package com.example.medicalclinic.navigation
 
 import kotlinx.serialization.Serializable
-import org.koin.core.component.getScopeName
 
 sealed class NavDestination {
     @Serializable
@@ -22,5 +21,5 @@ sealed class NavDestination {
     @Serializable
     data object Info : NavDestination()
 
-    fun asRoute() = this.getScopeName().toString().replace("$", ".")
+    fun asRoute(): String? = this.javaClass.canonicalName
 }
