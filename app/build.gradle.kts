@@ -83,6 +83,10 @@ dependencies {
     // PREFERENCES
     implementation(libs.datastore.preferences)
 
+    // RETROFIT
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter.moshi)
+
     // TEST
     androidTestImplementation(libs.test.espresso.core)
     androidTestImplementation(libs.test.ext)
