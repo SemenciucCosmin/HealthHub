@@ -1,55 +1,53 @@
 package com.example.healthhub.presentation.authentication
 
-import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.healthhub.R
-import com.example.healthhub.presentation.theme.HealthHubTheme
+import com.example.healthhub.data.model.Status
+import com.example.healthhub.presentation.ui.LoadingScreen
+import kotlinx.coroutines.launch
 
 @Composable
 fun EmailValidationScreen(
+    emailValidationStatus: Status,
     onNextStepClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = stringResource(R.string.lbl_email_validation_message),
-            textAlign = TextAlign.Center,
-        )
+    val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val dataErrorMessage = stringResource(R.string.lbl_email_validation_message)
+    val networkErrorMessage = stringResource(R.string.lbl_network_error_message)
 
-        Button(
-            onClick = onNextStepClick,
-            shape = MaterialTheme.shapes.small
-        ) {
-            Text(text = stringResource(R.string.lbl_next_step_action))
+    Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { padding ->
+        when (emailValidationStatus) {
+            Status.Loading -> LoadingScreen(modifier = modifier.padding(padding))
+
+            else -> EmailValidationContent(
+                modifier = modifier.padding(padding),
+                onNextStepClick = onNextStepClick
+            )
         }
     }
-}
 
-@Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun EmailValidationScreenPreview() {
-    HealthHubTheme {
-        EmailValidationScreen(
-            onNextStepClick = {},
-            modifier = Modifier.fillMaxSize()
-        )
+    LaunchedEffect(emailValidationStatus) {
+        when (emailValidationStatus) {
+            Status.DataError -> coroutineScope.launch {
+                snackbarHostState.showSnackbar(message = dataErrorMessage)
+            }
+
+            Status.NetworkError -> coroutineScope.launch {
+                snackbarHostState.showSnackbar(message = networkErrorMessage)
+            }
+
+            else -> Unit
+        }
     }
 }

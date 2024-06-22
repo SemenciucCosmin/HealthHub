@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.example.healthhub.presentation.authentication.AuthenticationScreen
@@ -13,9 +12,10 @@ import com.example.healthhub.presentation.authentication.IdValidationScreen
 import com.example.healthhub.presentation.authentication.viewmodel.AuthenticationViewModel
 import com.example.healthhub.presentation.authentication.viewmodel.model.AuthenticationUiState
 import com.example.healthhub.presentation.theme.HealthHubTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AuthenticationActivity : ComponentActivity() {
-    private val viewModel: AuthenticationViewModel by viewModels()
+    private val viewModel: AuthenticationViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,20 +23,29 @@ class AuthenticationActivity : ComponentActivity() {
         setContent {
             HealthHubTheme {
                 when (viewModel.uiState.authenticationStep) {
-                    AuthenticationUiState.Step.AUTHENTICATION -> AuthenticationScreen(
-                        modifier = Modifier.fillMaxSize(),
-                        onAuthenticationClick = viewModel::authenticate
-                    )
+                    AuthenticationUiState.Step.AUTHENTICATION -> {
+                        AuthenticationScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            authenticationStatus = viewModel.uiState.authenticationStatus,
+                            onAuthenticationClick = viewModel::authenticate
+                        )
+                    }
 
-                    AuthenticationUiState.Step.EMAIL_VALIDATION -> EmailValidationScreen(
-                        modifier = Modifier.fillMaxSize(),
-                        onNextStepClick = viewModel::getAccountValidationStatus
-                    )
+                    AuthenticationUiState.Step.EMAIL_VALIDATION -> {
+                        EmailValidationScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            emailValidationStatus = viewModel.uiState.emailValidationStatus,
+                            onNextStepClick = viewModel::getAccountValidationStatus
+                        )
+                    }
 
-                    AuthenticationUiState.Step.ID_VALIDATION -> IdValidationScreen(
-                        modifier = Modifier.fillMaxSize(),
-                        onIdImageUriReady = viewModel::uploadImage
-                    )
+                    AuthenticationUiState.Step.ID_VALIDATION -> {
+                        IdValidationScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            idValidationStatus = viewModel.uiState.idValidationStatus,
+                            onIdImageUriReady = viewModel::uploadImage
+                        )
+                    }
 
                     AuthenticationUiState.Step.AUTHENTICATION_COMPLETED -> {
                         MainActivity.startActivity(this@AuthenticationActivity)
