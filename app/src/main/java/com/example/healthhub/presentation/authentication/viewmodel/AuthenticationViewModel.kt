@@ -30,15 +30,10 @@ class AuthenticationViewModel(
 
             val resource = authenticationRepository.login(email, password)
             when (val loginStatus = resource.getOrNull()) {
+                LoginStatus.EmailError -> register()
+
                 LoginStatus.PasswordError -> {
                     uiState = uiState.copy(authenticationStatus = Status.DataError)
-                }
-
-                LoginStatus.EmailError -> {
-                    uiState = uiState.copy(
-                        authenticationStep = AuthenticationUiState.Step.EMAIL_VALIDATION,
-                        authenticationStatus = Status.Success
-                    )
                 }
 
                 is LoginStatus.Success -> {
@@ -73,5 +68,19 @@ class AuthenticationViewModel(
                 null -> uiState.copy(emailValidationStatus = Status.NetworkError)
             }
         }
+    }
+
+    private suspend fun register() {
+        val resource = authenticationRepository.register(uiState.email, uiState.password)
+        uiState = when (resource.getOrNull()) {
+            true -> uiState.copy(
+                authenticationStep = AuthenticationUiState.Step.EMAIL_VALIDATION,
+                authenticationStatus = Status.Success
+            )
+
+            false -> uiState.copy(authenticationStatus = Status.DataError)
+            null -> uiState.copy(authenticationStatus = Status.NetworkError)
+        }
+
     }
 }

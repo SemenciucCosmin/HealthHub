@@ -25,6 +25,12 @@ class AuthenticationRepositoryImpl(
         }
     }
 
+    override suspend fun register(email: String, password: String): Resource<Boolean> {
+        val resource = authenticationApi.register(email, password)
+        resource.errorOrNull()?.let { return it.getErrorType() }
+        return Resource.Success(resource.isSuccessful)
+    }
+
     override suspend fun getAccountValidationStatus(email: String): Resource<Boolean> {
         val resource = authenticationApi.getAccountValidationStatus(email)
         resource.errorOrNull()?.let { return it.getErrorType() }
