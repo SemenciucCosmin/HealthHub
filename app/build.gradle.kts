@@ -77,15 +77,16 @@ dependencies {
     // NAVIGATION
     implementation(libs.navigation.compose)
 
+    // NETWORK
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter.moshi)
+    implementation(libs.moshi.kotlin)
+
     // PERMISSIONS
     implementation(libs.google.accompanist.permissions)
 
     // PREFERENCES
     implementation(libs.datastore.preferences)
-
-    // RETROFIT
-    implementation(libs.retrofit2)
-    implementation(libs.retrofit2.converter.moshi)
 
     // TEST
     androidTestImplementation(libs.test.espresso.core)

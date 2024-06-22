@@ -18,6 +18,10 @@ kotlin-serialization = "1.6.3"
 # NAVIGATION
 navigation-compose = "2.8.0-beta03"
 
+# NETWORK
+retrofit2 = "2.11.0"
+moshi-kotlin = "1.14.0"
+
 # PERMISSIONS
 accompanist-permissions = "0.33.2-alpha"
 
@@ -28,9 +32,6 @@ kotlin-android = "1.9.23"
 
 # PREFERENCES
 datastore-preferences = "1.1.1"
-
-# RETROFIT
-retrofit2 = "2.11.0"
 
 # TEST
 junit = "4.13.2"
@@ -63,15 +64,16 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 # NAVIGATION
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
 
+# NETWORK
+retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
+retrofit2-converter-moshi = {group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit2"}
+moshi-kotlin = {group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi-kotlin"}
+
 # PERMISSIONS
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist-permissions" }
 
 # PREFERENCES
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore-preferences" }
-
-# RETROFIT
-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
-retrofit2-converter-moshi = {group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit2"}
 
 # TEST
 junit = { group = "junit", name = "junit", version.ref = "junit" }

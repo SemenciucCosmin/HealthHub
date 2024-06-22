@@ -1,4 +1,6 @@
-package com.example.healthhub.data.preferences
+package com.example.healthhub.data.preferences.repository
+
+import com.example.healthhub.data.preferences.PreferencesDataStore
 
 class PreferencesRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore

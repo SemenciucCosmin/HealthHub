@@ -1,12 +1,12 @@
-package com.example.healthhub.data.di
+package com.example.healthhub.data.preferences.di
 
 import com.example.healthhub.data.preferences.PreferencesDataStore
-import com.example.healthhub.data.preferences.PreferencesRepository
-import com.example.healthhub.data.preferences.PreferencesRepositoryImpl
+import com.example.healthhub.data.preferences.repository.PreferencesRepository
+import com.example.healthhub.data.preferences.repository.PreferencesRepositoryImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
-val dataModule = module {
+val dataPreferencesModule = module {
     single { PreferencesDataStore(androidContext()) }
     single<PreferencesRepository> { PreferencesRepositoryImpl(get()) }
 }

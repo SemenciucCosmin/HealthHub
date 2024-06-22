@@ -10,7 +10,7 @@ import com.example.healthhub.presentation.authentication.AuthenticationScreen
 import com.example.healthhub.presentation.authentication.EmailValidationScreen
 import com.example.healthhub.presentation.authentication.IdValidationScreen
 import com.example.healthhub.presentation.authentication.viewmodel.AuthenticationViewModel
-import com.example.healthhub.presentation.authentication.viewmodel.model.AuthenticationStep
+import com.example.healthhub.presentation.authentication.viewmodel.model.AuthenticationUiState
 import com.example.healthhub.presentation.theme.HealthHubTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -22,21 +22,21 @@ class AuthenticationActivity : ComponentActivity() {
             HealthHubTheme {
                 val viewModel = koinViewModel<AuthenticationViewModel>()
                 when (viewModel.uiState.authenticationStep) {
-                    AuthenticationStep.AUTHENTICATION -> AuthenticationScreen(
+                    AuthenticationUiState.Step.AUTHENTICATION -> AuthenticationScreen(
                         modifier = Modifier.fillMaxSize(),
-                        onAuthenticationClick = { _, _ -> }
+                        onAuthenticationClick = viewModel::authenticate
                     )
 
-                    AuthenticationStep.EMAIL_VALIDATION -> EmailValidationScreen(
+                    AuthenticationUiState.Step.EMAIL_VALIDATION -> EmailValidationScreen(
                         modifier = Modifier.fillMaxSize(),
                     )
 
-                    AuthenticationStep.ID_VALIDATION -> IdValidationScreen(
+                    AuthenticationUiState.Step.ID_VALIDATION -> IdValidationScreen(
                         modifier = Modifier.fillMaxSize(),
-                        onIdImageUriReady = {}
+                        onIdImageUriReady = viewModel::uploadImage
                     )
 
-                    AuthenticationStep.AUTHENTICATION_COMPLETED -> {
+                    AuthenticationUiState.Step.AUTHENTICATION_COMPLETED -> {
                         MainActivity.startActivity(this@AuthenticationActivity)
                         this@AuthenticationActivity.finish()
                     }

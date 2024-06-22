@@ -1,6 +1,9 @@
 package com.example.healthhub.di
 
+import com.example.healthhub.data.authentication.di.dataAuthenticationModule
 import com.example.healthhub.data.di.dataModule
+import com.example.healthhub.data.preferences.di.dataPreferencesModule
+import com.example.healthhub.network.di.networkModule
 import com.example.healthhub.presentation.appointments.di.featureAppointmentsModule
 import com.example.healthhub.presentation.authentication.di.featureAuthenticationModule
 import com.example.healthhub.presentation.home.di.featureHomeModule
@@ -9,9 +12,12 @@ import com.example.healthhub.presentation.medicalfile.di.featureMedicalFileModul
 
 val libraryModules = listOf(
     dataModule,
+    dataPreferencesModule,
+    dataAuthenticationModule,
     featureAppointmentsModule,
     featureAuthenticationModule,
     featureHomeModule,
     featureInfoModule,
-    featureMedicalFileModule
+    featureMedicalFileModule,
+    networkModule
 )
