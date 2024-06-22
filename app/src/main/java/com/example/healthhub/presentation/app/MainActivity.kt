@@ -1,5 +1,6 @@
 package com.example.healthhub.presentation.app
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -53,6 +54,17 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    companion object {
+        fun startActivity(activity: AuthenticationActivity) {
+            val intent = Intent(activity, MainActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            }
+
+            activity.startActivity(intent)
+            activity.finish()
         }
     }
 }

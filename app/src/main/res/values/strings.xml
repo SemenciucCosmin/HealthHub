@@ -1,4 +1,5 @@
 <resources>
+    <!--  APP  -->
     <string name="app_name">HealthHub</string>
 
     <!--  BOTTOM NAVIGATION  -->
@@ -6,4 +7,16 @@
     <string name="lbl_appointments">Appointments</string>
     <string name="lbl_medical_file">Medical file</string>
     <string name="lbl_info">Info</string>
+
+    <!--  AUTHENTICATION  -->
+    <string name="lbl_welcome">Welcome to HealthHub!</string>
+    <string name="lbl_email_placeholder">Email</string>
+    <string name="lbl_email_blank_error">Email cannot be empty!</string>
+    <string name="lbl_password_placeholder">Password</string>
+    <string name="lbl_password_blank_error">Password cannot be empty!</string>
+    <string name="lbl_authentication_action">Log in or register</string>
+    <string name="lbl_email_validation_message">Please validate your email address using the link we\'ve sent you and come back to the app to continue registration.</string>
+    <string name="lbl_id_validation_message">Please add a photo of your personal id to finish your registration.</string>
+    <string name="lbl_id_upload_action">Upload ID image</string>
+    <string name="lbl_id_take_photo_action">Take photo of ID</string>
 </resources>
