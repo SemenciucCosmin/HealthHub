@@ -56,10 +56,7 @@ class AuthenticationViewModel(
 
     fun uploadImage(idImageUri: Uri) {
         viewModelScope.launch {
-            uiState = uiState.copy(
-                idImageUri = idImageUri,
-                idValidationStatus = Status.Loading
-            )
+            uiState = uiState.copy(idValidationStatus = Status.Loading)
 
             val resource = authenticationRepository.uploadID(uiState.email, idImageUri)
             resource.getOrNull()?.let { idValidation ->
@@ -86,7 +83,11 @@ class AuthenticationViewModel(
             uiState = uiState.copy(emailValidationStatus = Status.Loading)
             val resource = authenticationRepository.getAccountValidationStatus(uiState.email)
             uiState = when (resource.getOrNull()) {
-                true -> uiState.copy(emailValidationStatus = Status.Success)
+                true -> uiState.copy(
+                    authenticationStep = AuthenticationUiState.Step.ID_VALIDATION,
+                    emailValidationStatus = Status.Success
+                )
+
                 false -> uiState.copy(emailValidationStatus = Status.DataError)
                 null -> uiState.copy(emailValidationStatus = Status.NetworkError)
             }

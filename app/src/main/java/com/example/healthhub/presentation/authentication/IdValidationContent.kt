@@ -43,7 +43,7 @@ fun IdValidationContent(
         modifier = modifier.padding(16.dp)
     ) {
         Text(
-            text = stringResource(R.string.lbl_email_validation_message),
+            text = stringResource(R.string.lbl_id_validation_message),
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -77,7 +77,7 @@ fun IdValidationContent(
 
 
     when (selectedIdPhotoOption) {
-        IdPhotoOption.NONE -> {}
+        IdPhotoOption.NONE -> Unit
         IdPhotoOption.UPLOAD -> {
             val imagePicker = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.PickVisualMedia(),
@@ -96,16 +96,17 @@ fun IdValidationContent(
 
         IdPhotoOption.CAMERA -> {
             val context = LocalContext.current
-            val imageUri = CameraFileProvider.getImageUri(context)
+            var imageUri by remember { mutableStateOf<Uri?>(null) }
             val cameraLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.TakePicture(),
                 onResult = { success ->
-                    if (success) onIdImageUriReady(imageUri)
+                    if (success) imageUri?.let(onIdImageUriReady)
                     selectedIdPhotoOption = IdPhotoOption.NONE
                 }
             )
 
-            SideEffect { cameraLauncher.launch(imageUri) }
+            imageUri = CameraFileProvider.getImageUri(context)
+            SideEffect { imageUri?.let(cameraLauncher::launch) }
         }
     }
 }

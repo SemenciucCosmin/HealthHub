@@ -18,7 +18,7 @@
     <string name="lbl_authentication_action">Log in or register</string>
     <string name="lbl_authentication_error">Incorrect password!</string>
     <string name="lbl_email_validation_message">Please validate your email address using the link we\'ve sent you and come back to the app to continue registration.</string>
-    <string name="lbl_email_not_validated">Please validate your email to proceed.</string>
+    <string name="lbl_email_validation_error">Please validate your email to proceed.</string>
     <string name="lbl_next_step_action">Next step</string>
     <string name="lbl_id_validation_message">Please add a photo of your personal id to finish your registration.</string>
     <string name="lbl_id_validation_error">Id information is invalid, please try again.</string>

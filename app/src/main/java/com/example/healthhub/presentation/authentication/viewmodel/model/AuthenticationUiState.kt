@@ -7,7 +7,6 @@ import com.example.healthhub.data.util.BLANK
 data class AuthenticationUiState(
     val email: String = String.BLANK,
     val password: String = String.BLANK,
-    val idImageUri: Uri = Uri.EMPTY,
     val emailValidationStatus: Status = Status.None,
     val idValidationStatus: Status = Status.None,
     val authenticationStatus: Status = Status.None,

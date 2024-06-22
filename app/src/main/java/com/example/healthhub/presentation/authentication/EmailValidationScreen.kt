@@ -23,7 +23,7 @@ fun EmailValidationScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    val dataErrorMessage = stringResource(R.string.lbl_email_validation_message)
+    val dataErrorMessage = stringResource(R.string.lbl_email_validation_error)
     val networkErrorMessage = stringResource(R.string.lbl_network_error_message)
 
     Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { padding ->

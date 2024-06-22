@@ -12,7 +12,7 @@ import java.io.File
 internal class CameraFileProvider : FileProvider(R.xml.filepaths) {
     companion object {
         private const val FILE_PREFIX = "selected_image_"
-        private const val FILE_EXTENSION = ".jpg"
+        private const val FILE_EXTENSION = ".png"
         private const val CACHE_SUBDIRECTORY = "images"
         private const val FILE_PROVIDER_AUTHORITY = "com.example.healthhub.camera.provider"
 

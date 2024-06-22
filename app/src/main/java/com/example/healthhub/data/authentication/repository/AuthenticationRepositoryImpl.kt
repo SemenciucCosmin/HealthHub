@@ -1,14 +1,14 @@
 package com.example.healthhub.data.authentication.repository
 
 import android.net.Uri
-import androidx.core.net.toFile
 import com.example.healthhub.data.authentication.model.IdValidation
 import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.network.api.service.AuthenticationApi
 import com.example.healthhub.network.resource.Resource
-import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
 class AuthenticationRepositoryImpl(
     private val authenticationApi: AuthenticationApi
@@ -45,8 +45,8 @@ class AuthenticationRepositoryImpl(
     }
 
     override suspend fun uploadID(email: String, imageUri: Uri): Resource<IdValidation> {
-        val imageBytes = imageUri.toFile().readBytes()
-        val requestBody = imageBytes.toRequestBody("application/octet-stream".toMediaType())
+        val imageFile = imageUri.path?.let { File(it) } ?: return Resource.Error.Access()
+        val requestBody = imageFile.asRequestBody("image/png".toMediaTypeOrNull())
         val multiPart = MultipartBody.Part.createFormData("image", "image", requestBody)
         val body = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
             addPart(multiPart)

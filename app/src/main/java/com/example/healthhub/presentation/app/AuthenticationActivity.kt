@@ -55,9 +55,4 @@ class AuthenticationActivity : ComponentActivity() {
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getAccountValidationStatus()
-    }
 }
