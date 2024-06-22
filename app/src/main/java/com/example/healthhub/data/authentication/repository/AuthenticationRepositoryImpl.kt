@@ -1,8 +1,14 @@
 package com.example.healthhub.data.authentication.repository
 
+import android.net.Uri
+import androidx.core.net.toFile
+import com.example.healthhub.data.authentication.model.IdValidation
 import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.network.api.service.AuthenticationApi
 import com.example.healthhub.network.resource.Resource
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class AuthenticationRepositoryImpl(
     private val authenticationApi: AuthenticationApi
@@ -36,5 +42,25 @@ class AuthenticationRepositoryImpl(
         resource.errorOrNull()?.let { return it.getErrorType() }
         val accountRegistrationDto = resource.getOrNull() ?: return Resource.Error.NotFound()
         return Resource.Success(accountRegistrationDto.validation == true)
+    }
+
+    override suspend fun uploadID(email: String, imageUri: Uri): Resource<IdValidation> {
+        val imageBytes = imageUri.toFile().readBytes()
+        val requestBody = imageBytes.toRequestBody("application/octet-stream".toMediaType())
+        val multiPart = MultipartBody.Part.createFormData("image", "image", requestBody)
+        val body = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
+            addPart(multiPart)
+            addFormDataPart("email", email)
+        }.build()
+
+        val resource = authenticationApi.uploadId(body)
+        resource.errorOrNull()?.let { return it.getErrorType() }
+        val idValidationDto = resource.getOrNull() ?: return Resource.Error.NotFound()
+        return Resource.Success(
+            IdValidation(
+                updated = idValidationDto.updated ?: false,
+                integrity = idValidationDto.integrity ?: false,
+            )
+        )
     }
 }

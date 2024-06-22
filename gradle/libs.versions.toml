@@ -19,8 +19,9 @@ kotlin-serialization = "1.6.3"
 navigation-compose = "2.8.0-beta03"
 
 # NETWORK
-retrofit2 = "2.11.0"
 moshi-kotlin = "1.14.0"
+okhttp3 = "5.0.0-alpha.7"
+retrofit2 = "2.11.0"
 
 # PERMISSIONS
 accompanist-permissions = "0.33.2-alpha"
@@ -65,9 +66,10 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
 
 # NETWORK
+moshi-kotlin = {group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi-kotlin"}
+okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
 retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 retrofit2-converter-moshi = {group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit2"}
-moshi-kotlin = {group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi-kotlin"}
 
 # PERMISSIONS
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist-permissions" }

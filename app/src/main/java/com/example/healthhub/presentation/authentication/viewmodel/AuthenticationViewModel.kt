@@ -55,7 +55,30 @@ class AuthenticationViewModel(
     }
 
     fun uploadImage(idImageUri: Uri) {
-        uiState = uiState.copy(idImageUri = idImageUri)
+        viewModelScope.launch {
+            uiState = uiState.copy(
+                idImageUri = idImageUri,
+                idValidationStatus = Status.Loading
+            )
+
+            val resource = authenticationRepository.uploadID(uiState.email, idImageUri)
+            resource.getOrNull()?.let { idValidation ->
+                uiState = when {
+                    idValidation.updated && idValidation.integrity -> {
+                        uiState.copy(
+                            authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED,
+                            idValidationStatus = Status.Success
+                        )
+                    }
+
+                    else -> {
+                        uiState.copy(idValidationStatus = Status.DataError)
+                    }
+                }
+            } ?: run {
+                uiState = uiState.copy(idValidationStatus = Status.NetworkError)
+            }
+        }
     }
 
     fun getAccountValidationStatus() {
@@ -81,6 +104,5 @@ class AuthenticationViewModel(
             false -> uiState.copy(authenticationStatus = Status.DataError)
             null -> uiState.copy(authenticationStatus = Status.NetworkError)
         }
-
     }
 }
