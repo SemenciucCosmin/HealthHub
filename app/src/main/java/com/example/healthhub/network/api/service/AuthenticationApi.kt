@@ -33,5 +33,7 @@ interface AuthenticationApi {
 
     @FormUrlEncoded
     @POST("/api/v1/medicalclinicproject/getAccountValidationStatus")
-    suspend fun getAccountValidationStatus(@Field("email") email: String): Resource<AccountRegistrationDTO>
+    suspend fun getAccountValidationStatus(
+        @Field("email") email: String
+    ): Resource<AccountRegistrationDTO>
 }

@@ -10,7 +10,6 @@ import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.data.authentication.repository.AuthenticationRepository
 import com.example.healthhub.data.model.Status
 import com.example.healthhub.data.preferences.repository.PreferencesRepository
-import com.example.healthhub.network.api.service.AuthenticationApi
 import com.example.healthhub.presentation.authentication.viewmodel.model.AuthenticationUiState
 import kotlinx.coroutines.launch
 
@@ -22,15 +21,19 @@ class AuthenticationViewModel(
         private set
 
     fun authenticate(email: String, password: String) {
-        uiState = uiState.copy(
-            email = email,
-            password = password,
-            authenticationStatus = Status.Loading
-        )
-
         viewModelScope.launch {
+            uiState = uiState.copy(
+                email = email,
+                password = password,
+                authenticationStatus = Status.Loading
+            )
+
             val resource = authenticationRepository.login(email, password)
             when (val loginStatus = resource.getOrNull()) {
+                LoginStatus.PasswordError -> {
+                    uiState = uiState.copy(authenticationStatus = Status.DataError)
+                }
+
                 LoginStatus.EmailError -> {
                     uiState = uiState.copy(
                         authenticationStep = AuthenticationUiState.Step.EMAIL_VALIDATION,
@@ -51,12 +54,24 @@ class AuthenticationViewModel(
                     )
                 }
 
-                else -> uiState = uiState.copy(authenticationStatus = Status.Error)
+                else -> uiState = uiState.copy(authenticationStatus = Status.NetworkError)
             }
         }
     }
 
     fun uploadImage(idImageUri: Uri) {
         uiState = uiState.copy(idImageUri = idImageUri)
+    }
+
+    fun getAccountValidationStatus() {
+        viewModelScope.launch {
+            uiState = uiState.copy(emailValidationStatus = Status.Loading)
+            val resource = authenticationRepository.getAccountValidationStatus(uiState.email)
+            uiState = when (resource.getOrNull()) {
+                true -> uiState.copy(emailValidationStatus = Status.Success)
+                false -> uiState.copy(emailValidationStatus = Status.DataError)
+                null -> uiState.copy(emailValidationStatus = Status.NetworkError)
+            }
+        }
     }
 }

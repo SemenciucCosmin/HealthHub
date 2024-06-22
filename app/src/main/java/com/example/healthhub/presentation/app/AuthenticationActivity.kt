@@ -29,6 +29,7 @@ class AuthenticationActivity : ComponentActivity() {
 
                     AuthenticationUiState.Step.EMAIL_VALIDATION -> EmailValidationScreen(
                         modifier = Modifier.fillMaxSize(),
+                        onNextStepClick = viewModel::getAccountValidationStatus
                     )
 
                     AuthenticationUiState.Step.ID_VALIDATION -> IdValidationScreen(

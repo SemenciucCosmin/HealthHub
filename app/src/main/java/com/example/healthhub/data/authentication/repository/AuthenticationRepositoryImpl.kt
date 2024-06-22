@@ -21,9 +21,14 @@ class AuthenticationRepositoryImpl(
                 Resource.Success(LoginStatus.EmailError)
             }
 
-            else -> {
-                Resource.Success(LoginStatus.PasswordError)
-            }
+            else -> Resource.Success(LoginStatus.PasswordError)
         }
+    }
+
+    override suspend fun getAccountValidationStatus(email: String): Resource<Boolean> {
+        val resource = authenticationApi.getAccountValidationStatus(email)
+        resource.errorOrNull()?.let { return it.getErrorType() }
+        val accountRegistrationDto = resource.getOrNull() ?: return Resource.Error.NotFound()
+        return Resource.Success(accountRegistrationDto.validation == true)
     }
 }

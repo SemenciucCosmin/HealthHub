@@ -19,4 +19,6 @@ data class AuthenticationUiState(
         EMAIL_VALIDATION,
         ID_VALIDATION,
     }
+
+
 }
