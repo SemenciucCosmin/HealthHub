@@ -74,7 +74,7 @@ class AuthenticationActivity : ComponentActivity() {
                                 AuthenticationUiState.Step.ID_VALIDATION -> {
                                     IdValidationScreen(
                                         modifier = Modifier.fillMaxSize(),
-                                        onIdImageUriReady = viewModel::uploadImage
+                                        onIdImageFileReady = viewModel::uploadImage
                                     )
                                 }
 

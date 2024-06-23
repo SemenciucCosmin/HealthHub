@@ -1,12 +1,12 @@
 package com.example.healthhub.presentation.authentication.viewmodel.model
 
-import android.net.Uri
 import com.example.healthhub.data.util.BLANK
+import java.io.File
 
 data class AuthenticationUiState(
     val email: String = String.BLANK,
     val password: String = String.BLANK,
-    val idImageUri: Uri = Uri.EMPTY,
+    val imageFile: File? = null,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val isPasswordIncorrectError: Boolean = false,

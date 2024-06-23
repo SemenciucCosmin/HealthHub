@@ -1,6 +1,5 @@
 package com.example.healthhub.data.authentication.repository
 
-import android.net.Uri
 import com.example.healthhub.data.authentication.model.IdValidation
 import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.network.api.service.AuthenticationApi
@@ -15,8 +14,14 @@ class AuthenticationRepositoryImpl(
     private val authenticationApi: AuthenticationApi
 ) : AuthenticationRepository {
     override suspend fun login(email: String, password: String): Resource<LoginStatus> {
-        val resource = authenticationApi.login(email, password)
-        val loginFlowDto = resource.payload
+        val resource = authenticationApi.login(
+            mapOf(
+                "email" to email,
+                "password" to password,
+            )
+        )
+
+        val loginFlowDto = resource.payload?.innerLoginFlowDTO
 
         return when {
             loginFlowDto?.userId != null -> {
@@ -36,22 +41,25 @@ class AuthenticationRepositoryImpl(
     }
 
     override suspend fun register(email: String, password: String): Resource<Boolean> {
-        val resource = authenticationApi.register(email, password)
-        return Resource(null, resource.status)
+        val resource = authenticationApi.register(
+            mapOf(
+                "email" to email,
+                "password" to password,
+            )
+        )
+
+        return Resource(resource.status == Status.Success, resource.status)
     }
 
     override suspend fun getAccountValidationStatus(email: String): Resource<Boolean> {
-        val resource = authenticationApi.getAccountValidationStatus(email)
-        return Resource(resource.payload?.validation, resource.status)
+        val resource = authenticationApi.getAccountValidationStatus(mapOf("email" to email))
+
+        return Resource(resource.payload?.innerAccountRegistrationDTO?.validation, resource.status)
     }
 
-    override suspend fun uploadID(email: String, imageUri: Uri): Resource<IdValidation> {
-        val imageFile = imageUri.path?.let { File(it) } ?: run {
-            return Resource(null, Status.ResourceAccessError)
-        }
-
+    override suspend fun uploadID(email: String, imageFile: File): Resource<IdValidation> {
         val requestBody = imageFile.asRequestBody("image/png".toMediaTypeOrNull())
-        val multiPart = MultipartBody.Part.createFormData("image", "image", requestBody)
+        val multiPart = MultipartBody.Part.createFormData("picture", "image", requestBody)
         val body = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
             addPart(multiPart)
             addFormDataPart("email", email)
@@ -60,8 +68,8 @@ class AuthenticationRepositoryImpl(
         val resource = authenticationApi.uploadId(body)
         return Resource(
             payload = IdValidation(
-                updated = resource.payload?.updated ?: false,
-                integrity = resource.payload?.integrity ?: false,
+                updated = resource.payload?.innerIdValidationDTO?.updated ?: false,
+                integrity = resource.payload?.innerIdValidationDTO?.integrity ?: false,
             ),
             status = resource.status
         )

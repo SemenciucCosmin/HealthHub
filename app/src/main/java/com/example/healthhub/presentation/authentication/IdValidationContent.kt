@@ -29,10 +29,11 @@ import com.example.healthhub.R
 import com.example.healthhub.domain.provider.CameraFileProvider
 import com.example.healthhub.presentation.authentication.model.IdPhotoOption
 import com.example.healthhub.presentation.theme.HealthHubTheme
+import java.io.File
 
 @Composable
 fun IdValidationScreen(
-    onIdImageUriReady: (Uri) -> Unit,
+    onIdImageFileReady: (File) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var selectedIdPhotoOption by remember { mutableStateOf(IdPhotoOption.NONE) }
@@ -79,10 +80,14 @@ fun IdValidationScreen(
     when (selectedIdPhotoOption) {
         IdPhotoOption.NONE -> Unit
         IdPhotoOption.UPLOAD -> {
+            val context = LocalContext.current
             val imagePicker = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.PickVisualMedia(),
                 onResult = { uri ->
-                    uri?.let { onIdImageUriReady(it) }
+                    uri?.let {
+                        val file = CameraFileProvider.getFileFromUri(context, it)
+                        file?.let(onIdImageFileReady)
+                    }
                     selectedIdPhotoOption = IdPhotoOption.NONE
                 }
             )
@@ -100,7 +105,13 @@ fun IdValidationScreen(
             val cameraLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.TakePicture(),
                 onResult = { success ->
-                    if (success) imageUri?.let(onIdImageUriReady)
+                    if (success) {
+                        imageUri?.let {
+                            val file = CameraFileProvider.getFileFromUri(context, it)
+                            file?.let(onIdImageFileReady)
+                        }
+                    }
+
                     selectedIdPhotoOption = IdPhotoOption.NONE
                 }
             )
@@ -117,7 +128,7 @@ fun IdValidationScreen(
 private fun IdValidationContentPreview() {
     HealthHubTheme {
         IdValidationScreen(
-            onIdImageUriReady = {},
+            onIdImageFileReady = {},
             modifier = Modifier.fillMaxSize()
         )
     }

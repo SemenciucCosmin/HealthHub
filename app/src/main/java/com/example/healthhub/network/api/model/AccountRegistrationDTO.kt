@@ -1,9 +1,14 @@
 package com.example.healthhub.network.api.model
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class AccountRegistrationDTO(
-    @field:Json(name = "userId") val userId: Int?,
-    @field:Json(name = "validation") val validation: Boolean?,
-    @field:Json(name = "status") val status: String?,
+    @SerializedName("getAccountValidationStatus")
+    val innerAccountRegistrationDTO: InnerAccountRegistrationDTO?,
+)
+
+data class InnerAccountRegistrationDTO(
+    @SerializedName("userId") val userId: Int?,
+    @SerializedName("validation") val validation: Boolean?,
+    @SerializedName("status") val status: String?,
 )

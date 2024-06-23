@@ -1,6 +1,5 @@
 package com.example.healthhub.presentation.authentication.viewmodel
 
-import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.data.authentication.repository.AuthenticationRepository
 import com.example.healthhub.data.preferences.repository.PreferencesRepository
-import com.example.healthhub.network.resource.Status
 import com.example.healthhub.presentation.authentication.viewmodel.model.AuthenticationUiState
 import kotlinx.coroutines.launch
+import java.io.File
 
 class AuthenticationViewModel(
     private val authenticationRepository: AuthenticationRepository,
@@ -61,34 +60,32 @@ class AuthenticationViewModel(
         }
     }
 
-    fun uploadImage(idImageUri: Uri) {
+    fun uploadImage(imageFile: File) {
         viewModelScope.launch {
             uiState = uiState.copy(
-                idImageUri = idImageUri,
+                imageFile = imageFile,
                 isLoading = true,
                 isError = false
             )
 
-            val resource = authenticationRepository.uploadID(uiState.email, idImageUri)
+            val resource = authenticationRepository.uploadID(uiState.email, imageFile)
             resource.payload?.let { idValidation ->
-                if (idValidation.updated && idValidation.integrity) {
-                    uiState = uiState.copy(
+                uiState = if (idValidation.updated && idValidation.integrity) {
+                    uiState.copy(
                         authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED,
                         isLoading = false
-                    )
-                }
-            } ?: run {
-                uiState = if (resource.status == Status.Success) {
-                    uiState.copy(
-                        isLoading = false,
-                        isIdValidationError = true
                     )
                 } else {
                     uiState.copy(
                         isLoading = false,
-                        isError = true
+                        isIdValidationError = true
                     )
                 }
+            } ?: run {
+                uiState = uiState.copy(
+                    isLoading = false,
+                    isIdValidationError = true
+                )
             }
         }
     }
@@ -131,9 +128,9 @@ class AuthenticationViewModel(
             )
 
             AuthenticationUiState.Step.EMAIL_VALIDATION -> getAccountValidationStatus()
-            AuthenticationUiState.Step.ID_VALIDATION -> uploadImage(
-                idImageUri = uiState.idImageUri
-            )
+            AuthenticationUiState.Step.ID_VALIDATION -> uiState.imageFile?.let {
+                uploadImage(imageFile = it)
+            }
         }
     }
 

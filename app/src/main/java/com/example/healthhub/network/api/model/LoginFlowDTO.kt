@@ -1,10 +1,14 @@
 package com.example.healthhub.network.api.model
 
-import com.squareup.moshi.Json
+import com.google.gson.annotations.SerializedName
 
 data class LoginFlowDTO(
-    @field:Json(name = "userId") val userId: Int?,
-    @field:Json(name = "developerReason") val developerReason: String?,
-    @field:Json(name = "statusCode") val statusCode: String?,
-    @field:Json(name = "status") val status: String?,
+    @SerializedName("loginFlow") val innerLoginFlowDTO: InnerLoginFlowDTO?,
+)
+
+data class InnerLoginFlowDTO(
+    @SerializedName("userId") val userId: Int?,
+    @SerializedName("developerReason") val developerReason: String?,
+    @SerializedName("statusCode") val statusCode: String?,
+    @SerializedName("status") val status: String?,
 )

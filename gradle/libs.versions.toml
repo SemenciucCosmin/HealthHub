@@ -69,7 +69,7 @@ navigation-compose = { group = "androidx.navigation", name = "navigation-compose
 moshi-kotlin = {group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi-kotlin"}
 okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
 retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
-retrofit2-converter-moshi = {group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit2"}
+retrofit2-converter-gson = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2"}
 
 # PERMISSIONS
 google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist-permissions" }

@@ -81,7 +81,7 @@ dependencies {
     implementation(libs.moshi.kotlin)
     implementation(libs.okhttp3)
     implementation(libs.retrofit2)
-    implementation(libs.retrofit2.converter.moshi)
+    implementation(libs.retrofit2.converter.gson)
 
     // PERMISSIONS
     implementation(libs.google.accompanist.permissions)

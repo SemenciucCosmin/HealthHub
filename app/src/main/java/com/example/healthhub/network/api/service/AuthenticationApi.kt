@@ -12,24 +12,15 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface AuthenticationApi {
-    @FormUrlEncoded
     @POST("/api/v1/medicalclinicproject/auth/login")
-    suspend fun login(
-        @Field("email") email: String,
-        @Field("password") password: String,
-    ): Resource<LoginFlowDTO>
+    suspend fun login(@Body params: Map<String, String>): Resource<LoginFlowDTO>
 
-    @FormUrlEncoded
     @POST("/api/v1/medicalclinicproject/auth/register")
-    suspend fun register(
-        @Field("email") email: String,
-        @Field("password") password: String,
-    ): Resource<RegisterFlowDTO>
+    suspend fun register(@Body params: Map<String, String>): Resource<RegisterFlowDTO>
 
-    @FormUrlEncoded
-    @POST("/api/v1/medicalclinicproject/getAccountValidationStatus")
+    @POST("/api/v1/medicalclinicproject/auth/getAccountValidationStatus")
     suspend fun getAccountValidationStatus(
-        @Field("email") email: String
+        @Body params: Map<String, String>
     ): Resource<AccountRegistrationDTO>
 
     @POST("/api/v1/medicalclinicproject/img/registerUserBasedOnIdCard")
