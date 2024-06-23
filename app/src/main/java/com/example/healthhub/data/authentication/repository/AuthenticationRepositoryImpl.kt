@@ -14,29 +14,37 @@ class AuthenticationRepositoryImpl(
     private val authenticationApi: AuthenticationApi
 ) : AuthenticationRepository {
     override suspend fun login(email: String, password: String): Resource<LoginStatus> {
-        val resource = authenticationApi.login(
+        val accountStatusResource = authenticationApi.getAccountValidationStatus(
+            mapOf("email" to email)
+        )
+
+        val loginResource = authenticationApi.login(
             mapOf(
                 "email" to email,
                 "password" to password,
             )
         )
 
-        val loginFlowDto = resource.payload?.innerLoginFlowDTO
+        val loginFlowDto = loginResource.payload?.innerLoginFlowDTO
 
         return when {
             loginFlowDto?.userId != null -> {
-                Resource(LoginStatus.Success(loginFlowDto.userId), resource.status)
+                if (accountStatusResource.payload?.innerAccountRegistrationDTO?.validation == true) {
+                    Resource(LoginStatus.Success(loginFlowDto.userId), loginResource.status)
+                } else {
+                    Resource(LoginStatus.EmailError, loginResource.status)
+                }
             }
 
             loginFlowDto?.developerReason?.contains("email") == true -> {
-                Resource(LoginStatus.EmailError, resource.status)
+                Resource(LoginStatus.EmailError, loginResource.status)
             }
 
             loginFlowDto?.developerReason?.contains("password") == true -> {
-                Resource(LoginStatus.PasswordError, resource.status)
+                Resource(LoginStatus.PasswordError, loginResource.status)
             }
 
-            else -> Resource(null, resource.status)
+            else -> Resource(null, loginResource.status)
         }
     }
 
