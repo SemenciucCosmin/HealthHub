@@ -4,6 +4,7 @@ import com.example.healthhub.data.util.BLANK
 import java.io.File
 
 data class AuthenticationUiState(
+    val id: Int = 0,
     val email: String = String.BLANK,
     val password: String = String.BLANK,
     val imageFile: File? = null,

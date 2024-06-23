@@ -15,6 +15,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.healthhub.R
+import com.example.healthhub.data.di.UserScope
+import com.example.healthhub.data.model.User
 import com.example.healthhub.presentation.authentication.AuthenticationScreen
 import com.example.healthhub.presentation.authentication.EmailValidationScreen
 import com.example.healthhub.presentation.authentication.IdValidationScreen
@@ -25,6 +27,7 @@ import com.example.healthhub.presentation.ui.ErrorScreen
 import com.example.healthhub.presentation.ui.LoadingScreen
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.compose.getKoin
 
 class AuthenticationActivity : ComponentActivity() {
     private val viewModel: AuthenticationViewModel by viewModel()
@@ -79,6 +82,13 @@ class AuthenticationActivity : ComponentActivity() {
                                 }
 
                                 AuthenticationUiState.Step.AUTHENTICATION_COMPLETED -> {
+                                    val user = User(
+                                        id = viewModel.uiState.id,
+                                        email = viewModel.uiState.email,
+                                        password = viewModel.uiState.password
+                                    )
+
+                                    UserScope.create(getKoin(), user)
                                     MainActivity.startActivity(this@AuthenticationActivity)
                                     this@AuthenticationActivity.finish()
                                 }

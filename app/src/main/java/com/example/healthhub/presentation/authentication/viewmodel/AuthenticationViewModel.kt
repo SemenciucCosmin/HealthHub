@@ -9,6 +9,8 @@ import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.data.authentication.repository.AuthenticationRepository
 import com.example.healthhub.data.preferences.repository.PreferencesRepository
 import com.example.healthhub.presentation.authentication.viewmodel.model.AuthenticationUiState
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -16,6 +18,20 @@ class AuthenticationViewModel(
     private val authenticationRepository: AuthenticationRepository,
     private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            preferencesRepository.getUserInformation().filterNotNull().collectLatest { user ->
+                uiState = uiState.copy(
+                    id = user.id,
+                    email = user.email,
+                    password = user.password,
+                    authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED
+                )
+            }
+        }
+    }
+
     var uiState by mutableStateOf(AuthenticationUiState())
         private set
 
