@@ -31,7 +31,7 @@ import com.example.healthhub.presentation.authentication.model.IdPhotoOption
 import com.example.healthhub.presentation.theme.HealthHubTheme
 
 @Composable
-fun IdValidationContent(
+fun IdValidationScreen(
     onIdImageUriReady: (Uri) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -116,7 +116,7 @@ fun IdValidationContent(
 @Composable
 private fun IdValidationContentPreview() {
     HealthHubTheme {
-        IdValidationContent(
+        IdValidationScreen(
             onIdImageUriReady = {},
             modifier = Modifier.fillMaxSize()
         )

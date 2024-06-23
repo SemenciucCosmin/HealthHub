@@ -25,7 +25,7 @@ import com.example.healthhub.data.util.BLANK
 import com.example.healthhub.presentation.theme.HealthHubTheme
 
 @Composable
-fun AuthenticationContent(
+fun AuthenticationScreen(
     onAuthenticationClick: (String, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -112,7 +112,7 @@ fun AuthenticationContent(
 @Composable
 private fun AuthenticationContentPreview() {
     HealthHubTheme {
-        AuthenticationContent(
+        AuthenticationScreen(
             onAuthenticationClick = { _, _ -> },
             modifier = Modifier.fillMaxSize()
         )

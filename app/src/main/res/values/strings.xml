@@ -2,6 +2,7 @@
     <!--  APP  -->
     <string name="app_name">HealthHub</string>
     <string name="lbl_network_error_message">Something went wrong, please try again.</string>
+    <string name="lbl_retry_action">Retry</string>
 
     <!--  BOTTOM NAVIGATION  -->
     <string name="lbl_home">Home</string>

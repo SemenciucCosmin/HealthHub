@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.data.authentication.repository.AuthenticationRepository
-import com.example.healthhub.data.model.Status
 import com.example.healthhub.data.preferences.repository.PreferencesRepository
+import com.example.healthhub.network.resource.Status
 import com.example.healthhub.presentation.authentication.viewmodel.model.AuthenticationUiState
 import kotlinx.coroutines.launch
 
@@ -25,21 +25,25 @@ class AuthenticationViewModel(
             uiState = uiState.copy(
                 email = email,
                 password = password,
-                authenticationStatus = Status.Loading
+                isLoading = true,
+                isError = false
             )
 
             val resource = authenticationRepository.login(email, password)
-            when (val loginStatus = resource.getOrNull()) {
+            when (val loginStatus = resource.payload) {
                 LoginStatus.EmailError -> register()
 
                 LoginStatus.PasswordError -> {
-                    uiState = uiState.copy(authenticationStatus = Status.DataError)
+                    uiState = uiState.copy(
+                        isLoading = false,
+                        isPasswordIncorrectError = true
+                    )
                 }
 
                 is LoginStatus.Success -> {
                     uiState = uiState.copy(
                         authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED,
-                        authenticationStatus = Status.Success
+                        isLoading = false
                     )
 
                     preferencesRepository.saveUserInformation(
@@ -49,61 +53,112 @@ class AuthenticationViewModel(
                     )
                 }
 
-                else -> uiState = uiState.copy(authenticationStatus = Status.NetworkError)
+                else -> uiState = uiState.copy(
+                    isLoading = false,
+                    isError = true
+                )
             }
         }
     }
 
     fun uploadImage(idImageUri: Uri) {
         viewModelScope.launch {
-            uiState = uiState.copy(idValidationStatus = Status.Loading)
+            uiState = uiState.copy(
+                idImageUri = idImageUri,
+                isLoading = true,
+                isError = false
+            )
 
             val resource = authenticationRepository.uploadID(uiState.email, idImageUri)
-            resource.getOrNull()?.let { idValidation ->
-                uiState = when {
-                    idValidation.updated && idValidation.integrity -> {
-                        uiState.copy(
-                            authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED,
-                            idValidationStatus = Status.Success
-                        )
-                    }
-
-                    else -> {
-                        uiState.copy(idValidationStatus = Status.DataError)
-                    }
+            resource.payload?.let { idValidation ->
+                if (idValidation.updated && idValidation.integrity) {
+                    uiState = uiState.copy(
+                        authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED,
+                        isLoading = false
+                    )
                 }
             } ?: run {
-                uiState = uiState.copy(idValidationStatus = Status.NetworkError)
+                uiState = if (resource.status == Status.Success) {
+                    uiState.copy(
+                        isLoading = false,
+                        isIdValidationError = true
+                    )
+                } else {
+                    uiState.copy(
+                        isLoading = false,
+                        isError = true
+                    )
+                }
             }
         }
     }
 
     fun getAccountValidationStatus() {
         viewModelScope.launch {
-            uiState = uiState.copy(emailValidationStatus = Status.Loading)
+            uiState = uiState.copy(
+                isLoading = true,
+                isError = false
+            )
+
             val resource = authenticationRepository.getAccountValidationStatus(uiState.email)
-            uiState = when (resource.getOrNull()) {
+            uiState = when (resource.payload) {
                 true -> uiState.copy(
                     authenticationStep = AuthenticationUiState.Step.ID_VALIDATION,
-                    emailValidationStatus = Status.Success
+                    isLoading = false
                 )
 
-                false -> uiState.copy(emailValidationStatus = Status.DataError)
-                null -> uiState.copy(emailValidationStatus = Status.NetworkError)
+                false -> uiState.copy(
+                    isLoading = false,
+                    isEmailValidationError = true
+                )
+
+                null -> uiState.copy(
+                    isLoading = false,
+                    isError = true
+                )
             }
         }
     }
 
-    private suspend fun register() {
-        val resource = authenticationRepository.register(uiState.email, uiState.password)
-        uiState = when (resource.getOrNull()) {
-            true -> uiState.copy(
-                authenticationStep = AuthenticationUiState.Step.EMAIL_VALIDATION,
-                authenticationStatus = Status.Success
+    fun retry() {
+        setEmptyState()
+
+        when (uiState.authenticationStep) {
+            AuthenticationUiState.Step.AUTHENTICATION_COMPLETED -> Unit
+            AuthenticationUiState.Step.AUTHENTICATION -> authenticate(
+                email = uiState.email,
+                password = uiState.password
             )
 
-            false -> uiState.copy(authenticationStatus = Status.DataError)
-            null -> uiState.copy(authenticationStatus = Status.NetworkError)
+            AuthenticationUiState.Step.EMAIL_VALIDATION -> getAccountValidationStatus()
+            AuthenticationUiState.Step.ID_VALIDATION -> uploadImage(
+                idImageUri = uiState.idImageUri
+            )
+        }
+    }
+
+    fun setEmptyState() {
+        uiState = uiState.copy(
+            isLoading = false,
+            isError = false,
+            isPasswordIncorrectError = false,
+            isEmailValidationError = false,
+            isIdValidationError = false,
+        )
+    }
+
+    private suspend fun register() {
+        val resource = authenticationRepository.register(uiState.email, uiState.password)
+        uiState = when (resource.payload) {
+            true -> uiState.copy(
+                authenticationStep = AuthenticationUiState.Step.EMAIL_VALIDATION,
+                isLoading = false
+            )
+
+            else -> uiState.copy(
+                isLoading = false,
+                isError = true
+            )
         }
     }
 }
