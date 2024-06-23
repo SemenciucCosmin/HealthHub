@@ -27,7 +27,11 @@ class AuthenticationRepositoryImpl(
                 Resource(LoginStatus.EmailError, resource.status)
             }
 
-            else -> Resource(LoginStatus.PasswordError, resource.status)
+            loginFlowDto?.developerReason?.contains("password") == true -> {
+                Resource(LoginStatus.PasswordError, resource.status)
+            }
+
+            else -> Resource(null, resource.status)
         }
     }
 

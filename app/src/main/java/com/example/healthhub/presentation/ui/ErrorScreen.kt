@@ -3,8 +3,6 @@ package com.example.healthhub.presentation.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -32,7 +30,10 @@ fun ErrorScreen(
             style = MaterialTheme.typography.titleMedium
         )
 
-        OutlinedButton(onClick = onRetry) {
+        OutlinedButton(
+            onClick = onRetry,
+            shape = MaterialTheme.shapes.small
+        ) {
             Text(
                 text = stringResource(R.string.lbl_retry_action)
             )
