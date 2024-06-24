@@ -3,6 +3,8 @@
     <string name="app_name">HealthHub</string>
     <string name="lbl_network_error_message">Something went wrong, please try again.</string>
     <string name="lbl_retry_action">Retry</string>
+    <string name="lbl_yes_action">Yes</string>
+    <string name="lbl_cancel_action">Cancel</string>
 
     <!--  BOTTOM NAVIGATION  -->
     <string name="lbl_home">Home</string>
@@ -30,4 +32,7 @@
     <string name="lbl_my_accounts">My Accounts</string>
     <string name="lbl_patient_code">Patient code: %s</string>
     <string name="lbl_add_child_account">Add child account</string>
+    <string name="lbl_sign_out">Sign out</string>
+    <string name="lbl_sign_out_dialog_title">Are you sure you want to sign out?</string>
+
 </resources>

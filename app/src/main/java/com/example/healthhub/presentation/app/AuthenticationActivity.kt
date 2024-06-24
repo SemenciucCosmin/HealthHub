@@ -1,5 +1,6 @@
 package com.example.healthhub.presentation.app
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,6 +42,7 @@ class AuthenticationActivity : ComponentActivity() {
                 val authenticationError = stringResource(R.string.lbl_authentication_error)
                 val emailValidationError = stringResource(R.string.lbl_email_validation_error)
                 val idValidationError = stringResource(R.string.lbl_id_validation_error)
+                viewModel.uiState.user?.let { UserScope.create(getKoin(), it) }
 
                 Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { padding ->
                     when {
@@ -83,11 +85,8 @@ class AuthenticationActivity : ComponentActivity() {
                                 }
 
                                 AuthenticationUiState.Step.AUTHENTICATION_COMPLETED -> {
-                                    viewModel.uiState.user?.let {
-                                        UserScope.create(getKoin(), it)
-                                        MainActivity.startActivity(this@AuthenticationActivity)
-                                        this@AuthenticationActivity.finish()
-                                    }
+                                    MainActivity.startActivity(this@AuthenticationActivity)
+                                    this@AuthenticationActivity.finish()
                                 }
                             }
                         }
@@ -113,6 +112,17 @@ class AuthenticationActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+
+    companion object {
+        fun startActivity(activity: MainActivity) {
+            val intent = Intent(activity, AuthenticationActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            }
+
+            activity.startActivity(intent)
+            activity.finish()
         }
     }
 }

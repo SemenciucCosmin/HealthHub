@@ -9,4 +9,5 @@ interface AccountRepository {
     suspend fun getChildInformation(): Flow<User?>
     suspend fun setUserInformation(userId: Int)
     suspend fun selectUser(id: Int)
+    suspend fun clearUser()
 }

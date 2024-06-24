@@ -47,4 +47,10 @@ class AccountViewModel(private val accountRepository: AccountRepository) : ViewM
     fun selectAccount(id: Int) {
         viewModelScope.launch { accountRepository.selectUser(id) }
     }
+
+    fun signOut() {
+        viewModelScope.launch {
+            accountRepository.clearUser()
+        }
+    }
 }

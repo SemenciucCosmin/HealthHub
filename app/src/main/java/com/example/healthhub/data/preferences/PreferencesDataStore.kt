@@ -123,6 +123,10 @@ class PreferencesDataStore(private val context: Context) {
         context.dataStore.edit { it[SELECTED_USER_ID] = id }
     }
 
+    suspend fun clearUser() {
+        context.dataStore.edit { it.clear() }
+    }
+
     companion object {
         private const val SHARED_PREFERENCES_NAME = "health_hub_shared_preferences"
         private val SELECTED_USER_ID = intPreferencesKey("selected_user_id")

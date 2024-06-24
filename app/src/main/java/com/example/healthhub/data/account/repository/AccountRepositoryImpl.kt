@@ -1,24 +1,24 @@
 package com.example.healthhub.data.account.repository
 
 import com.example.healthhub.data.account.model.User
-import com.example.healthhub.data.preferences.repository.PreferencesRepository
+import com.example.healthhub.data.preferences.PreferencesDataStore
 import com.example.healthhub.network.api.service.AccountApi
 import kotlinx.coroutines.flow.Flow
 
 class AccountRepositoryImpl(
     private val accountApi: AccountApi,
-    private val preferencesRepository: PreferencesRepository,
+    private val preferencesDataStore: PreferencesDataStore,
 ) : AccountRepository {
     override suspend fun getSelectedUserId(): Flow<Int?> {
-        return preferencesRepository.getSelectedId()
+        return preferencesDataStore.userIdFlow
     }
 
     override suspend fun getUserInformation(): Flow<User?> {
-        return preferencesRepository.getUserInformation()
+        return preferencesDataStore.userFlow
     }
 
     override suspend fun getChildInformation(): Flow<User?> {
-        return preferencesRepository.getChildInformation()
+        return preferencesDataStore.childFlow
     }
 
     override suspend fun setUserInformation(userId: Int) {
@@ -36,12 +36,16 @@ class AccountRepositoryImpl(
                 sex = userInformationDto.sex,
             )
 
-            preferencesRepository.saveUserInformation(user)
-            preferencesRepository.selectUser(user.id)
+            preferencesDataStore.saveUser(user)
+            preferencesDataStore.selectUser(user.id)
         }
     }
 
     override suspend fun selectUser(id: Int) {
-        preferencesRepository.selectUser(id)
+        preferencesDataStore.selectUser(id)
+    }
+
+    override suspend fun clearUser() {
+        preferencesDataStore.clearUser()
     }
 }
