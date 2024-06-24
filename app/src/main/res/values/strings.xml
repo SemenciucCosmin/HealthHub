@@ -28,6 +28,6 @@
 
     <!--  ACCOUNT  -->
     <string name="lbl_my_accounts">My Accounts</string>
-    <string name="lbl_patient_code">patient code: %s</string>
+    <string name="lbl_patient_code">Patient code: %s</string>
     <string name="lbl_add_child_account">Add child account</string>
 </resources>

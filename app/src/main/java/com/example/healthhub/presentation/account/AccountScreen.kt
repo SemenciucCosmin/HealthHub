@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,12 +43,14 @@ fun AccountScreen(
 
         AccountItem(
             account = parentAccount,
+            icon = painterResource(R.drawable.ic_parent_profile),
             onClick = { onSelectAccountClick(parentAccount.id) }
         )
 
         when {
             childAccount != null -> AccountItem(
                 account = childAccount,
+                icon = painterResource(R.drawable.ic_child_profile),
                 onClick = { onSelectAccountClick(childAccount.id) }
             )
 
@@ -60,14 +63,15 @@ fun AccountScreen(
                         .padding(8.dp)
                 ) {
                     Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(R.drawable.ic_mock),
-                        contentDescription = null
+                        modifier = Modifier.size(30.dp),
+                        painter = painterResource(R.drawable.ic_add),
+                        contentDescription = null,
+                        tint = Color.Unspecified
                     )
 
                     Text(
                         text = stringResource(R.string.lbl_add_child_account),
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.titleMedium
                     )
                 }
             }

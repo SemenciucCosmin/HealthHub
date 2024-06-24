@@ -1,7 +1,6 @@
 package com.example.healthhub.presentation.account
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,12 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +31,7 @@ import com.example.healthhub.presentation.theme.HealthHubTheme
 @Composable
 fun AccountItem(
     account: Account,
+    icon: Painter,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -47,9 +50,10 @@ fun AccountItem(
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
             ) {
-                Image(
-                    painter = painterResource(R.drawable.ic_mock),
+                Icon(
+                    painter = icon,
                     contentDescription = null,
+                    tint = Color.Unspecified,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(8.dp)
@@ -69,13 +73,14 @@ fun AccountItem(
             }
 
             val selectedPainter = when (account.isSelected) {
-                true -> painterResource(R.drawable.ic_mock)
-                false -> painterResource(R.drawable.ic_mock)
+                true -> painterResource(R.drawable.ic_checked)
+                false -> painterResource(R.drawable.ic_unchecked)
             }
 
-            Image(
+            Icon(
                 painter = selectedPainter,
                 contentDescription = null,
+                tint = Color.Unspecified,
                 modifier = Modifier.size(30.dp)
             )
         }
@@ -90,6 +95,7 @@ private fun AccountItemPreview() {
         AccountItem(
             onClick = {},
             modifier = Modifier,
+            icon = painterResource(R.drawable.ic_parent_profile),
             account = Account(
                 id = 6153,
                 name = "Chad Wolfe",

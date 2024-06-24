@@ -8,6 +8,10 @@ val HealthHubLightColorScheme = lightColorScheme(
     primary = Color(0xFF33AAFF),
     onPrimary = Color(0xFFF0F0F0),
 
+    primaryContainer = Color(0x3F33AAFF),
+
+    secondaryContainer = Color(0x2A33AAFF),
+
     background = Color(0xFFE8E8E8),
     onBackground = Color(0xFF616161),
 
@@ -25,6 +29,11 @@ val HealthHubLightColorScheme = lightColorScheme(
 
 val HealthHubDarkColorScheme = darkColorScheme(
     primary = Color(0xFF44BFFF),
+    onPrimary = Color(0xFF0F0F0F),
+
+    primaryContainer = Color(0x3F44BFFF),
+
+    secondaryContainer = Color(0x2A44BFFF),
 
     background = Color(0xFF171717),
     onBackground = Color(0xFF9E9E9E),
