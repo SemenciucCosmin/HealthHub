@@ -28,14 +28,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.healthhub.R
-import com.example.healthhub.data.util.overlayColor
 import com.example.healthhub.presentation.theme.HealthHubTheme
-import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,12 +44,6 @@ fun TopAppBar(
     onProfileClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val randomColor = Color(
-        red = Random.nextInt(256),
-        green = Random.nextInt(256),
-        blue = Random.nextInt(256)
-    )
-
     Surface(
         modifier = modifier
             .windowInsetsPadding(TopAppBarDefaults.windowInsets)
@@ -90,12 +81,12 @@ fun TopAppBar(
                         .fillMaxHeight()
                         .aspectRatio(1f)
                         .clip(CircleShape)
-                        .background(randomColor)
+                        .background(MaterialTheme.colorScheme.onSurface)
                         .clickable { onProfileClick() }
                 ) {
                     Text(
                         text = userNameInitials,
-                        color = randomColor.overlayColor,
+                        color = MaterialTheme.colorScheme.surface,
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.align(Alignment.Center)
                     )
