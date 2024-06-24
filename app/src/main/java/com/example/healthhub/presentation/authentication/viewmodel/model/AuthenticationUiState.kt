@@ -1,5 +1,6 @@
 package com.example.healthhub.presentation.authentication.viewmodel.model
 
+import com.example.healthhub.data.account.model.User
 import com.example.healthhub.data.util.BLANK
 import java.io.File
 
@@ -7,6 +8,7 @@ data class AuthenticationUiState(
     val id: Int = 0,
     val email: String = String.BLANK,
     val password: String = String.BLANK,
+    val user: User? = null,
     val imageFile: File? = null,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
@@ -21,6 +23,4 @@ data class AuthenticationUiState(
         EMAIL_VALIDATION,
         ID_VALIDATION,
     }
-
-
 }

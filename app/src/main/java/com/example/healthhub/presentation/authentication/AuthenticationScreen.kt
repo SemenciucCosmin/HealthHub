@@ -26,11 +26,13 @@ import com.example.healthhub.presentation.theme.HealthHubTheme
 
 @Composable
 fun AuthenticationScreen(
+    userEmail: String,
+    userPassword: String,
     onAuthenticationClick: (String, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var email by remember { mutableStateOf(String.BLANK) }
-    var password by remember { mutableStateOf(String.BLANK) }
+    var email by remember { mutableStateOf(userEmail) }
+    var password by remember { mutableStateOf(userPassword) }
     var isEmailError by remember { mutableStateOf(false) }
     var isPasswordError by remember { mutableStateOf(false) }
 
@@ -113,6 +115,8 @@ fun AuthenticationScreen(
 private fun AuthenticationContentPreview() {
     HealthHubTheme {
         AuthenticationScreen(
+            userEmail = String.BLANK,
+            userPassword = String.BLANK,
             onAuthenticationClick = { _, _ -> },
             modifier = Modifier.fillMaxSize()
         )

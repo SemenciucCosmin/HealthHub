@@ -1,6 +1,6 @@
 package com.example.healthhub.data.di
 
-import com.example.healthhub.data.model.User
+import com.example.healthhub.data.account.model.User
 import org.koin.core.Koin
 import org.koin.core.qualifier.named
 

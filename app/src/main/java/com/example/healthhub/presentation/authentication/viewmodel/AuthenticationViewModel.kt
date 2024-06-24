@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.data.authentication.repository.AuthenticationRepository
-import com.example.healthhub.data.preferences.repository.PreferencesRepository
+import com.example.healthhub.domain.account.GetUserUseCase
+import com.example.healthhub.domain.account.SetUserInformationUseCase
 import com.example.healthhub.presentation.authentication.viewmodel.model.AuthenticationUiState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
@@ -16,16 +17,15 @@ import java.io.File
 
 class AuthenticationViewModel(
     private val authenticationRepository: AuthenticationRepository,
-    private val preferencesRepository: PreferencesRepository
+    private val getUserUseCase: GetUserUseCase,
+    private val setUserInformationUseCase: SetUserInformationUseCase
 ) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            preferencesRepository.getUserInformation().filterNotNull().collectLatest { user ->
+            getUserUseCase().filterNotNull().collectLatest { user ->
                 uiState = uiState.copy(
-                    id = user.id,
-                    email = user.email,
-                    password = user.password,
+                    user = user,
                     authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED
                 )
             }
@@ -56,15 +56,11 @@ class AuthenticationViewModel(
                 }
 
                 is LoginStatus.Success -> {
+                    setUserInformationUseCase(loginStatus.userId)
                     uiState = uiState.copy(
+                        id = loginStatus.userId,
                         authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED,
                         isLoading = false
-                    )
-
-                    preferencesRepository.saveUserInformation(
-                        id = loginStatus.userId,
-                        email = uiState.email,
-                        password = uiState.password
                     )
                 }
 

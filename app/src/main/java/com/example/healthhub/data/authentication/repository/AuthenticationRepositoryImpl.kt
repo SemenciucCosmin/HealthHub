@@ -11,7 +11,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
 class AuthenticationRepositoryImpl(
-    private val authenticationApi: AuthenticationApi
+    private val authenticationApi: AuthenticationApi,
 ) : AuthenticationRepository {
     override suspend fun login(email: String, password: String): Resource<LoginStatus> {
         val accountStatusResource = authenticationApi.getAccountValidationStatus(

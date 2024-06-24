@@ -15,5 +15,8 @@ sealed class NavDestination {
     @Serializable
     data object Info : NavDestination()
 
+    @Serializable
+    data object Account : NavDestination()
+
     fun asRoute(): String? = this.javaClass.canonicalName
 }

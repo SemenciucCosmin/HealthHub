@@ -1,6 +1,6 @@
 package com.example.healthhub.data.preferences.repository
 
-import com.example.healthhub.data.model.User
+import com.example.healthhub.data.account.model.User
 import com.example.healthhub.data.preferences.PreferencesDataStore
 import kotlinx.coroutines.flow.Flow
 
@@ -11,9 +11,15 @@ class PreferencesRepositoryImpl(
         return preferencesDataStore.userFlow
     }
 
-    override suspend fun saveUserInformation(id: Int, email: String, password: String) {
-        preferencesDataStore.saveUserId(id)
-        preferencesDataStore.saveUserEmail(email)
-        preferencesDataStore.saveUserPassword(password)
+    override suspend fun saveUserInformation(user: User) {
+        preferencesDataStore.saveUserId(user.id)
+        preferencesDataStore.saveUserEmail(user.email)
+        preferencesDataStore.saveUserCnp(user.cnp)
+        preferencesDataStore.saveUserSeries(user.series)
+        preferencesDataStore.saveUserLastname(user.lastname)
+        preferencesDataStore.saveUserFirstname(user.firstname)
+        preferencesDataStore.saveUserNationality(user.nationality)
+        preferencesDataStore.saveUserDateOfBirth(user.dateOfBirth)
+        preferencesDataStore.saveUserSex(user.sex)
     }
 }

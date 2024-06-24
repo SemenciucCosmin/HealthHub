@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.healthhub.R
 import com.example.healthhub.data.di.UserScope
-import com.example.healthhub.data.model.User
 import com.example.healthhub.presentation.authentication.AuthenticationScreen
 import com.example.healthhub.presentation.authentication.EmailValidationScreen
 import com.example.healthhub.presentation.authentication.IdValidationScreen
@@ -63,6 +62,8 @@ class AuthenticationActivity : ComponentActivity() {
                                 AuthenticationUiState.Step.AUTHENTICATION -> {
                                     AuthenticationScreen(
                                         modifier = Modifier.fillMaxSize(),
+                                        userEmail = viewModel.uiState.email,
+                                        userPassword = viewModel.uiState.password,
                                         onAuthenticationClick = viewModel::authenticate
                                     )
                                 }
@@ -82,15 +83,11 @@ class AuthenticationActivity : ComponentActivity() {
                                 }
 
                                 AuthenticationUiState.Step.AUTHENTICATION_COMPLETED -> {
-                                    val user = User(
-                                        id = viewModel.uiState.id,
-                                        email = viewModel.uiState.email,
-                                        password = viewModel.uiState.password
-                                    )
-
-                                    UserScope.create(getKoin(), user)
-                                    MainActivity.startActivity(this@AuthenticationActivity)
-                                    this@AuthenticationActivity.finish()
+                                    viewModel.uiState.user?.let {
+                                        UserScope.create(getKoin(), it)
+                                        MainActivity.startActivity(this@AuthenticationActivity)
+                                        this@AuthenticationActivity.finish()
+                                    }
                                 }
                             }
                         }

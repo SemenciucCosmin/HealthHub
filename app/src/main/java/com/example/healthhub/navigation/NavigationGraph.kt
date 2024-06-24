@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.healthhub.presentation.account.AccountRoute
 import com.example.healthhub.presentation.appointments.AppointmentsRoute
 import com.example.healthhub.presentation.home.HomeRoute
 import com.example.healthhub.presentation.info.InfoRoute
@@ -24,5 +25,6 @@ fun NavigationGraph(
         composable<NavDestination.Appointments> { AppointmentsRoute() }
         composable<NavDestination.MedicalFile> { MedicalFileRoute() }
         composable<NavDestination.Info> { InfoRoute() }
+        composable<NavDestination.Account> { AccountRoute() }
     }
 }
