@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.account.repository.AccountRepository
-import com.example.healthhub.presentation.account.Account
+import com.example.healthhub.presentation.account.viewmodel.model.Account
 import com.example.healthhub.presentation.account.viewmodel.model.AccountUiState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine

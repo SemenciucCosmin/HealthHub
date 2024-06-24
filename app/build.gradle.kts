@@ -74,6 +74,9 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
 
+    // MAPS
+    implementation(libs.google.maps)
+
     // NAVIGATION
     implementation(libs.navigation.compose)
 

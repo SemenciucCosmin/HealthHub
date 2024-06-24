@@ -3,7 +3,6 @@ package com.example.healthhub.presentation.account
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.healthhub.presentation.account.viewmodel.AccountScreen
 import com.example.healthhub.presentation.account.viewmodel.AccountViewModel
 import com.example.healthhub.presentation.ui.LoadingScreen
 import org.koin.androidx.compose.koinViewModel
