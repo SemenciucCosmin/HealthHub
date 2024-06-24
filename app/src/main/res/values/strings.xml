@@ -25,4 +25,9 @@
     <string name="lbl_id_validation_error">Id information is invalid, please try again.</string>
     <string name="lbl_id_upload_action">Upload ID image</string>
     <string name="lbl_id_take_photo_action">Take photo of ID</string>
+
+    <!--  ACCOUNT  -->
+    <string name="lbl_my_accounts">My Accounts</string>
+    <string name="lbl_patient_code">patient code: %s</string>
+    <string name="lbl_add_child_account">Add child account</string>
 </resources>

@@ -9,8 +9,16 @@ class AccountRepositoryImpl(
     private val accountApi: AccountApi,
     private val preferencesRepository: PreferencesRepository,
 ) : AccountRepository {
+    override suspend fun getSelectedUserId(): Flow<Int?> {
+        return preferencesRepository.getSelectedId()
+    }
+
     override suspend fun getUserInformation(): Flow<User?> {
         return preferencesRepository.getUserInformation()
+    }
+
+    override suspend fun getChildInformation(): Flow<User?> {
+        return preferencesRepository.getChildInformation()
     }
 
     override suspend fun setUserInformation(userId: Int) {
@@ -29,6 +37,11 @@ class AccountRepositoryImpl(
             )
 
             preferencesRepository.saveUserInformation(user)
+            preferencesRepository.selectUser(user.id)
         }
+    }
+
+    override suspend fun selectUser(id: Int) {
+        preferencesRepository.selectUser(id)
     }
 }

@@ -63,7 +63,7 @@ fun TopAppBar(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp)
+                .padding(horizontal = 8.dp, vertical = 12.dp)
         ) {
             AnimatedVisibility(
                 visible = navigationEnabled,
