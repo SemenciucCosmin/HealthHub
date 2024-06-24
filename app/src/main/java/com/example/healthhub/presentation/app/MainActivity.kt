@@ -16,12 +16,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.healthhub.data.di.UserScope
+import com.example.healthhub.data.util.BLANK
 import com.example.healthhub.navigation.BottomNavigationBar
 import com.example.healthhub.navigation.LocalNavController
+import com.example.healthhub.navigation.NavDestination
 import com.example.healthhub.navigation.NavigationGraph
 import com.example.healthhub.navigation.bottomNavigationItems
 import com.example.healthhub.navigation.navDestination
 import com.example.healthhub.presentation.theme.HealthHubTheme
+import com.example.healthhub.presentation.ui.TopAppBar
+import org.koin.compose.getKoin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,17 +35,27 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.navDestination
+            val currentDestination = navBackStackEntry?.navDestination ?: NavDestination.Home
             val bottomNavigationDestinations = bottomNavigationItems.map { it.destination }
-            val shouldShowBottomBar = currentDestination in bottomNavigationDestinations
+            val isMainDestination = currentDestination in bottomNavigationDestinations
+            val user = UserScope.getUser(getKoin())
 
             HealthHubTheme {
                 CompositionLocalProvider(LocalNavController provides navController) {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
+                        topBar = {
+                            TopAppBar(
+                                userNameInitials = user?.getNameInitials() ?: String.BLANK,
+                                profileEnabled = isMainDestination,
+                                navigationEnabled = !isMainDestination,
+                                onNavigationClick = navController::navigateUp,
+                                onProfileClick = { navController.navigate(NavDestination.Account) }
+                            )
+                        },
                         bottomBar = {
                             AnimatedVisibility(
-                                visible = shouldShowBottomBar,
+                                visible = isMainDestination,
                                 enter = expandVertically(),
                                 exit = shrinkVertically(),
                                 content = { BottomNavigationBar() }
