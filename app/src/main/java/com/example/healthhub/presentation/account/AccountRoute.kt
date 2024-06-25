@@ -13,17 +13,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.example.healthhub.R
+import com.example.healthhub.data.di.UserScope
 import com.example.healthhub.presentation.account.viewmodel.AccountViewModel
 import com.example.healthhub.presentation.app.AuthenticationActivity
 import com.example.healthhub.presentation.app.MainActivity
 import com.example.healthhub.presentation.ui.LoadingScreen
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.getKoin
 
 @Composable
 fun AccountRoute() {
     val mainActivity = LocalContext.current as MainActivity
     val viewModel = koinViewModel<AccountViewModel>()
     var showSignOutDialog by remember { mutableStateOf(false) }
+    viewModel.uiState?.selectedUser?.let { UserScope.create(getKoin(), it) }
+
     when (val uiState = viewModel.uiState) {
         null -> LoadingScreen(modifier = Modifier.fillMaxSize())
         else -> AccountScreen(

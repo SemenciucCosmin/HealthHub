@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -35,12 +37,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val koin = getKoin()
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.navDestination ?: NavDestination.Home
             val bottomNavigationDestinations = bottomNavigationItems.map { it.destination }
             val isMainDestination = currentDestination in bottomNavigationDestinations
-            val user = UserScope.getUser(getKoin())
+            var user by remember { mutableStateOf(UserScope.getUser(koin)) }
 
             HealthHubTheme {
                 CompositionLocalProvider(LocalNavController provides navController) {
@@ -69,6 +72,12 @@ class MainActivity : ComponentActivity() {
                             navController = navController
                         )
                     }
+                }
+            }
+
+            LaunchedEffect(isMainDestination) {
+                if (isMainDestination) {
+                    user = UserScope.getUser(koin)
                 }
             }
         }
