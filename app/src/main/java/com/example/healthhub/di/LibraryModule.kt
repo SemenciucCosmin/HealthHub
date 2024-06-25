@@ -3,6 +3,7 @@ package com.example.healthhub.di
 import com.example.healthhub.data.account.di.dataAccountModule
 import com.example.healthhub.data.authentication.di.dataAuthenticationModule
 import com.example.healthhub.data.di.dataModule
+import com.example.healthhub.data.home.di.dataHomeModule
 import com.example.healthhub.data.info.di.dataInfoModule
 import com.example.healthhub.data.preferences.di.dataPreferencesModule
 import com.example.healthhub.domain.account.di.domainAccountModule
@@ -18,6 +19,7 @@ val libraryModules = listOf(
     dataModule,
     dataAccountModule,
     dataAuthenticationModule,
+    dataHomeModule,
     dataInfoModule,
     dataPreferencesModule,
     domainAccountModule,

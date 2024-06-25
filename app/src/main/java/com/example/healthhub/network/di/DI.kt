@@ -3,6 +3,7 @@ package com.example.healthhub.network.di
 import com.example.healthhub.network.api.service.AccountApi
 import com.example.healthhub.network.api.service.AuthenticationApi
 import com.example.healthhub.network.api.service.LocationsApi
+import com.example.healthhub.network.api.service.SubscriptionsApi
 import com.example.healthhub.network.call.CallAdapterFactory
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -20,4 +21,5 @@ val networkModule = module {
     factory { get<Retrofit>().create(AccountApi::class.java) }
     factory { get<Retrofit>().create(AuthenticationApi::class.java) }
     factory { get<Retrofit>().create(LocationsApi::class.java) }
+    factory { get<Retrofit>().create(SubscriptionsApi::class.java) }
 }
