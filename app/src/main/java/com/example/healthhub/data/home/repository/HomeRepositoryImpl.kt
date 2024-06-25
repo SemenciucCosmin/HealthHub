@@ -16,7 +16,7 @@ class HomeRepositoryImpl(
                 name = dto.name ?: return@mapNotNull null,
                 active = dto.active ?: return@mapNotNull null,
                 pricePerMonth = dto.pricePerMonth ?: return@mapNotNull null,
-                subscriptionAgeMonths = dto.subscriptionAgeMonths ?: return@mapNotNull null,
+                period = dto.subscriptionAgeMonths ?: return@mapNotNull null,
                 specializationId = dto.specializationId ?: return@mapNotNull null
             )
         }

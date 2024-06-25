@@ -5,6 +5,6 @@ data class Subscription(
     val name: String,
     val active: Boolean,
     val pricePerMonth: Double,
-    val subscriptionAgeMonths: Int,
+    val period: Int,
     val specializationId: Int,
 )
