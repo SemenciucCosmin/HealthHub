@@ -8,7 +8,6 @@ data class AuthenticationUiState(
     val id: Int = 0,
     val email: String = String.BLANK,
     val password: String = String.BLANK,
-    val user: User? = null,
     val imageFile: File? = null,
     val isLoading: Boolean = false,
     val isError: Boolean = false,

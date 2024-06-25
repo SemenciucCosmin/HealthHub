@@ -12,16 +12,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.healthhub.data.di.UserScope
+import com.example.healthhub.data.account.model.User
 import com.example.healthhub.data.util.BLANK
+import com.example.healthhub.domain.account.GetUserUseCase
 import com.example.healthhub.navigation.BottomNavigationBar
 import com.example.healthhub.navigation.LocalNavController
 import com.example.healthhub.navigation.NavDestination
@@ -30,20 +30,27 @@ import com.example.healthhub.navigation.bottomNavigationItems
 import com.example.healthhub.navigation.navDestination
 import com.example.healthhub.presentation.theme.HealthHubTheme
 import com.example.healthhub.presentation.ui.TopAppBar
-import org.koin.compose.getKoin
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
+    private val getUserUseCase: GetUserUseCase by inject()
+    private var user by mutableStateOf<User?>(null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.lifecycleScope.launch {
+            getUserUseCase().collectLatest { user = it }
+        }
+
         enableEdgeToEdge()
         setContent {
-            val koin = getKoin()
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.navDestination ?: NavDestination.Home
             val bottomNavigationDestinations = bottomNavigationItems.map { it.destination }
             val isMainDestination = currentDestination in bottomNavigationDestinations
-            var user by remember { mutableStateOf(UserScope.getUser(koin)) }
 
             HealthHubTheme {
                 CompositionLocalProvider(LocalNavController provides navController) {
@@ -72,12 +79,6 @@ class MainActivity : ComponentActivity() {
                             navController = navController
                         )
                     }
-                }
-            }
-
-            LaunchedEffect(isMainDestination) {
-                if (isMainDestination) {
-                    user = UserScope.getUser(koin)
                 }
             }
         }

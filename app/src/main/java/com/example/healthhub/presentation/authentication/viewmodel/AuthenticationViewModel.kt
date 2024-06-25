@@ -23,9 +23,8 @@ class AuthenticationViewModel(
 
     init {
         viewModelScope.launch {
-            getUserUseCase().filterNotNull().collectLatest { user ->
+            getUserUseCase().filterNotNull().collectLatest { _ ->
                 uiState = uiState.copy(
-                    user = user,
                     authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED
                 )
             }

@@ -16,7 +16,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.healthhub.R
-import com.example.healthhub.data.di.UserScope
 import com.example.healthhub.presentation.authentication.AuthenticationScreen
 import com.example.healthhub.presentation.authentication.EmailValidationScreen
 import com.example.healthhub.presentation.authentication.IdValidationScreen
@@ -42,7 +41,6 @@ class AuthenticationActivity : ComponentActivity() {
                 val authenticationError = stringResource(R.string.lbl_authentication_error)
                 val emailValidationError = stringResource(R.string.lbl_email_validation_error)
                 val idValidationError = stringResource(R.string.lbl_id_validation_error)
-                viewModel.uiState.user?.let { UserScope.create(getKoin(), it) }
 
                 Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { padding ->
                     when {

@@ -39,10 +39,6 @@ class AccountViewModel(private val accountRepository: AccountRepository) : ViewM
                             isSelected = child.id == selectedUserId
                         )
                     },
-                    selectedUser = when (selectedUserId) {
-                        child?.id -> child
-                        else -> user
-                    }
                 )
             }
         }
