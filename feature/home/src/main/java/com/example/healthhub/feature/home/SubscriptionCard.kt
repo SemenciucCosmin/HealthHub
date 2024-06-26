@@ -39,7 +39,7 @@ fun SubscriptionCard(
                 ) {
                     Text(
                         text = subscription.name,
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleMedium
                     )
 
                     ActivityIndicator(isActive = subscription.active)
@@ -65,7 +65,7 @@ fun SubscriptionCard(
                 modifier = Modifier
                     .matchParentSize()
                     .thenIf(!subscription.active) {
-                        background(Color.DarkGray.copy(alpha = 0.4f))
+                        background(Color.DarkGray.copy(alpha = 0.3f))
                     }
             )
         }

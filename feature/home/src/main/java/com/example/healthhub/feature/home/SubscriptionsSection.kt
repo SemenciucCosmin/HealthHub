@@ -1,57 +1,40 @@
 package com.example.healthhub.feature.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.interaction.collectIsDraggedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.healthhub.data.home.model.Subscription
-import com.example.healthhub.data.util.floorMod
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.example.healthhub.ui.catalog.R
 
-private const val MAXIMUM_PAGE_COUNT = 5000
-private const val AUTO_SCROLL_DURATION = 4000L
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SubscriptionSection(
+fun SubscriptionsSection(
     subscriptions: List<Subscription>,
     modifier: Modifier = Modifier
 ) {
-    // For multiple apps enable a bi-directional looping.
-    val pageCount = if (subscriptions.count() > 1) MAXIMUM_PAGE_COUNT else subscriptions.count()
-    val pagerState = rememberPagerState { pageCount }
+    Column(modifier = modifier) {
+        Text(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = stringResource(R.string.lbl_subscriptions_title),
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onSurface
+        )
 
-    if (subscriptions.count() > 1) {
-        with(pagerState) {
-            val isDragged by interactionSource.collectIsDraggedAsState()
-            LaunchedEffect(isDragged) {
-                launch {
-                    while (!isDragged) {
-                        delay(timeMillis = AUTO_SCROLL_DURATION)
-                        val nextPage = (currentPage + 1).mod(pageCount)
-                        animateScrollToPage(page = nextPage)
-                    }
-                }
+        LazyRow(
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(subscriptions, { it.id }) { subscription ->
+                SubscriptionCard(subscription)
             }
         }
-    }
-
-    HorizontalPager(
-        state = pagerState,
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        pageSpacing = 8.dp,
-        beyondBoundsPageCount = 1,
-        modifier = modifier
-    ) { pageIndex ->
-        val subscriptionIndex = pageIndex.floorMod(subscriptions.count())
-        val subscription = subscriptions[subscriptionIndex]
-        SubscriptionCard(subscription = subscription)
     }
 }

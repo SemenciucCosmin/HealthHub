@@ -36,6 +36,7 @@
     <string name="lbl_sign_out_dialog_title">Are you sure you want to sign out?</string>
 
     <!--  HOME  -->
+    <string name="lbl_subscriptions_title">Your subscriptions</string>
     <string name="lbl_subscription_price">%.2f/month</string>
     <string name="lbl_subscription_period">Period: %d months</string>
     <string name="lbl_active">Active</string>

@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.healthhub.domain.account.GetUserUseCase
 import com.example.healthhub.data.home.repository.HomeRepository
+import com.example.healthhub.domain.account.GetUserUseCase
 import com.example.healthhub.feature.home.viewmodel.model.HomeUiState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
@@ -24,7 +24,7 @@ class HomeViewModel(
             getUserUseCase().filterNotNull().collectLatest { user ->
                 val resource = homeRepository.getSubscriptions(user.id)
                 val subscriptions = resource.payload ?: emptyList()
-                val sortedSubscriptions = subscriptions.groupBy { it.active }.values.flatten()
+                val sortedSubscriptions = subscriptions.groupBy { !it.active }.values.flatten()
                 uiState = uiState.copy(subscriptions = sortedSubscriptions)
             }
         }
