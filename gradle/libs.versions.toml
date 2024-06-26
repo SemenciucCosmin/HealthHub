@@ -26,9 +26,6 @@ moshi-kotlin = "1.14.0"
 okhttp3 = "5.0.0-alpha.7"
 retrofit2 = "2.11.0"
 
-# PERMISSIONS
-accompanist-permissions = "0.33.2-alpha"
-
 # PLUGINS
 android-gradle-plugin = "8.3.2"
 google-ksp = "1.9.23-1.0.20"
@@ -39,8 +36,10 @@ datastore-preferences = "1.1.1"
 
 # TEST
 junit = "4.13.2"
-test-ext = "1.1.5"
-test-espresso-core = "3.5.1"
+test-ext = "1.2.0"
+test-espresso-core = "3.6.0"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 # ANDROIDX
@@ -72,13 +71,10 @@ google-maps = { group = "com.google.maps.android", name = "maps-compose", versio
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
 
 # NETWORK
-moshi-kotlin = {group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi-kotlin"}
+moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi-kotlin" }
 okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp3" }
 retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
-retrofit2-converter-gson = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2"}
-
-# PERMISSIONS
-google-accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist-permissions" }
+retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
 
 # PREFERENCES
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore-preferences" }
@@ -87,6 +83,8 @@ datastore-preferences = { group = "androidx.datastore", name = "datastore-prefer
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "test-espresso-core" }
 test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "test-ext" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "android-gradle-plugin" }

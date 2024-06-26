@@ -20,5 +20,24 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "HealthHub"
-include(":app")
- 
+include(
+    ":app",
+    ":data:account",
+    ":data:appointments",
+    ":data:authentication",
+    ":data:home",
+    ":data:info",
+    ":data:medicalfile",
+    ":data:util",
+    ":domain:account",
+    ":domain:provider",
+    ":feature:account",
+    ":feature:appointments",
+    ":feature:authentication",
+    ":feature:home",
+    ":feature:info",
+    ":feature:medicalfile",
+    ":network",
+    ":ui:catalog",
+    ":ui:navigation",
+)

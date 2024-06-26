@@ -67,30 +67,35 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
 
-    // KOTLINX
-    implementation(libs.kotlinx.serialization.json)
-
     // KOIN
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
 
-    // MAPS
-    implementation(libs.google.maps)
+    // MODULES
+    implementation(project(":data:account"))
+    implementation(project(":data:appointments"))
+    implementation(project(":data:authentication"))
+    implementation(project(":data:home"))
+    implementation(project(":data:info"))
+    implementation(project(":data:medicalfile"))
+    implementation(project(":data:util"))
+    implementation(project(":domain:account"))
+    implementation(project(":domain:provider"))
+    implementation(project(":feature:account"))
+    implementation(project(":feature:appointments"))
+    implementation(project(":feature:authentication"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:info"))
+    implementation(project(":feature:medicalfile"))
+    implementation(project(":network"))
+    implementation(project(":ui:catalog"))
+    implementation(project(":ui:navigation"))
 
     // NAVIGATION
     implementation(libs.navigation.compose)
 
     // NETWORK
-    implementation(libs.moshi.kotlin)
     implementation(libs.okhttp3)
-    implementation(libs.retrofit2)
-    implementation(libs.retrofit2.converter.gson)
-
-    // PERMISSIONS
-    implementation(libs.google.accompanist.permissions)
-
-    // PREFERENCES
-    implementation(libs.datastore.preferences)
 
     // TEST
     androidTestImplementation(libs.test.espresso.core)
