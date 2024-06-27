@@ -36,7 +36,7 @@ class AccountRepositoryImpl(
                 firstname = parentInformationDto.firstname ?: return,
                 nationality = parentInformationDto.nationality ?: return,
                 dateOfBirth = parentInformationDto.dateOfBirth ?: return,
-                sex = parentInformationDto.sex ?: return
+                gender = parentInformationDto.gender ?: return
             )
 
             preferencesDataStore.saveParent(parent)
@@ -52,7 +52,7 @@ class AccountRepositoryImpl(
                     firstname = childInformationDto.firstname ?: return,
                     nationality = childInformationDto.nationality ?: return,
                     dateOfBirth = childInformationDto.dateOfBirth ?: return,
-                    sex = childInformationDto.sex ?: return
+                    gender = childInformationDto.gender ?: return
                 )
 
                 preferencesDataStore.saveChild(child)

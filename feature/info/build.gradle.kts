@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.google.maps)
 
     // MODULES
+    implementation(project(":data:account"))
     implementation(project(":data:info"))
     implementation(project(":network"))
     implementation(project(":ui:catalog"))

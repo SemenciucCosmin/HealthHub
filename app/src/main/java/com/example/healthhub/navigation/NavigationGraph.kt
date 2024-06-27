@@ -6,12 +6,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.healthhub.feature.account.AccountRoute
 import com.example.healthhub.app.AuthenticationActivity
 import com.example.healthhub.app.MainActivity
+import com.example.healthhub.feature.account.AccountRoute
 import com.example.healthhub.feature.appointments.AppointmentsRoute
 import com.example.healthhub.feature.home.HomeRoute
 import com.example.healthhub.feature.info.InfoRoute
+import com.example.healthhub.feature.info.LocationsRoute
 import com.example.healthhub.feature.medicalfile.MedicalFileRoute
 import com.example.healthhub.ui.navigation.model.NavDestination
 
@@ -27,8 +28,8 @@ fun NavigationGraph(
         modifier = modifier
     ) {
         composable<NavDestination.Home> { HomeRoute() }
-        composable<NavDestination.Appointments> { AppointmentsRoute() }
         composable<NavDestination.MedicalFile> { MedicalFileRoute() }
+        composable<NavDestination.Appointments> { AppointmentsRoute() }
         composable<NavDestination.Info> { InfoRoute() }
         composable<NavDestination.Account> {
             AccountRoute(
@@ -38,5 +39,6 @@ fun NavigationGraph(
                 }
             )
         }
+        composable<NavDestination.Locations> { LocationsRoute() }
     }
 }

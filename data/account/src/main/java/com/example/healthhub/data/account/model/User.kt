@@ -11,7 +11,7 @@ data class User(
     val firstname: String,
     val nationality: String,
     val dateOfBirth: String,
-    val sex: String,
+    val gender: String,
 ) {
     fun getNameInitials() = listOf(firstname, lastname)
         .mapNotNull { it.firstOrNull() }

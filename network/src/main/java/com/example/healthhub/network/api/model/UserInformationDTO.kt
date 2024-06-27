@@ -15,5 +15,5 @@ data class InnerUserInformationDTO(
     @SerializedName("firstname") val firstname: String?,
     @SerializedName("nationality") val nationality: String?,
     @SerializedName("dob") val dateOfBirth: String?,
-    @SerializedName("sex") val sex: String?,
+    @SerializedName("gender") val gender: String?,
 )

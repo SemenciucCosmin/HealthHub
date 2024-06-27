@@ -40,7 +40,7 @@ class PreferencesDataStore(private val context: Context) {
             val parentFirstname = preferences[PARENT_FIRSTNAME] ?: return@map null
             val parentNationality = preferences[PARENT_NATIONALITY] ?: return@map null
             val parentDateOfBirth = preferences[PARENT_DATE] ?: return@map null
-            val parentSex = preferences[PARENT_SEX] ?: return@map null
+            val parentGender = preferences[PARENT_GENDER] ?: return@map null
 
             val childId = preferences[CHILD_ID]
             val childEmail = preferences[CHILD_EMAIL]
@@ -50,7 +50,7 @@ class PreferencesDataStore(private val context: Context) {
             val childFirstname = preferences[CHILD_FIRSTNAME]
             val childNationality = preferences[CHILD_NATIONALITY]
             val childDateOfBirth = preferences[CHILD_DATE]
-            val childSex = preferences[CHILD_SEX]
+            val childGender = preferences[CHILD_GENDER]
 
             val parent = User(
                 id = parentId,
@@ -61,7 +61,7 @@ class PreferencesDataStore(private val context: Context) {
                 firstname = parentFirstname,
                 nationality = parentNationality,
                 dateOfBirth = parentDateOfBirth,
-                sex = parentSex
+                gender = parentGender
             )
 
             val incompleteUsersInfo = UsersInfo(
@@ -79,7 +79,7 @@ class PreferencesDataStore(private val context: Context) {
                 firstname = childFirstname ?: return@map incompleteUsersInfo,
                 nationality = childNationality ?: return@map incompleteUsersInfo,
                 dateOfBirth = childDateOfBirth ?: return@map incompleteUsersInfo,
-                sex = childSex ?: return@map incompleteUsersInfo
+                gender = childGender ?: return@map incompleteUsersInfo
             )
 
             UsersInfo(
@@ -98,7 +98,7 @@ class PreferencesDataStore(private val context: Context) {
         context.dataStore.edit { preferences -> preferences[PARENT_FIRSTNAME] = user.firstname }
         context.dataStore.edit { preferences -> preferences[PARENT_NATIONALITY] = user.nationality }
         context.dataStore.edit { preferences -> preferences[PARENT_DATE] = user.dateOfBirth }
-        context.dataStore.edit { preferences -> preferences[PARENT_SEX] = user.sex }
+        context.dataStore.edit { preferences -> preferences[PARENT_GENDER] = user.gender }
     }
 
     suspend fun saveChild(child: User) {
@@ -110,7 +110,7 @@ class PreferencesDataStore(private val context: Context) {
         context.dataStore.edit { preferences -> preferences[CHILD_FIRSTNAME] = child.firstname }
         context.dataStore.edit { preferences -> preferences[CHILD_NATIONALITY] = child.nationality }
         context.dataStore.edit { preferences -> preferences[CHILD_DATE] = child.dateOfBirth }
-        context.dataStore.edit { preferences -> preferences[CHILD_SEX] = child.sex }
+        context.dataStore.edit { preferences -> preferences[CHILD_GENDER] = child.gender }
     }
 
     suspend fun selectUser(id: Int) {
@@ -132,7 +132,7 @@ class PreferencesDataStore(private val context: Context) {
         private val PARENT_FIRSTNAME = stringPreferencesKey("parent_firstname")
         private val PARENT_NATIONALITY = stringPreferencesKey("parent_nationality")
         private val PARENT_DATE = stringPreferencesKey("parent_date")
-        private val PARENT_SEX = stringPreferencesKey("parent_sex")
+        private val PARENT_GENDER = stringPreferencesKey("parent_gender")
         private val CHILD_ID = intPreferencesKey("child_id")
         private val CHILD_EMAIL = stringPreferencesKey("child_email")
         private val CHILD_CNP = stringPreferencesKey("child_cnp")
@@ -141,6 +141,6 @@ class PreferencesDataStore(private val context: Context) {
         private val CHILD_FIRSTNAME = stringPreferencesKey("child_firstname")
         private val CHILD_NATIONALITY = stringPreferencesKey("child_nationality")
         private val CHILD_DATE = stringPreferencesKey("child_date")
-        private val CHILD_SEX = stringPreferencesKey("child_sex")
+        private val CHILD_GENDER = stringPreferencesKey("child_gender")
     }
 }

@@ -16,14 +16,14 @@ val bottomNavigationItems = listOf(
         destination = NavDestination.Home
     ),
     BottomNavigationItem(
-        label = R.string.lbl_appointments,
-        icon = R.drawable.ic_appointments,
-        destination = NavDestination.Appointments
-    ),
-    BottomNavigationItem(
         label = R.string.lbl_medical_file,
         icon = R.drawable.ic_medical_file,
         destination = NavDestination.MedicalFile
+    ),
+    BottomNavigationItem(
+        label = R.string.lbl_appointments,
+        icon = R.drawable.ic_appointments,
+        destination = NavDestination.Appointments
     ),
     BottomNavigationItem(
         label = R.string.lbl_info,

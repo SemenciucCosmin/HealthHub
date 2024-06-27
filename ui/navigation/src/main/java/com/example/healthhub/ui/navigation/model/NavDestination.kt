@@ -7,16 +7,19 @@ sealed class NavDestination {
     data object Home : NavDestination()
 
     @Serializable
-    data object Appointments : NavDestination()
+    data object MedicalFile : NavDestination()
 
     @Serializable
-    data object MedicalFile : NavDestination()
+    data object Appointments : NavDestination()
 
     @Serializable
     data object Info : NavDestination()
 
     @Serializable
     data object Account : NavDestination()
+
+    @Serializable
+    data object Locations : NavDestination()
 
     fun asRoute(): String? = this.javaClass.canonicalName
 }
