@@ -5,6 +5,6 @@ import com.example.healthhub.network.resource.Resource
 import retrofit2.http.GET
 
 interface LocationsApi {
-    @GET("/api/v1/medicalclinicproject/user/getAllLocations")
+    @GET("api/v1/medicalclinicproject/appointments/getAllLocations")
     suspend fun getLocations(): Resource<LocationsDTO>
 }

@@ -9,8 +9,6 @@ import com.example.healthhub.data.account.repository.AccountRepository
 import com.example.healthhub.feature.account.viewmodel.model.Account
 import com.example.healthhub.feature.account.viewmodel.model.AccountUiState
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class AccountViewModel(private val accountRepository: AccountRepository) : ViewModel() {
@@ -19,24 +17,18 @@ class AccountViewModel(private val accountRepository: AccountRepository) : ViewM
 
     init {
         viewModelScope.launch {
-            val userFlow = accountRepository.getUserInformation().filterNotNull()
-            val childFlow = accountRepository.getChildInformation()
-            val selectedUserIdFlow = accountRepository.getSelectedUserId().filterNotNull()
-
-            combine(userFlow, childFlow, selectedUserIdFlow) { user, child, selectedUserId ->
-                Triple(user, child, selectedUserId)
-            }.collectLatest { (user, child, selectedUserId) ->
+            accountRepository.getUsersInfo().collectLatest { usersInfo ->
                 uiState = AccountUiState(
                     parentAccount = Account(
-                        id = user.id,
-                        name = "${user.firstname} ${user.lastname}",
-                        isSelected = user.id == selectedUserId
+                        id = usersInfo.parent.id,
+                        name = "${usersInfo.parent.firstname} ${usersInfo.parent.lastname}",
+                        isSelected = usersInfo.parent.id == usersInfo.selectedUserId
                     ),
-                    childAccount = child?.let {
+                    childAccount = usersInfo.child?.let { child ->
                         Account(
                             id = child.id,
                             name = "${child.firstname} ${child.lastname}",
-                            isSelected = child.id == selectedUserId
+                            isSelected = child.id == usersInfo.selectedUserId
                         )
                     },
                 )
@@ -50,7 +42,7 @@ class AccountViewModel(private val accountRepository: AccountRepository) : ViewM
 
     fun signOut() {
         viewModelScope.launch {
-            accountRepository.clearUser()
+            accountRepository.clearUsersInfo()
         }
     }
 }

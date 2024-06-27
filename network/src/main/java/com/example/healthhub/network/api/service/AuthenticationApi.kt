@@ -13,14 +13,14 @@ import retrofit2.http.POST
 
 interface AuthenticationApi {
     @POST("/api/v1/medicalclinicproject/auth/login")
-    suspend fun login(@Body params: Map<String, String>): Resource<LoginFlowDTO>
+    suspend fun login(@Body params: Map<String, Any>): Resource<LoginFlowDTO>
 
     @POST("/api/v1/medicalclinicproject/auth/register")
-    suspend fun register(@Body params: Map<String, String>): Resource<RegisterFlowDTO>
+    suspend fun register(@Body params: Map<String, Any>): Resource<RegisterFlowDTO>
 
     @POST("/api/v1/medicalclinicproject/auth/getAccountValidationStatus")
     suspend fun getAccountValidationStatus(
-        @Body params: Map<String, String>
+        @Body params: Map<String, Any>
     ): Resource<AccountRegistrationDTO>
 
     @POST("/api/v1/medicalclinicproject/img/registerUserBasedOnIdCard")

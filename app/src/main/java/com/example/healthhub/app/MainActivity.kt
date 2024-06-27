@@ -19,29 +19,34 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.healthhub.data.util.BLANK
+import com.example.healthhub.domain.account.GetUsersInfoUseCase
+import com.example.healthhub.navigation.NavigationGraph
 import com.example.healthhub.ui.catalog.components.TopAppBar
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
-import com.example.healthhub.data.account.model.User
-import com.example.healthhub.navigation.NavigationGraph
 import com.example.healthhub.ui.navigation.components.BottomNavigationBar
 import com.example.healthhub.ui.navigation.model.NavDestination
 import com.example.healthhub.ui.navigation.model.bottomNavigationItems
 import com.example.healthhub.ui.navigation.util.LocalNavController
 import com.example.healthhub.ui.navigation.util.navDestination
-import com.example.healthhub.data.util.BLANK
-import com.example.healthhub.domain.account.GetUserUseCase
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
-    private val getUserUseCase: GetUserUseCase by inject()
-    private var user by mutableStateOf<User?>(null)
+    private val getUsersInfoUseCase: GetUsersInfoUseCase by inject()
+    private var selectedUserNameInitials by mutableStateOf(String.BLANK)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.lifecycleScope.launch {
-            getUserUseCase().collectLatest { user = it }
+            getUsersInfoUseCase().collectLatest { usersInfo ->
+                val childInitials = usersInfo.child?.getNameInitials() ?: String.BLANK
+                selectedUserNameInitials = when (usersInfo.selectedUserId) {
+                    usersInfo.child?.id -> childInitials
+                    else -> usersInfo.parent.getNameInitials()
+                }
+            }
         }
 
         enableEdgeToEdge()
@@ -58,7 +63,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         topBar = {
                             TopAppBar(
-                                userNameInitials = user?.getNameInitials() ?: String.BLANK,
+                                userNameInitials = selectedUserNameInitials,
                                 profileEnabled = isMainDestination,
                                 navigationEnabled = !isMainDestination,
                                 onNavigationClick = navController::navigateUp,

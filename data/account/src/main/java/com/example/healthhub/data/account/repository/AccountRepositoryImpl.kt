@@ -1,51 +1,62 @@
 package com.example.healthhub.data.account.repository
 
 import com.example.healthhub.data.account.model.User
-import com.example.healthhub.network.api.service.AccountApi
+import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.account.preferences.PreferencesDataStore
+import com.example.healthhub.network.api.service.AccountApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 
 class AccountRepositoryImpl(
     private val accountApi: AccountApi,
     private val preferencesDataStore: PreferencesDataStore,
 ) : AccountRepository {
-    override suspend fun getSelectedUserId(): Flow<Int?> {
-        return preferencesDataStore.userIdFlow
-    }
-
-    override suspend fun getUserInformation(): Flow<User?> {
-        return preferencesDataStore.userFlow
-    }
-
-    override suspend fun getChildInformation(): Flow<User?> {
-        return preferencesDataStore.childFlow
-    }
-
-    override suspend fun setUserInformation(userId: Int) {
-        val resource = accountApi.getUserInformation(userId)
-        resource.payload?.innerUserInformationDTO?.let { userInformationDto ->
-            val user = User(
-                id = userId,
-                email = userInformationDto.email,
-                cnp = userInformationDto.cnp,
-                series = userInformationDto.series,
-                lastname = userInformationDto.lastname,
-                firstname = userInformationDto.firstname,
-                nationality = userInformationDto.nationality,
-                dateOfBirth = userInformationDto.dateOfBirth,
-                sex = userInformationDto.sex,
-            )
-
-            preferencesDataStore.saveUser(user)
-            preferencesDataStore.selectUser(user.id)
-        }
+    override suspend fun getUsersInfo(): Flow<UsersInfo> {
+        return preferencesDataStore.usersInfoFlow.filterNotNull()
     }
 
     override suspend fun selectUser(id: Int) {
         preferencesDataStore.selectUser(id)
     }
 
-    override suspend fun clearUser() {
-        preferencesDataStore.clearUser()
+    override suspend fun clearUsersInfo() {
+        preferencesDataStore.clearUsersInfo()
+    }
+
+    override suspend fun setupUsersInfo(parentUserId: Int) {
+        val parentResource = accountApi.getUserInformation(parentUserId)
+        val childResource = accountApi.getUserInformation(parentUserId)
+        parentResource.payload?.innerUserInformationDTO?.let { parentInformationDto ->
+            val parent = User(
+                id = parentInformationDto.id ?: return,
+                email = parentInformationDto.email ?: return,
+                cnp = parentInformationDto.cnp ?: return,
+                series = parentInformationDto.series ?: return,
+                lastname = parentInformationDto.lastname ?: return,
+                firstname = parentInformationDto.firstname ?: return,
+                nationality = parentInformationDto.nationality ?: return,
+                dateOfBirth = parentInformationDto.dateOfBirth ?: return,
+                sex = parentInformationDto.sex ?: return
+            )
+
+            preferencesDataStore.saveParent(parent)
+            preferencesDataStore.selectUser(parent.id)
+
+            childResource.payload?.innerUserInformationDTO?.let { childInformationDto ->
+                val child = User(
+                    id = childInformationDto.id ?: return,
+                    email = childInformationDto.email ?: return,
+                    cnp = childInformationDto.cnp ?: return,
+                    series = childInformationDto.series ?: return,
+                    lastname = childInformationDto.lastname ?: return,
+                    firstname = childInformationDto.firstname ?: return,
+                    nationality = childInformationDto.nationality ?: return,
+                    dateOfBirth = childInformationDto.dateOfBirth ?: return,
+                    sex = childInformationDto.sex ?: return
+                )
+
+                preferencesDataStore.saveParent(child)
+            }
+        }
     }
 }

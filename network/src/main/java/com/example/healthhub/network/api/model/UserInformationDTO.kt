@@ -7,12 +7,13 @@ data class UserInformationDTO(
 )
 
 data class InnerUserInformationDTO(
-    @SerializedName("email") val email: String,
-    @SerializedName("cnp") val cnp: String,
-    @SerializedName("series") val series: String,
-    @SerializedName("lastname") val lastname: String,
-    @SerializedName("firstname") val firstname: String,
-    @SerializedName("nationality") val nationality: String,
-    @SerializedName("dob") val dateOfBirth: String,
-    @SerializedName("sex") val sex: String,
+    @SerializedName("id") val id: Int?,
+    @SerializedName("email") val email: String?,
+    @SerializedName("cnp") val cnp: String?,
+    @SerializedName("series") val series: String?,
+    @SerializedName("lastname") val lastname: String?,
+    @SerializedName("firstname") val firstname: String?,
+    @SerializedName("nationality") val nationality: String?,
+    @SerializedName("dob") val dateOfBirth: String?,
+    @SerializedName("sex") val sex: String?,
 )

@@ -2,7 +2,11 @@ package com.example.healthhub.data.authentication.repository
 
 import com.example.healthhub.data.authentication.model.IdValidation
 import com.example.healthhub.data.authentication.model.LoginStatus
+import com.example.healthhub.network.api.model.AccountValidationRequestBody
+import com.example.healthhub.network.api.model.AuthenticationRequestBody
 import com.example.healthhub.network.api.service.AuthenticationApi
+import com.example.healthhub.network.resource.Resource
+import com.example.healthhub.network.resource.Status
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -14,16 +18,13 @@ class AuthenticationRepositoryImpl(
     override suspend fun login(
         email: String,
         password: String
-    ): com.example.healthhub.network.resource.Resource<LoginStatus> {
+    ): Resource<LoginStatus> {
         val accountStatusResource = authenticationApi.getAccountValidationStatus(
-            mapOf("email" to email)
+            AccountValidationRequestBody(email).build()
         )
 
         val loginResource = authenticationApi.login(
-            mapOf(
-                "email" to email,
-                "password" to password,
-            )
+            AuthenticationRequestBody(email, password).build()
         )
 
         val loginFlowDto = loginResource.payload?.innerLoginFlowDTO
@@ -32,12 +33,12 @@ class AuthenticationRepositoryImpl(
         return when {
             userId != null -> {
                 if (accountStatusResource.payload?.innerAccountRegistrationDTO?.validation == true) {
-                    com.example.healthhub.network.resource.Resource(
+                    Resource(
                         LoginStatus.Success(userId),
                         loginResource.status
                     )
                 } else {
-                    com.example.healthhub.network.resource.Resource(
+                    Resource(
                         LoginStatus.EmailError,
                         loginResource.status
                     )
@@ -45,44 +46,41 @@ class AuthenticationRepositoryImpl(
             }
 
             loginFlowDto?.developerReason?.contains("email") == true -> {
-                com.example.healthhub.network.resource.Resource(
+                Resource(
                     LoginStatus.EmailError,
                     loginResource.status
                 )
             }
 
             loginFlowDto?.developerReason?.contains("password") == true -> {
-                com.example.healthhub.network.resource.Resource(
+                Resource(
                     LoginStatus.PasswordError,
                     loginResource.status
                 )
             }
 
-            else -> com.example.healthhub.network.resource.Resource(null, loginResource.status)
+            else -> Resource(null, loginResource.status)
         }
     }
 
     override suspend fun register(
         email: String,
         password: String
-    ): com.example.healthhub.network.resource.Resource<Boolean> {
+    ): Resource<Boolean> {
         val resource = authenticationApi.register(
-            mapOf(
-                "email" to email,
-                "password" to password,
-            )
+            AuthenticationRequestBody(email, password).build()
         )
 
-        return com.example.healthhub.network.resource.Resource(
-            resource.status == com.example.healthhub.network.resource.Status.Success,
+        return Resource(
+            resource.status == Status.Success,
             resource.status
         )
     }
 
-    override suspend fun getAccountValidationStatus(email: String): com.example.healthhub.network.resource.Resource<Boolean> {
+    override suspend fun getAccountValidationStatus(email: String): Resource<Boolean> {
         val resource = authenticationApi.getAccountValidationStatus(mapOf("email" to email))
 
-        return com.example.healthhub.network.resource.Resource(
+        return Resource(
             resource.payload?.innerAccountRegistrationDTO?.validation,
             resource.status
         )
@@ -91,7 +89,7 @@ class AuthenticationRepositoryImpl(
     override suspend fun uploadID(
         email: String,
         imageFile: File
-    ): com.example.healthhub.network.resource.Resource<IdValidation> {
+    ): Resource<IdValidation> {
         val requestBody = imageFile.asRequestBody("image/png".toMediaTypeOrNull())
         val multiPart = MultipartBody.Part.createFormData("picture", "image", requestBody)
         val body = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
@@ -100,7 +98,7 @@ class AuthenticationRepositoryImpl(
         }.build()
 
         val resource = authenticationApi.uploadId(body)
-        return com.example.healthhub.network.resource.Resource(
+        return Resource(
             payload = IdValidation(
                 updated = resource.payload?.innerIdValidationDTO?.updated ?: false,
                 integrity = resource.payload?.innerIdValidationDTO?.integrity ?: false,

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.data.authentication.repository.AuthenticationRepository
-import com.example.healthhub.domain.account.GetUserUseCase
+import com.example.healthhub.domain.account.GetUsersInfoUseCase
 import com.example.healthhub.domain.account.SetUserInformationUseCase
 import com.example.healthhub.feature.authentication.viewmodel.model.AuthenticationUiState
 import kotlinx.coroutines.flow.collectLatest
@@ -17,13 +17,13 @@ import java.io.File
 
 class AuthenticationViewModel(
     private val authenticationRepository: AuthenticationRepository,
-    private val getUserUseCase: GetUserUseCase,
+    private val getUsersInfoUseCase: GetUsersInfoUseCase,
     private val setUserInformationUseCase: SetUserInformationUseCase
 ) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            getUserUseCase().filterNotNull().collectLatest { _ ->
+            getUsersInfoUseCase().filterNotNull().collectLatest { _ ->
                 uiState = uiState.copy(
                     authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED
                 )

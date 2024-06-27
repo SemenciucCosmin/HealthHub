@@ -6,14 +6,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.home.repository.HomeRepository
-import com.example.healthhub.domain.account.GetUserUseCase
+import com.example.healthhub.domain.account.GetUsersInfoUseCase
 import com.example.healthhub.feature.home.viewmodel.model.HomeUiState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val getUserUseCase: GetUserUseCase,
+    private val getUsersInfoUseCase: GetUsersInfoUseCase,
     private val homeRepository: HomeRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(HomeUiState())
@@ -21,8 +21,8 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch {
-            getUserUseCase().filterNotNull().collectLatest { user ->
-                val resource = homeRepository.getSubscriptions(user.id)
+            getUsersInfoUseCase().filterNotNull().collectLatest { usersInfo ->
+                val resource = homeRepository.getSubscriptions(usersInfo.selectedUserId)
                 val subscriptions = resource.payload ?: emptyList()
                 val sortedSubscriptions = subscriptions.groupBy { !it.active }.values.flatten()
                 uiState = uiState.copy(subscriptions = sortedSubscriptions)
