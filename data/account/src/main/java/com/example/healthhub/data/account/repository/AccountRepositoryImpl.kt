@@ -55,7 +55,7 @@ class AccountRepositoryImpl(
                     sex = childInformationDto.sex ?: return
                 )
 
-                preferencesDataStore.saveParent(child)
+                preferencesDataStore.saveChild(child)
             }
         }
     }
