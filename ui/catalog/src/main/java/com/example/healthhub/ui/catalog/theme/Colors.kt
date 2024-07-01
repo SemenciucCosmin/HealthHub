@@ -5,12 +5,12 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
 val HealthHubLightColorScheme = lightColorScheme(
-    primary = Color(0xFF33AAFF),
+    primary = Color(0xFF66A2D4),
     onPrimary = Color(0xFFF0F0F0),
 
-    primaryContainer = Color(0x3F33AAFF),
+    primaryContainer = Color(0x3F66A2D4),
 
-    secondaryContainer = Color(0x2A33AAFF),
+    secondaryContainer = Color(0x2A66A2D4),
 
     background = Color(0xFFE8E8E8),
     onBackground = Color(0xFF616161),

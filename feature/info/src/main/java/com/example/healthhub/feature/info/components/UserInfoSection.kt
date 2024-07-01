@@ -3,7 +3,6 @@ package com.example.healthhub.feature.info.components
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,7 +41,7 @@ fun UserInfoSection(
     Column(
         verticalArrangement = Arrangement.spacedBy(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.padding(16.dp)
+        modifier = modifier
     ) {
         Text(
             text = stringResource(R.string.lbl_users_information),

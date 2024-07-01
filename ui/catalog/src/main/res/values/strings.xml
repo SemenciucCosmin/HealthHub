@@ -6,11 +6,13 @@
     <string name="lbl_yes_action">Yes</string>
     <string name="lbl_cancel_action">Cancel</string>
 
-    <!--  BOTTOM NAVIGATION  -->
+    <!--  NAVIGATION DESTINATIONS  -->
     <string name="lbl_home">Home</string>
     <string name="lbl_appointments">Appointments</string>
     <string name="lbl_medical_file">Medical file</string>
     <string name="lbl_info">Info</string>
+    <string name="lbl_account">Account</string>
+    <string name="lbl_locations">Locations</string>
 
     <!--  AUTHENTICATION  -->
     <string name="lbl_welcome">Welcome to HealthHub!</string>

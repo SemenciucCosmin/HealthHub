@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,7 @@ import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopAppBar(
+    title: String,
     userNameInitials: String,
     profileEnabled: Boolean,
     navigationEnabled: Boolean,
@@ -51,6 +53,17 @@ fun TopAppBar(
             .fillMaxWidth()
             .height(64.dp)
     ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+            )
+        }
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -104,6 +117,7 @@ fun TopAppBar(
 private fun TopAppBarPreview() {
     HealthHubTheme {
         TopAppBar(
+            title = "Home",
             userNameInitials = "PP",
             profileEnabled = true,
             navigationEnabled = true,

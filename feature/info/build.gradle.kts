@@ -66,6 +66,7 @@ dependencies {
     implementation(project(":domain:account"))
     implementation(project(":network"))
     implementation(project(":ui:catalog"))
+    implementation(project(":ui:navigation"))
 
     // TEST
     androidTestImplementation(libs.test.espresso.core)
