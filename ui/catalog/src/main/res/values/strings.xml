@@ -43,6 +43,9 @@
     <string name="lbl_inactive">Inactive</string>
 
     <!--  INFO  -->
+    <string name="lbl_users_information">Users information</string>
+    <string name="lbl_parent_tab">Parent</string>
+    <string name="lbl_child_tab">Child</string>
     <string name="lbl_email">Email</string>
     <string name="lbl_security_code">Security code</string>
     <string name="lbl_series">Series</string>

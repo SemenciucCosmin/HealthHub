@@ -34,7 +34,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 
@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.compose.ui.graphics)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
+    implementation ("androidx.compose.foundation:foundation:1.7.0-beta04")
 
     // KOIN
     implementation(libs.koin.android)
@@ -62,6 +63,7 @@ dependencies {
     // MODULES
     implementation(project(":data:account"))
     implementation(project(":data:info"))
+    implementation(project(":domain:account"))
     implementation(project(":network"))
     implementation(project(":ui:catalog"))
 

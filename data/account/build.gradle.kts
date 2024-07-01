@@ -30,11 +30,21 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
 }
 
 dependencies {
     // ANDROIDX
     implementation(libs.androidx.core.ktx)
+
+    // COMPOSE
+    implementation(platform(libs.compose.bom))
+    implementation(libs.androidx.ui.tooling.preview.android)
 
     // KOIN
     implementation(libs.koin.android)

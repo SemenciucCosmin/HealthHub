@@ -3,7 +3,7 @@ package com.example.healthhub.feature.info
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.healthhub.info.viewmodel.InfoViewModel
+import com.example.healthhub.feature.info.viewmodel.InfoViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
