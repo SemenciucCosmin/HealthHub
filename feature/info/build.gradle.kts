@@ -45,13 +45,13 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // COMPOSE
+    implementation(libs.compose.foundation)
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.material3)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.graphics)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.compose.ui.tooling.preview)
-    implementation ("androidx.compose.foundation:foundation:1.7.0-beta04")
 
     // KOIN
     implementation(libs.koin.android)

@@ -36,8 +36,16 @@ dependencies {
     // ANDROIDX
     implementation(libs.androidx.core.ktx)
 
+    // COMPOSE
+    implementation(libs.ui.tooling.preview.android)
+
     // KOIN
     implementation(libs.koin.android)
+
+    // MODULES
+    implementation(project(":data:account"))
+    implementation(project(":data:info"))
+    implementation(project(":network"))
 
     // TEST
     androidTestImplementation(libs.test.espresso.core)

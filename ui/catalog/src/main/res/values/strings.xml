@@ -13,6 +13,7 @@
     <string name="lbl_info">Info</string>
     <string name="lbl_account">Account</string>
     <string name="lbl_locations">Locations</string>
+    <string name="lbl_create_appointment">Create appointment</string>
 
     <!--  AUTHENTICATION  -->
     <string name="lbl_welcome">Welcome to HealthHub!</string>
@@ -43,6 +44,17 @@
     <string name="lbl_subscription_period">Period: %d months</string>
     <string name="lbl_active">Active</string>
     <string name="lbl_inactive">Inactive</string>
+
+    <!--  APPOINTMENTS  -->
+    <string name="lbl_your_appointments">Your appointments</string>
+    <string name="lbl_past_appointments">Past appointments</string>
+    <string name="lbl_future_appointments">Future appointments</string>
+    <string name="lbl_no_appointments_message">Looks like you have no appointments. You can create a new appointment by clicking the above button.</string>
+    <string name="lbl_medic_name">Medic name</string>
+    <string name="lbl_medic_title">Dr. %s</string>
+    <string name="lbl_specialization">Specialization</string>
+    <string name="lbl_date">Date</string>
+    <string name="lbl_location">Location</string>
 
     <!--  INFO  -->
     <string name="lbl_users_information">Users information</string>

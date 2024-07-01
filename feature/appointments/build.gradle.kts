@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // COMPOSE
+    implementation(libs.compose.foundation)
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.material3)
     implementation(libs.compose.ui)
@@ -57,8 +58,16 @@ dependencies {
     implementation(libs.koin.compose)
 
     // MODULES
+    implementation(project(":data:account"))
     implementation(project(":data:appointments"))
+    implementation(project(":data:info"))
+    implementation(project(":domain:account"))
+    implementation(project(":network"))
     implementation(project(":ui:catalog"))
+    implementation(project(":ui:navigation"))
+
+    // NAVIGATION
+    implementation(libs.navigation.compose)
 
     // TEST
     androidTestImplementation(libs.test.espresso.core)

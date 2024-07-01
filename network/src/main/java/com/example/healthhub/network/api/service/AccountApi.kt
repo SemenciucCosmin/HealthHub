@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface AccountApi {
-    @GET("/api/v1/medicalclinicproject/user/getDataById/{userId}")
-    suspend fun getUserInformation(@Path("userId") userId: Int): Resource<UserInformationDTO>
+    @GET("/api/v1/medicalclinicproject/user/getDataById/{parentId}")
+    suspend fun getUserInformation(@Path("parentId") parentId: Int): Resource<UserInformationDTO>
 }

@@ -12,5 +12,6 @@ val NavBackStackEntry.navDestination: NavDestination?
         NavDestination.Info.asRoute() -> this.toRoute<NavDestination.Info>()
         NavDestination.Account.asRoute() -> this.toRoute<NavDestination.Account>()
         NavDestination.Locations.asRoute() -> this.toRoute<NavDestination.Locations>()
+        NavDestination.CreateAppointment.asRoute() -> this.toRoute<NavDestination.CreateAppointment>()
         else -> null
     }

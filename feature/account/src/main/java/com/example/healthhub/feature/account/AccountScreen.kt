@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -24,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.healthhub.feature.account.viewmodel.model.Account
 import com.example.healthhub.ui.catalog.R
+import com.example.healthhub.ui.catalog.components.IconTextButton
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 
 @Composable
@@ -58,30 +58,11 @@ fun AccountScreen(
                 onClick = { onSelectAccountClick(childAccount.id) }
             )
 
-            else -> ElevatedCard(onClick = onAddAccountClick) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(
-                        8.dp,
-                        Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Icon(
-                        modifier = Modifier.size(30.dp),
-                        painter = painterResource(R.drawable.ic_add),
-                        contentDescription = null,
-                        tint = Color.Unspecified
-                    )
-
-                    Text(
-                        text = stringResource(R.string.lbl_add_child_account),
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
-            }
+            else -> IconTextButton(
+                text = stringResource(R.string.lbl_add_child_account),
+                icon = painterResource(R.drawable.ic_add),
+                onClick = onAddAccountClick,
+            )
         }
 
         Spacer(modifier = Modifier.weight(1f))

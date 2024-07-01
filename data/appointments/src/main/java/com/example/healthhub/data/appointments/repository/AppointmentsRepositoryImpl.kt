@@ -1,0 +1,158 @@
+package com.example.healthhub.data.appointments.repository
+
+import com.example.healthhub.data.account.model.UsersInfo
+import com.example.healthhub.data.appointments.model.Appointment
+import com.example.healthhub.data.appointments.model.AppointmentTimeframe
+import com.example.healthhub.data.appointments.model.County
+import com.example.healthhub.data.appointments.model.Medic
+import com.example.healthhub.data.appointments.model.Service
+import com.example.healthhub.data.appointments.model.Specialization
+import com.example.healthhub.data.info.model.Location
+import com.example.healthhub.network.api.model.ServiceDTO
+import com.example.healthhub.network.api.model.SpecializationDTO
+import com.example.healthhub.network.api.service.AppointmentsApi
+import com.example.healthhub.network.api.service.CountiesApi
+import com.example.healthhub.network.api.service.LocationsApi
+import com.example.healthhub.network.api.service.MedicsApi
+import com.example.healthhub.network.resource.Resource
+
+class AppointmentsRepositoryImpl(
+    private val appointmentsApi: AppointmentsApi,
+    private val countiesApi: CountiesApi,
+    private val locationsApi: LocationsApi,
+    private val medicsApi: MedicsApi,
+) : AppointmentsRepository {
+
+    override suspend fun getAppointments(
+        usersInfo: UsersInfo,
+        timeframe: AppointmentTimeframe
+    ): Resource<List<Appointment>> {
+        val resource = when (val childId = usersInfo.child?.id) {
+            usersInfo.selectedUserId -> when (timeframe) {
+                AppointmentTimeframe.PAST -> appointmentsApi.getChildPastAppointments(
+                    parentId = usersInfo.parent.id,
+                    childId = childId
+                )
+
+
+                AppointmentTimeframe.FUTURE -> appointmentsApi.getChildFutureAppointments(
+                    parentId = usersInfo.parent.id,
+                    childId = childId
+                )
+            }
+
+            else -> when (timeframe) {
+                AppointmentTimeframe.PAST -> {
+                    appointmentsApi.getParentPastAppointments(usersInfo.parent.id)
+                }
+
+                AppointmentTimeframe.FUTURE -> {
+                    appointmentsApi.getParentFutureAppointments(usersInfo.parent.id)
+                }
+            }
+        }
+
+        val appointmentDTOs = resource.payload?.innerAppointmentsDTO?.entities ?: emptyList()
+        val appointments = appointmentDTOs.mapNotNull {
+            val specializations = mapSpecializationDTOs(it.specializations)
+            val specialization = mapSpecializationId(it.specializationId, it.specializations)
+
+            Appointment(
+                id = it.id ?: return@mapNotNull null,
+                availableAppointmentId = it.availableAppointmentId ?: return@mapNotNull null,
+                userId = it.userId ?: return@mapNotNull null,
+                medic = mapMedicId(it.doctorId) ?: return@mapNotNull null,
+                county = mapCountyId(it.countyId) ?: return@mapNotNull null,
+                location = mapLocationId(it.locationId) ?: return@mapNotNull null,
+                state = it.state ?: return@mapNotNull null,
+                startDate = it.startDate ?: return@mapNotNull null,
+                duration = it.duration ?: return@mapNotNull null,
+                price = it.price ?: return@mapNotNull null,
+                specialization = specialization ?: return@mapNotNull null,
+                childId = it.childId ?: return@mapNotNull null,
+                specializations = specializations ?: return@mapNotNull null,
+            )
+        }
+
+        return Resource(appointments, resource.status)
+    }
+
+    private fun mapSpecializationDTOs(
+        specializationDTOs: List<SpecializationDTO>?
+    ): List<Specialization>? {
+        return specializationDTOs?.mapNotNull { specializationDTO ->
+            Specialization(
+                id = specializationDTO.id ?: return@mapNotNull null,
+                name = specializationDTO.name ?: return@mapNotNull null,
+                description = specializationDTO.description ?: return@mapNotNull null,
+                services = mapServiceDTOs(specializationDTO.services) ?: return@mapNotNull null
+            )
+        }
+    }
+
+    private fun mapServiceDTOs(serviceDTOs: List<ServiceDTO>?): List<Service>? {
+        return serviceDTOs?.mapNotNull { serviceDTO ->
+            Service(
+                id = serviceDTO.id ?: return@mapNotNull null,
+                name = serviceDTO.name ?: return@mapNotNull null,
+                description = serviceDTO.description ?: return@mapNotNull null,
+                price = serviceDTO.price ?: return@mapNotNull null,
+                duration = serviceDTO.duration ?: return@mapNotNull null,
+            )
+        }
+    }
+
+    private suspend fun mapCountyId(countyId: Int?): County? {
+        val countyDTOs = countiesApi.getCounties().payload?.innerCountiesDTO?.entities
+        val countyDTO = countyDTOs?.firstOrNull { it.id == countyId }
+        return County(
+            id = countyDTO?.id ?: return null,
+            name = countyDTO.name ?: return null
+        )
+    }
+
+    private suspend fun mapLocationId(locationId: Int?): Location? {
+        val locationDTOs = locationsApi.getLocations().payload?.innerLocationsDTO?.locationEntities
+        val locationDTO = locationDTOs?.firstOrNull { it.id == locationId.toString() }
+        return Location(
+            id = locationDTO?.id ?: return null,
+            name = locationDTO.name ?: return null,
+            address = locationDTO.address ?: return null,
+            latitude = locationDTO.latitude ?: return null,
+            longitude = locationDTO.longitude ?: return null,
+        )
+    }
+
+    private suspend fun mapMedicId(medicId: Int?): Medic? {
+        val medicDTOs = medicsApi.getMedics().payload?.innerMedicsDTO?.entities
+        val medicDTO = medicDTOs?.firstOrNull { it.id == medicId }
+        return Medic(
+            id = medicDTO?.id ?: return null,
+            name = medicDTO.name ?: return null,
+            ranking = medicDTO.ranking ?: return null,
+            specializations = mapSpecializationDTOs(medicDTO.specializations) ?: return null,
+            services = listOf(),
+            locations = listOf(),
+            county = County(
+                id = medicDTO.county?.id ?: return null,
+                name = medicDTO.county?.name ?: return null,
+            )
+        )
+    }
+
+    private fun mapSpecializationId(
+        specializationId: Int?,
+        specializationDTOs: List<SpecializationDTO>?
+    ): Specialization? {
+        val specializationDTO = specializationDTOs?.firstOrNull {
+            it.id == specializationId
+        } ?: specializationDTOs?.firstOrNull()
+
+        return Specialization(
+            id = specializationDTO?.id ?: return null,
+            name = specializationDTO.name ?: return null,
+            description = specializationDTO.description ?: return null,
+            services = mapServiceDTOs(specializationDTO.services) ?: return null
+        )
+    }
+}

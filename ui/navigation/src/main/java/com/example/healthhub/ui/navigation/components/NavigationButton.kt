@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 import com.example.healthhub.ui.navigation.model.NavigationButtonType
 import com.example.healthhub.ui.navigation.util.LocalNavController
 
@@ -59,7 +60,9 @@ fun NavigationButton(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun NavigationButtonPreview() {
-    NavigationButton(
-        type = NavigationButtonType.Location
-    )
+    HealthHubTheme {
+        NavigationButton(
+            type = NavigationButtonType.Location
+        )
+    }
 }
