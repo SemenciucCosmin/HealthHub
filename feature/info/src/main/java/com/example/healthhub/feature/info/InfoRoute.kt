@@ -22,7 +22,7 @@ fun InfoRoute() {
         null -> LoadingScreen(Modifier.fillMaxSize())
         else -> {
             Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(32.dp),
                 modifier = Modifier.padding(16.dp)
             ) {
                 UserInfoSection(

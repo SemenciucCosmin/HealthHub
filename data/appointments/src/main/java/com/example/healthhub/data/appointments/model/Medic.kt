@@ -10,4 +10,8 @@ data class Medic(
     val services: List<Service>,
     val locations: List<Location>,
     val county: County,
-)
+) {
+    companion object {
+        const val INVALID_ID = -1
+    }
+}

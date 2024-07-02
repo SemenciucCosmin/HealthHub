@@ -123,6 +123,19 @@ class AppointmentsRepositoryImpl(
         return Resource(medics, resource.status)
     }
 
+    override suspend fun getCounties(): Resource<List<County>> {
+        val resource = countiesApi.getCounties()
+        val countyDTOs = resource.payload?.innerCountiesDTO?.entities
+        val counties = countyDTOs?.mapNotNull { countyDTO ->
+            County(
+                id = countyDTO.id ?: return@mapNotNull null,
+                name = countyDTO.name ?: return@mapNotNull null,
+            )
+        }
+
+        return Resource(counties, resource.status)
+    }
+
     private fun mapServiceDTOs(serviceDTOs: List<ServiceDTO>?): List<Service>? {
         return serviceDTOs?.mapNotNull { serviceDTO ->
             Service(

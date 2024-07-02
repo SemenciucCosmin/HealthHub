@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,6 +26,8 @@ import org.koin.androidx.compose.koinViewModel
 fun AppointmentsRoute() {
     val viewModel = koinViewModel<AppointmentsViewModel>()
     val navController = LocalNavController.current
+
+    LaunchedEffect(Unit) { viewModel.loadAppointments() }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -46,7 +49,7 @@ fun AppointmentsRoute() {
         when {
             viewModel.uiState.isLoading -> LoadingScreen(Modifier.fillMaxSize())
             viewModel.uiState.isError -> ErrorScreen(
-                onRetry = viewModel::retry,
+                onRetry = viewModel::loadAppointments,
                 modifier = Modifier.fillMaxSize()
             )
 

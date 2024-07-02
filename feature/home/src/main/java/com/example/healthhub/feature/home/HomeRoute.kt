@@ -17,7 +17,7 @@ fun HomeRoute() {
     val viewModel = koinViewModel<HomeViewModel>()
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(64.dp),
+        verticalArrangement = Arrangement.spacedBy(32.dp),
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)

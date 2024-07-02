@@ -2,7 +2,6 @@ package com.example.healthhub.feature.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -22,7 +21,7 @@ fun SubscriptionsSection(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(32.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
         Text(
@@ -39,10 +38,7 @@ fun SubscriptionsSection(
                 textAlign = TextAlign.Center
             )
 
-            else -> LazyRow(
-                contentPadding = PaddingValues(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            else -> LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(subscriptions, { it.id }) { subscription ->
                     SubscriptionCard(subscription)
                 }

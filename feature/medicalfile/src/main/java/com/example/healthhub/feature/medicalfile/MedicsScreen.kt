@@ -17,7 +17,9 @@ import com.example.healthhub.data.appointments.model.Specialization
 import com.example.healthhub.data.util.BLANK
 import com.example.healthhub.data.util.getStringWithBullet
 import com.example.healthhub.ui.catalog.R
+import com.example.healthhub.ui.catalog.components.Menu
 import com.example.healthhub.ui.catalog.components.OverlineText
+import com.example.healthhub.ui.catalog.model.MenuItem
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 
 @Composable
@@ -33,10 +35,16 @@ fun MedicsScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
     ) {
-        SpecializationsMenu(
-            selectedSpecializationId = selectedSpecializationId,
-            specializations = specializations,
-            onSpecializationSelected = onSpecializationSelected
+        Menu(
+            overlineTitle = stringResource(R.string.lbl_sort_by_specialization),
+            selectedMenuItemId = selectedSpecializationId,
+            onMenuItemSelected = onSpecializationSelected,
+            menuItems = specializations.map {
+                MenuItem(
+                    id = it.id,
+                    name = it.name
+                )
+            }
         )
 
         LazyColumn(

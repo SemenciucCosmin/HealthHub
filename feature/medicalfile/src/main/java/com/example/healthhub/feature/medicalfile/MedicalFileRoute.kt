@@ -24,13 +24,13 @@ fun MedicalFileRoute() {
         viewModel.uiState.isLoading -> LoadingScreen(modifier = Modifier.fillMaxSize())
 
         else -> Column(
-            verticalArrangement = Arrangement.spacedBy(64.dp),
+            verticalArrangement = Arrangement.spacedBy(32.dp),
             modifier = Modifier.padding(16.dp)
         ) {
             PastAppointmentsSection(
                 appointments = viewModel.uiState.pastAppointments,
                 onCreateAppointmentClick = {
-                    navController.navigate(NavDestination.CreateAppointment)
+                    navController.navigate(NavDestination.CreateAppointment())
                 }
             )
 

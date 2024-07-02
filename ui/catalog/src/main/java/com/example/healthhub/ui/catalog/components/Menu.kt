@@ -1,4 +1,4 @@
-package com.example.healthhub.feature.medicalfile
+package com.example.healthhub.ui.catalog.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,28 +22,29 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.healthhub.data.appointments.model.Specialization
 import com.example.healthhub.ui.catalog.R
+import com.example.healthhub.ui.catalog.model.MenuItem
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SpecializationsMenu(
-    selectedSpecializationId: Int?,
-    specializations: List<Specialization>,
-    onSpecializationSelected: (Int?) -> Unit,
+fun Menu(
+    overlineTitle: String,
+    selectedMenuItemId: Int?,
+    menuItems: List<MenuItem>,
+    onMenuItemSelected: (Int?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
     val iconRes = if (expanded) R.drawable.ic_up else R.drawable.ic_down
-    val specializationName = specializations.firstOrNull { it.id == selectedSpecializationId }?.name
+    val menuItemName = menuItems.firstOrNull { it.id == selectedMenuItemId }?.name
 
     Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
         modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.lbl_sort_by_specialization),
+            text = overlineTitle,
             style = MaterialTheme.typography.labelMedium
         )
 
@@ -52,7 +53,7 @@ fun SpecializationsMenu(
             onExpandedChange = { expanded = !expanded }
         ) {
             OutlinedTextField(
-                value = specializationName ?: stringResource(R.string.lbl_all),
+                value = menuItemName ?: stringResource(R.string.lbl_none),
                 onValueChange = {},
                 readOnly = true,
                 shape = MaterialTheme.shapes.small,
@@ -74,19 +75,19 @@ fun SpecializationsMenu(
                 onDismissRequest = { expanded = false }
             ) {
                 DropdownMenuItem(
-                    text = { Text(text = stringResource(R.string.lbl_all)) },
+                    text = { Text(text = stringResource(R.string.lbl_none)) },
                     onClick = {
                         expanded = false
-                        onSpecializationSelected(null)
+                        onMenuItemSelected(null)
                     },
                 )
 
-                specializations.forEach { specialization ->
+                menuItems.forEach { menuItem ->
                     DropdownMenuItem(
-                        text = { Text(text = specialization.name) },
+                        text = { Text(text = menuItem.name) },
                         onClick = {
                             expanded = false
-                            onSpecializationSelected(specialization.id)
+                            onMenuItemSelected(menuItem.id)
                         },
                     )
                 }
@@ -97,12 +98,13 @@ fun SpecializationsMenu(
 
 @Preview
 @Composable
-private fun SpecializationsMenuPreview() {
+private fun MenuPreview() {
     HealthHubTheme {
-        SpecializationsMenu(
-            selectedSpecializationId = null,
-            specializations = emptyList(),
-            onSpecializationSelected = {}
+        Menu(
+            overlineTitle = "Title",
+            selectedMenuItemId = 0,
+            menuItems = emptyList(),
+            onMenuItemSelected = {}
         )
     }
 }

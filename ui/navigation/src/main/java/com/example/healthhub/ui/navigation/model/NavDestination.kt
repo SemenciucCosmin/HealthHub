@@ -1,6 +1,7 @@
 package com.example.healthhub.ui.navigation.model
 
 import androidx.annotation.StringRes
+import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.ui.catalog.R
 import kotlinx.serialization.Serializable
 
@@ -27,7 +28,7 @@ sealed class NavDestination(@StringRes val stringRes: Int) {
 
     @Serializable
     data class CreateAppointment(
-        val medicId: Int = 0
+        val medicId: Int = Medic.INVALID_ID
     ) : NavDestination(R.string.lbl_create_appointment)
 
     @Serializable

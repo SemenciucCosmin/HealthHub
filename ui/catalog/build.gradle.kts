@@ -54,6 +54,9 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
 
+    // MODULES
+    implementation(project(":data:util"))
+
     // TEST
     androidTestImplementation(libs.test.espresso.core)
     androidTestImplementation(libs.test.ext)

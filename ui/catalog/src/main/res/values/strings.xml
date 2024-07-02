@@ -5,7 +5,8 @@
     <string name="lbl_retry_action">Retry</string>
     <string name="lbl_yes_action">Yes</string>
     <string name="lbl_cancel_action">Cancel</string>
-    <string name="lbl_all">All</string>
+    <string name="lbl_ok_action">OK</string>
+    <string name="lbl_none">None</string>
 
     <!--  NAVIGATION DESTINATIONS  -->
     <string name="lbl_home">Home</string>
@@ -59,6 +60,7 @@
     <string name="lbl_specialization">Specialization</string>
     <string name="lbl_date">Date</string>
     <string name="lbl_location">Location</string>
+    <string name="lbl_counties">Counties</string>
 
     <!--  INFO  -->
     <string name="lbl_users_information">Users information</string>

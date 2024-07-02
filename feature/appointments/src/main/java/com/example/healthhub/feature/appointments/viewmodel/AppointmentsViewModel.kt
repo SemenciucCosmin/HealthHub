@@ -10,6 +10,7 @@ import com.example.healthhub.data.appointments.repository.AppointmentsRepository
 import com.example.healthhub.domain.account.GetUsersInfoUseCase
 import com.example.healthhub.feature.appointments.viewmodel.model.AppointmentsUiState
 import com.example.healthhub.network.resource.Status
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -21,15 +22,7 @@ class AppointmentsViewModel(
     var uiState by mutableStateOf(AppointmentsUiState())
         private set
 
-    init {
-        loadAppointments()
-    }
-
-    fun retry() {
-        loadAppointments()
-    }
-
-    private fun loadAppointments() {
+    fun loadAppointments() {
         viewModelScope.launch {
             uiState = AppointmentsUiState()
 
@@ -66,6 +59,51 @@ class AppointmentsViewModel(
                         )
                     }
                 }
+            }
+        }
+    }
+
+    fun loadDataForAppointmentCreation() {
+        viewModelScope.launch {
+            uiState = uiState.copy(
+                isLoading = true,
+                isError = false,
+            )
+
+            val specializationsAsync = async { appointmentsRepository.getSpecializations() }
+            val countiesAsync = async { appointmentsRepository.getCounties() }
+
+            val specializationsResource = specializationsAsync.await()
+            val countiesResource = countiesAsync.await()
+
+            val specializations = specializationsResource.payload
+            val counties = countiesResource.payload
+
+            uiState = when {
+                specializations.isNullOrEmpty() || counties.isNullOrEmpty() -> uiState.copy(
+                    isLoading = false,
+                    isError = true
+                )
+
+                else -> uiState.copy(
+                    specializations = specializations,
+                    counties = counties,
+                    isLoading = false
+                )
+            }
+        }
+    }
+
+    fun loadPresetsByMedicId(medicId: Int) {
+        viewModelScope.launch {
+            appointmentsRepository.getMedics().payload?.firstOrNull {
+                it.id == medicId
+            }?.let { medic ->
+                uiState = uiState.copy(
+                    specializations = medic.specializations,
+                    counties = listOf(medic.county),
+                    isLoading = false
+                )
             }
         }
     }
