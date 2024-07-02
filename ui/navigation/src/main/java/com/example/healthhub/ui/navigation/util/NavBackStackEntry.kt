@@ -2,10 +2,11 @@ package com.example.healthhub.ui.navigation.util
 
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.toRoute
+import com.example.healthhub.data.util.SLASH
 import com.example.healthhub.ui.navigation.model.NavDestination
 
 val NavBackStackEntry.navDestination: NavDestination?
-    get() = when (this.destination.route) {
+    get() = when (this.destination.route?.substringBefore(String.SLASH)) {
         NavDestination.Home.asRoute() -> this.toRoute<NavDestination.Home>()
         NavDestination.MedicalFile.asRoute() -> this.toRoute<NavDestination.MedicalFile>()
         NavDestination.Appointments.asRoute() -> this.toRoute<NavDestination.Appointments>()

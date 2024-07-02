@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     // MODULES
+    implementation(project(":data:util"))
     implementation(project(":ui:catalog"))
 
     // NAVIGATION
