@@ -6,6 +6,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.example.healthhub.app.AuthenticationActivity
 import com.example.healthhub.app.MainActivity
 import com.example.healthhub.feature.account.AccountRoute
@@ -42,7 +43,10 @@ fun NavigationGraph(
             )
         }
         composable<NavDestination.Locations> { LocationsRoute() }
-        composable<NavDestination.CreateAppointment> { CreateAppointmentRoute() }
+        composable<NavDestination.CreateAppointment> {
+            val args = it.toRoute<NavDestination.CreateAppointment>()
+            CreateAppointmentRoute(args.medicId)
+        }
         composable<NavDestination.Medics> { MedicsRoute() }
     }
 }

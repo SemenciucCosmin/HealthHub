@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.appointments.model.AppointmentTimeframe
 import com.example.healthhub.data.appointments.repository.AppointmentsRepository
-import com.example.healthhub.data.medicalfile.repository.MedicalFileRepository
 import com.example.healthhub.domain.account.GetUsersInfoUseCase
 import com.example.healthhub.feature.medicalfile.viewmodel.model.MedicalFileUiState
 import com.example.healthhub.network.resource.Status
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MedicalFileViewModel(
-    private val medicalFileRepository: MedicalFileRepository,
     private val appointmentsRepository: AppointmentsRepository,
     private val getUsersInfoUseCase: GetUsersInfoUseCase
 ) : ViewModel() {
@@ -24,18 +22,20 @@ class MedicalFileViewModel(
         private set
 
     init {
-        loadMedics()
         loadPastAppointments()
+        loadMedics()
+        loadSpecializations()
     }
 
     private fun loadMedics() {
         viewModelScope.launch {
             uiState = uiState.copy(
+                selectedSpecializationId = null,
                 isLoading = true,
                 isError = false,
             )
 
-            val resource = medicalFileRepository.getMedics()
+            val resource = appointmentsRepository.getMedics()
 
             uiState = when (val medics = resource.payload) {
                 null -> uiState.copy(
@@ -45,6 +45,30 @@ class MedicalFileViewModel(
 
                 else -> uiState.copy(
                     medics = medics,
+                    filteredMedics = medics,
+                    isLoading = false
+                )
+            }
+        }
+    }
+
+    private fun loadSpecializations() {
+        viewModelScope.launch {
+            uiState = uiState.copy(
+                isLoading = true,
+                isError = false,
+            )
+
+            val resource = appointmentsRepository.getSpecializations()
+
+            uiState = when (val specializations = resource.payload) {
+                null -> uiState.copy(
+                    isLoading = false,
+                    isError = true
+                )
+
+                else -> uiState.copy(
+                    specializations = specializations,
                     isLoading = false
                 )
             }
@@ -82,5 +106,19 @@ class MedicalFileViewModel(
         }
     }
 
-    fun retry() = loadMedics()
+    fun retry() {
+        loadMedics()
+        loadSpecializations()
+    }
+
+    fun selectSpecialization(specializationId: Int?) {
+        val filteredMedics = uiState.medics.filter { medic ->
+            medic.specializations.map { it.id }.contains(specializationId)
+        }.ifEmpty { uiState.medics }
+
+        uiState = uiState.copy(
+            filteredMedics = filteredMedics,
+            selectedSpecializationId = specializationId
+        )
+    }
 }

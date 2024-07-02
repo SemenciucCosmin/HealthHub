@@ -5,3 +5,11 @@ val String.Companion.BLANK: String
 
 val String.Companion.SPACE: String
     get() = " "
+
+val String.Companion.BULLET: String
+    get() = "\u2022"
+
+val String.Companion.NEW_LINE: String
+    get() = System.lineSeparator()
+
+fun String.getStringWithBullet(): String = String.BULLET + String.SPACE + this + String.NEW_LINE

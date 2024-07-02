@@ -26,7 +26,9 @@ sealed class NavDestination(@StringRes val stringRes: Int) {
     data object Locations : NavDestination(R.string.lbl_locations)
 
     @Serializable
-    data object CreateAppointment : NavDestination(R.string.lbl_create_appointment)
+    data class CreateAppointment(
+        val medicId: Int = 0
+    ) : NavDestination(R.string.lbl_create_appointment)
 
     @Serializable
     data object Medics : NavDestination(R.string.lbl_medics)

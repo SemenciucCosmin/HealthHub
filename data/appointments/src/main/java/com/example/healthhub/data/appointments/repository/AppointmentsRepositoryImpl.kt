@@ -15,6 +15,7 @@ import com.example.healthhub.network.api.service.AppointmentsApi
 import com.example.healthhub.network.api.service.CountiesApi
 import com.example.healthhub.network.api.service.LocationsApi
 import com.example.healthhub.network.api.service.MedicsApi
+import com.example.healthhub.network.api.service.SpecializationsApi
 import com.example.healthhub.network.resource.Resource
 
 class AppointmentsRepositoryImpl(
@@ -22,6 +23,7 @@ class AppointmentsRepositoryImpl(
     private val countiesApi: CountiesApi,
     private val locationsApi: LocationsApi,
     private val medicsApi: MedicsApi,
+    private val specializationsApi: SpecializationsApi
 ) : AppointmentsRepository {
 
     override suspend fun getAppointments(
@@ -78,6 +80,13 @@ class AppointmentsRepositoryImpl(
         return Resource(appointments, resource.status)
     }
 
+    override suspend fun getSpecializations(): Resource<List<Specialization>> {
+        val resource = specializationsApi.getSpecializations()
+        val specializationDTOs = resource.payload?.innerSpecializationsDTO?.entities
+        val specializations = mapSpecializationDTOs(specializationDTOs) ?: emptyList()
+        return Resource(specializations, resource.status)
+    }
+
     private fun mapSpecializationDTOs(
         specializationDTOs: List<SpecializationDTO>?
     ): List<Specialization>? {
@@ -89,6 +98,29 @@ class AppointmentsRepositoryImpl(
                 services = mapServiceDTOs(specializationDTO.services) ?: return@mapNotNull null
             )
         }
+    }
+
+    override suspend fun getMedics(): Resource<List<Medic>> {
+        val resource = medicsApi.getMedics()
+        val medicDTOs = resource.payload?.innerMedicsDTO?.entities
+        val medics = medicDTOs?.mapNotNull { medicDTO ->
+            val specializations = mapSpecializationDTOs(medicDTO.specializations)
+
+            Medic(
+                id = medicDTO.id ?: return@mapNotNull null,
+                name = medicDTO.name ?: return@mapNotNull null,
+                ranking = medicDTO.ranking ?: return@mapNotNull null,
+                specializations = specializations ?: return@mapNotNull null,
+                services = mapServiceDTOs(medicDTO.services) ?: return@mapNotNull null,
+                locations = mapLocationDTOs(medicDTO.locations) ?: return@mapNotNull null,
+                county = County(
+                    id = medicDTO.county?.id ?: return@mapNotNull null,
+                    name = medicDTO.county?.name ?: return@mapNotNull null,
+                )
+            )
+        }
+
+        return Resource(medics, resource.status)
     }
 
     private fun mapServiceDTOs(serviceDTOs: List<ServiceDTO>?): List<Service>? {

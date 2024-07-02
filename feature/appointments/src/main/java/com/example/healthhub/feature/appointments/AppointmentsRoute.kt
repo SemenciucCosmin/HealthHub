@@ -1,5 +1,6 @@
 package com.example.healthhub.feature.appointments
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,7 +41,10 @@ fun AppointmentsRoute() {
         IconTextButton(
             text = stringResource(R.string.lbl_create_appointment),
             icon = painterResource(R.drawable.ic_add),
-            onClick = { navController.navigate(NavDestination.CreateAppointment) },
+            onClick = {
+                Log.d("TESTMESSAGE", "${NavDestination.CreateAppointment().asRoute()}")
+                navController.navigate(NavDestination.CreateAppointment())
+            },
         )
 
         when {

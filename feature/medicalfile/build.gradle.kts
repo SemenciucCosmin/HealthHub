@@ -61,6 +61,7 @@ dependencies {
     implementation(project(":data:appointments"))
     implementation(project(":data:info"))
     implementation(project(":data:medicalfile"))
+    implementation(project(":data:util"))
     implementation(project(":domain:account"))
     implementation(project(":feature:appointments"))
     implementation(project(":network"))

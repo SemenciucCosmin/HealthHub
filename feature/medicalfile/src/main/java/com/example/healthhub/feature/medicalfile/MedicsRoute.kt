@@ -1,22 +1,39 @@
 package com.example.healthhub.feature.medicalfile
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.example.healthhub.feature.medicalfile.viewmodel.MedicalFileViewModel
 import com.example.healthhub.ui.catalog.components.ErrorScreen
+import com.example.healthhub.ui.catalog.components.LoadingScreen
+import com.example.healthhub.ui.navigation.model.NavDestination
+import com.example.healthhub.ui.navigation.util.LocalNavController
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MedicsRoute() {
     val viewModel = koinViewModel<MedicalFileViewModel>()
+    val navController = LocalNavController.current
 
     when {
+        viewModel.uiState.isLoading -> LoadingScreen(Modifier.fillMaxSize())
+
         viewModel.uiState.isError -> ErrorScreen(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxSize(),
             onRetry = viewModel::retry
         )
 
-        else -> {}
+        else -> MedicsScreen(
+            modifier = Modifier.padding(16.dp),
+            medics = viewModel.uiState.filteredMedics,
+            specializations = viewModel.uiState.specializations,
+            selectedSpecializationId = viewModel.uiState.selectedSpecializationId,
+            onSpecializationSelected = viewModel::selectSpecialization,
+            onMedicClick = { medicId ->
+                navController.navigate(NavDestination.CreateAppointment(medicId))
+            }
+        )
     }
 }

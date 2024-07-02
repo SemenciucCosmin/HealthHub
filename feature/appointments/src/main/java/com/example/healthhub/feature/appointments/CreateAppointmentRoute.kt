@@ -3,6 +3,6 @@ package com.example.healthhub.feature.appointments
 import androidx.compose.runtime.Composable
 
 @Composable
-fun CreateAppointmentRoute() {
+fun CreateAppointmentRoute(medicId: Int?) {
 
 }

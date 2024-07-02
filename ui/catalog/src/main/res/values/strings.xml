@@ -5,6 +5,7 @@
     <string name="lbl_retry_action">Retry</string>
     <string name="lbl_yes_action">Yes</string>
     <string name="lbl_cancel_action">Cancel</string>
+    <string name="lbl_all">All</string>
 
     <!--  NAVIGATION DESTINATIONS  -->
     <string name="lbl_home">Home</string>
@@ -69,4 +70,11 @@
     <string name="lbl_nationality">Nationality</string>
     <string name="lbl_date_of_birth">Date of birth</string>
     <string name="lbl_gender">Gender</string>
+
+    <!--  MEDICAL FILE  -->
+    <string name="lbl_sort_by_specialization">Sort by specialization</string>
+    <string name="lbl_ranking">Ranking</string>
+    <string name="lbl_specializations">Specializations</string>
+    <string name="lbl_services">Services</string>
+
 </resources>
