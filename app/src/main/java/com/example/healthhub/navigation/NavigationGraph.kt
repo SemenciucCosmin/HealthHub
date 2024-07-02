@@ -15,6 +15,7 @@ import com.example.healthhub.feature.home.HomeRoute
 import com.example.healthhub.feature.info.InfoRoute
 import com.example.healthhub.feature.info.LocationsRoute
 import com.example.healthhub.feature.medicalfile.MedicalFileRoute
+import com.example.healthhub.feature.medicalfile.MedicsRoute
 import com.example.healthhub.ui.navigation.model.NavDestination
 
 @Composable
@@ -42,5 +43,6 @@ fun NavigationGraph(
         }
         composable<NavDestination.Locations> { LocationsRoute() }
         composable<NavDestination.CreateAppointment> { CreateAppointmentRoute() }
+        composable<NavDestination.Medics> { MedicsRoute() }
     }
 }

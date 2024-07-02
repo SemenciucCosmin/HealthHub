@@ -1,12 +1,9 @@
 package com.example.healthhub.ui.catalog.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,30 +19,28 @@ fun OverlineText(
     modifier: Modifier = Modifier,
     hideDivider: Boolean = false
 ) {
-    Column(modifier = modifier) {
-        ListItem(
-            overlineContent = {
-                Text(text = overlineText)
-            },
-            headlineContent = {
-                Text(text = text)
-            },
-            colors = ListItemDefaults.colors(
-                overlineColor = MaterialTheme.colorScheme.onBackground
-            )
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier
+    ) {
+
+        Text(
+            text = overlineText,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
-        if (!hideDivider) {
-            HorizontalDivider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
-        }
+        Text(
+            text = text,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+
+        if (!hideDivider) HorizontalDivider()
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun OverlineTextPreview() {

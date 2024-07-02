@@ -8,6 +8,7 @@ import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.data.appointments.model.Service
 import com.example.healthhub.data.appointments.model.Specialization
 import com.example.healthhub.data.info.model.Location
+import com.example.healthhub.network.api.model.LocationDTO
 import com.example.healthhub.network.api.model.ServiceDTO
 import com.example.healthhub.network.api.model.SpecializationDTO
 import com.example.healthhub.network.api.service.AppointmentsApi
@@ -102,6 +103,18 @@ class AppointmentsRepositoryImpl(
         }
     }
 
+    private fun mapLocationDTOs(locationDTOs: List<LocationDTO>?): List<Location>? {
+        return locationDTOs?.mapNotNull { locationDTO ->
+            Location(
+                id = locationDTO.id ?: return@mapNotNull null,
+                name = locationDTO.name ?: return@mapNotNull null,
+                address = locationDTO.address ?: return@mapNotNull null,
+                latitude = locationDTO.latitude ?: return@mapNotNull null,
+                longitude = locationDTO.longitude ?: return@mapNotNull null,
+            )
+        }
+    }
+
     private suspend fun mapCountyId(countyId: Int?): County? {
         val countyDTOs = countiesApi.getCounties().payload?.innerCountiesDTO?.entities
         val countyDTO = countyDTOs?.firstOrNull { it.id == countyId }
@@ -131,8 +144,8 @@ class AppointmentsRepositoryImpl(
             name = medicDTO.name ?: return null,
             ranking = medicDTO.ranking ?: return null,
             specializations = mapSpecializationDTOs(medicDTO.specializations) ?: return null,
-            services = listOf(),
-            locations = listOf(),
+            services = mapServiceDTOs(medicDTO.services) ?: return null,
+            locations = mapLocationDTOs(medicDTO.locations) ?: return null,
             county = County(
                 id = medicDTO.county?.id ?: return null,
                 name = medicDTO.county?.name ?: return null,

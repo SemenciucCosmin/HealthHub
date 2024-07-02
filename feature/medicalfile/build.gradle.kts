@@ -57,8 +57,18 @@ dependencies {
     implementation(libs.koin.compose)
 
     // MODULES
+    implementation(project(":data:account"))
+    implementation(project(":data:appointments"))
+    implementation(project(":data:info"))
     implementation(project(":data:medicalfile"))
+    implementation(project(":domain:account"))
+    implementation(project(":feature:appointments"))
+    implementation(project(":network"))
     implementation(project(":ui:catalog"))
+    implementation(project(":ui:navigation"))
+
+    // NAVIGATION
+    implementation(libs.navigation.compose)
 
     // TEST
     androidTestImplementation(libs.test.espresso.core)

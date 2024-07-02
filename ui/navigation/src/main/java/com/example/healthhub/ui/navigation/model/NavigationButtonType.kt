@@ -22,12 +22,12 @@ sealed class NavigationButtonType(
         destination = NavDestination.Locations
     )
 
-//    data object Location: NavigationButtonType(
-//        stringRes = R.string.lbl_locations,
-//        drawableRes = R.drawable.ic_maps,
-//        color = Color(0xFF7B2860),
-//        destination = NavDestination.Locations
-//    )
+    data object Medics: NavigationButtonType(
+        drawableRes = R.drawable.ic_medic,
+        color = Color(0xFF7B2860),
+        destination = NavDestination.Medics
+    )
+
 //    data object Location: NavigationButtonType(
 //        stringRes = R.string.lbl_locations,
 //        drawableRes = R.drawable.ic_maps,
