@@ -38,6 +38,8 @@ private fun NavigationButtonsGridPreview() {
             buttons = listOf(
                 NavigationButtonType.Account,
                 NavigationButtonType.Location,
+                NavigationButtonType.Medics,
+                NavigationButtonType.FutureAppointments,
             )
         )
     }

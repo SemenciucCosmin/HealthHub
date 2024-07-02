@@ -39,6 +39,7 @@ fun MedicalFileRoute() {
                     NavigationButtonType.Account,
                     NavigationButtonType.Location,
                     NavigationButtonType.Medics,
+                    NavigationButtonType.FutureAppointments,
                 )
             )
         }

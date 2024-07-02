@@ -35,6 +35,7 @@ fun InfoRoute() {
                         NavigationButtonType.Account,
                         NavigationButtonType.Location,
                         NavigationButtonType.Medics,
+                        NavigationButtonType.FutureAppointments,
                     )
                 )
             }

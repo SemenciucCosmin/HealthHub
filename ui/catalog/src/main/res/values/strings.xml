@@ -46,6 +46,8 @@
     <string name="lbl_subscription_period">Period: %d months</string>
     <string name="lbl_active">Active</string>
     <string name="lbl_inactive">Inactive</string>
+    <string name="lbl_no_subscriptions_message">Looks like you have no subscriptions.</string>
+
 
     <!--  APPOINTMENTS  -->
     <string name="lbl_your_appointments">Your appointments</string>
