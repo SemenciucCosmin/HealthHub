@@ -4,6 +4,7 @@ import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.appointments.model.Appointment
 import com.example.healthhub.data.appointments.model.AppointmentTimeframe
 import com.example.healthhub.data.appointments.model.County
+import com.example.healthhub.data.appointments.model.FilteredAppointment
 import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.data.appointments.model.Service
 import com.example.healthhub.data.appointments.model.Specialization
@@ -47,10 +48,10 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
         specializationName: String,
         countyName: String,
         startDateMillis: Long
-    ): Resource<List<Appointment>> {
+    ): Resource<List<FilteredAppointment>> {
         return Resource(
             status = Status.Success,
-            payload = getMockedAppointments()
+            payload = getMockedFilteredAppointments()
         )
     }
 
@@ -145,6 +146,30 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
             ),
             childId = null,
             specializations = getMockedSpecializations()
+        )
+    }
+
+    private fun getMockedFilteredAppointments() = List(5) { appointmentIndex ->
+        FilteredAppointment(
+            id = appointmentIndex,
+            doctorFullName = "Medic $appointmentIndex",
+            doctorId = appointmentIndex,
+            ranking = appointmentIndex,
+            specializationId = appointmentIndex,
+            specializationName = "Specialization $appointmentIndex",
+            services = getMockedServices(),
+            county = County(
+                id = appointmentIndex,
+                name = "County $appointmentIndex"
+            ),
+            location = Location(
+                id = "$appointmentIndex",
+                name = "Location $appointmentIndex",
+                address = "Address $appointmentIndex",
+                latitude = appointmentIndex.toDouble(),
+                longitude = appointmentIndex.toDouble()
+            ),
+            dateMillis = appointmentIndex.toLong()
         )
     }
 }

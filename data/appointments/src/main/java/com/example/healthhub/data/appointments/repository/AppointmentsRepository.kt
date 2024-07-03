@@ -4,6 +4,7 @@ import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.appointments.model.Appointment
 import com.example.healthhub.data.appointments.model.AppointmentTimeframe
 import com.example.healthhub.data.appointments.model.County
+import com.example.healthhub.data.appointments.model.FilteredAppointment
 import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.data.appointments.model.Specialization
 import com.example.healthhub.network.resource.Resource
@@ -24,5 +25,5 @@ interface AppointmentsRepository {
         specializationName: String,
         countyName: String,
         startDateMillis: Long
-    ): Resource<List<Appointment>>
+    ): Resource<List<FilteredAppointment>>
 }

@@ -4,6 +4,7 @@ import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.appointments.model.Appointment
 import com.example.healthhub.data.appointments.model.AppointmentTimeframe
 import com.example.healthhub.data.appointments.model.County
+import com.example.healthhub.data.appointments.model.FilteredAppointment
 import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.data.appointments.model.Service
 import com.example.healthhub.data.appointments.model.Specialization
@@ -140,32 +141,35 @@ class AppointmentsRepositoryImpl(
         specializationName: String,
         countyName: String,
         startDateMillis: Long
-    ): Resource<List<Appointment>> {
+    ): Resource<List<FilteredAppointment>> {
         val resource = appointmentsApi.filterAppointments(
             specializationName = specializationName,
             countyName = countyName,
             startDateMillis = startDateMillis
         )
 
-        val appointmentDTOs = resource.payload?.innerFilterAppointments?.entities ?: emptyList()
+        val appointmentDTOs = resource.payload?.innerFilteredAppointments?.entities ?: emptyList()
         val appointments = appointmentDTOs.mapNotNull {
-            val specializations = mapSpecializationDTOs(it.specializations)
-            val specialization = mapSpecializationId(it.specializationId, it.specializations)
-
-            Appointment(
+            FilteredAppointment(
                 id = it.id ?: return@mapNotNull null,
-                availableAppointmentId = it.availableAppointmentId ?: return@mapNotNull null,
-                userId = it.userId ?: return@mapNotNull null,
-                medic = mapMedicId(it.doctorId) ?: return@mapNotNull null,
-                county = mapCountyId(it.countyId) ?: return@mapNotNull null,
-                location = mapLocationId(it.locationId) ?: return@mapNotNull null,
-                state = it.state ?: return@mapNotNull null,
-                startDate = it.startDate ?: return@mapNotNull null,
-                duration = it.duration ?: return@mapNotNull null,
-                price = it.price ?: return@mapNotNull null,
-                specialization = specialization ?: return@mapNotNull null,
-                childId = it.childId ?: return@mapNotNull null,
-                specializations = specializations ?: return@mapNotNull null,
+                doctorFullName = it.doctorFullName ?: return@mapNotNull null,
+                doctorId = it.doctorId ?: return@mapNotNull null,
+                ranking = it.ranking ?: return@mapNotNull null,
+                specializationId = it.details?.specializationId ?: return@mapNotNull null,
+                specializationName = it.details?.specializationName ?: return@mapNotNull null,
+                services = mapServiceDTOs(it.details?.services) ?: return@mapNotNull null,
+                location = Location(
+                    id = it.locationEntity?.id ?: return@mapNotNull null,
+                    name = it.locationEntity?.name ?: return@mapNotNull null,
+                    address = it.locationEntity?.address ?: return@mapNotNull null,
+                    latitude = it.locationEntity?.latitude ?: return@mapNotNull null,
+                    longitude = it.locationEntity?.longitude ?: return@mapNotNull null,
+                ),
+                county = County(
+                    id = it.locationEntity?.county?.id ?: return@mapNotNull null,
+                    name = it.locationEntity?.county?.name ?: return@mapNotNull null,
+                ),
+                dateMillis = it.dateMillis ?: return@mapNotNull null
             )
         }
 
