@@ -17,6 +17,7 @@
     <string name="lbl_locations">Locations</string>
     <string name="lbl_create_appointment">Create appointment</string>
     <string name="lbl_medics">Medics</string>
+    <string name="lbl_filtered_appointments">Filtered Appointments</string>
 
     <!--  AUTHENTICATION  -->
     <string name="lbl_welcome">Welcome to HealthHub!</string>

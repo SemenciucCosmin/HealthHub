@@ -92,7 +92,8 @@ fun MedicsScreen(
 
                         OverlineText(
                             text = servicesDescriptions,
-                            overlineText = stringResource(R.string.lbl_services)
+                            overlineText = stringResource(R.string.lbl_services),
+                            hideDivider = true
                         )
                     }
                 }

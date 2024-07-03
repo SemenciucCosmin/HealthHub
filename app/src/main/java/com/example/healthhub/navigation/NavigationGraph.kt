@@ -12,6 +12,7 @@ import com.example.healthhub.app.MainActivity
 import com.example.healthhub.feature.account.AccountRoute
 import com.example.healthhub.feature.appointments.AppointmentsRoute
 import com.example.healthhub.feature.appointments.CreateAppointmentRoute
+import com.example.healthhub.feature.appointments.FilteredAppointmentsRoute
 import com.example.healthhub.feature.home.HomeRoute
 import com.example.healthhub.feature.info.InfoRoute
 import com.example.healthhub.feature.info.LocationsRoute
@@ -48,5 +49,13 @@ fun NavigationGraph(
             CreateAppointmentRoute(args.medicId)
         }
         composable<NavDestination.Medics> { MedicsRoute() }
+        composable<NavDestination.FilteredAppointments> {
+            val args = it.toRoute<NavDestination.FilteredAppointments>()
+            FilteredAppointmentsRoute(
+                specializationId = args.specializationId,
+                countyId = args.countyId,
+                startDateMillis = args.startDateMillis
+            )
+        }
     }
 }

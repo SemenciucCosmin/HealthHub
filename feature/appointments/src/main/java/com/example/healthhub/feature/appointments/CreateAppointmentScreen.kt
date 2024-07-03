@@ -39,7 +39,7 @@ import java.util.Date
 fun CreateAppointmentScreen(
     specializations: List<Specialization>,
     counties: List<County>,
-    onCreateAppointment: (Int, Int, Long) -> Unit,
+    onCreateAppointment: (String, String, Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var selectedSpecializationId by remember { mutableStateOf<Int?>(null) }
@@ -113,7 +113,19 @@ fun CreateAppointmentScreen(
         IconTextButton(
             text = stringResource(R.string.lbl_create_appointment),
             icon = painterResource(R.drawable.ic_checked),
-            onClick = { /*TODO*/ }
+            enabled = selectedSpecializationId != null && selectedCountyId != null && dateState.selectedDateMillis != null,
+            onClick = {
+                val startDateMillis = dateState.selectedDateMillis ?: return@IconTextButton
+                val specializationName = specializations.firstOrNull {
+                    it.id == selectedSpecializationId
+                }?.name ?: return@IconTextButton
+
+                val countyName = counties.firstOrNull {
+                    it.id == selectedCountyId
+                }?.name ?: return@IconTextButton
+
+                onCreateAppointment(specializationName, countyName, startDateMillis)
+            }
         )
     }
 }

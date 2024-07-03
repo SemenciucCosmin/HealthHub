@@ -107,4 +107,35 @@ class AppointmentsViewModel(
             }
         }
     }
+
+    fun filterAppointments(
+        specializationName: String,
+        countyName: String,
+        startDateMillis: Long
+    ) {
+        viewModelScope.launch {
+            val resource = appointmentsRepository.filterAppointments(
+                specializationName = specializationName,
+                countyName = countyName,
+                startDateMillis = startDateMillis
+            )
+
+            when {
+                resource.status != Status.Success -> {
+                    uiState = uiState.copy(
+                        isLoading = false,
+                        isError = true
+                    )
+                }
+
+                else -> {
+                    uiState = uiState.copy(
+                        filteredAppointments = resource.payload ?: emptyList(),
+                        isLoading = false,
+                        isError = false
+                    )
+                }
+            }
+        }
+    }
 }

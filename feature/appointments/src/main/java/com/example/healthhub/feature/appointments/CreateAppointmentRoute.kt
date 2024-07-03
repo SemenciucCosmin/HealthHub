@@ -12,6 +12,7 @@ import com.example.healthhub.feature.appointments.di.AppointmentsScope
 import com.example.healthhub.feature.appointments.viewmodel.AppointmentsViewModel
 import com.example.healthhub.ui.catalog.components.ErrorScreen
 import com.example.healthhub.ui.catalog.components.LoadingScreen
+import com.example.healthhub.ui.navigation.model.NavDestination
 import com.example.healthhub.ui.navigation.util.LocalNavController
 import org.koin.compose.getKoin
 
@@ -44,8 +45,20 @@ fun CreateAppointmentRoute(medicId: Int) {
             modifier = Modifier.padding(16.dp),
             specializations = viewModel.uiState.specializations,
             counties = viewModel.uiState.counties,
-            onCreateAppointment = { specializationId, countyId, dateMillis ->
+            onCreateAppointment = { specializationName, countyName, startDateMillis ->
+                viewModel.filterAppointments(
+                    specializationName = specializationName,
+                    countyName = countyName,
+                    startDateMillis = startDateMillis
+                )
 
+                navController.navigate(
+                    NavDestination.FilteredAppointments(
+                        specializationName = specializationName,
+                        countyName = countyName,
+                        startDateMillis = startDateMillis
+                    )
+                )
             }
         )
     }

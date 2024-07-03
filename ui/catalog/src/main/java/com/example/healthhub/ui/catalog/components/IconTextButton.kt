@@ -26,11 +26,13 @@ fun IconTextButton(
     text: String,
     icon: Painter,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
 ) {
     ElevatedCard(
         onClick = onClick,
-        modifier = modifier
+        modifier = modifier,
+        enabled = enabled
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
