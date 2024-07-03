@@ -27,8 +27,9 @@ import java.util.Date
 @Composable
 fun FilteredAppointmentCard(
     filteredAppointment: FilteredAppointment,
-    onClick: (Int) -> Unit,
-    modifier: Modifier = Modifier
+    detailed: Boolean,
+    modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit = {}
 ) {
     val date = SimpleDateFormat.getDateInstance().format(Date(filteredAppointment.dateMillis))
     val servicesDescriptions = filteredAppointment.services.joinToString(String.BLANK) {
@@ -76,26 +77,30 @@ fun FilteredAppointmentCard(
                     modifier = Modifier.weight(0.5f),
                     text = filteredAppointment.specializationName,
                     overlineText = stringResource(R.string.lbl_specialization),
+                    hideDivider = !detailed
                 )
 
                 OverlineText(
                     modifier = Modifier.weight(0.5f),
                     text = date,
                     overlineText = stringResource(R.string.lbl_date),
+                    hideDivider = !detailed
                 )
             }
 
-            OverlineText(
-                text = servicesDescriptions,
-                overlineText = stringResource(R.string.lbl_services),
-                hideDivider = true
-            )
+            if (detailed) {
+                OverlineText(
+                    text = servicesDescriptions,
+                    overlineText = stringResource(R.string.lbl_services),
+                    hideDivider = true
+                )
 
-            IconTextButton(
-                text = stringResource(R.string.lbl_select_appointment),
-                icon = painterResource(R.drawable.ic_checked),
-                onClick = { onClick(filteredAppointment.id) }
-            )
+                IconTextButton(
+                    text = stringResource(R.string.lbl_select_appointment),
+                    icon = painterResource(R.drawable.ic_checked),
+                    onClick = { onClick(filteredAppointment.id) }
+                )
+            }
         }
     }
 }
@@ -110,6 +115,7 @@ private fun FilteredAppointmentCardPreview(
     HealthHubTheme {
         FilteredAppointmentCard(
             filteredAppointment = filteredAppointment,
+            detailed = true,
             onClick = {}
         )
     }

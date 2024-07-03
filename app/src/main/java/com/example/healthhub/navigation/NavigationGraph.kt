@@ -12,6 +12,7 @@ import com.example.healthhub.app.MainActivity
 import com.example.healthhub.feature.account.AccountRoute
 import com.example.healthhub.feature.appointments.AppointmentsRoute
 import com.example.healthhub.feature.appointments.CreateAppointmentRoute
+import com.example.healthhub.feature.appointments.FilteredAppointmentDetailsRoute
 import com.example.healthhub.feature.appointments.FilteredAppointmentsRoute
 import com.example.healthhub.feature.home.HomeRoute
 import com.example.healthhub.feature.info.InfoRoute
@@ -56,6 +57,9 @@ fun NavigationGraph(
                 countyName = args.countyName,
                 startDateMillis = args.startDateMillis
             )
+        }
+        composable<NavDestination.FilteredAppointmentDetails> {
+            FilteredAppointmentDetailsRoute()
         }
     }
 }

@@ -34,53 +34,58 @@ fun FilteredAppointmentsScreen(
     onFilteredAppointmentClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(modifier = modifier) {
-        ElevatedCard {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(16.dp)
-            ) {
-                OverlineText(
-                    text = specializationName,
-                    overlineText = stringResource(R.string.lbl_specialization)
-                )
+    val startDate = SimpleDateFormat.getDateInstance().format(Date(startDateMillis))
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(16.dp)
+    ) {
+        item {
+            ElevatedCard {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    OverlineText(
+                        text = specializationName,
+                        overlineText = stringResource(R.string.lbl_specialization)
+                    )
 
-                OverlineText(
-                    text = countyName,
-                    overlineText = stringResource(R.string.lbl_county)
-                )
+                    OverlineText(
+                        text = countyName,
+                        overlineText = stringResource(R.string.lbl_county)
+                    )
 
-                OverlineText(
-                    text = SimpleDateFormat.getDateInstance().format(Date(startDateMillis)),
-                    overlineText = stringResource(R.string.lbl_start_date),
-                    hideDivider = true
-                )
+                    OverlineText(
+                        text = startDate,
+                        overlineText = stringResource(R.string.lbl_start_date),
+                        hideDivider = true
+                    )
+                }
             }
         }
 
         when {
-            filteredAppointment.isEmpty() -> Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = stringResource(R.string.lbl_no_filtered_appointments),
-                    style = MaterialTheme.typography.titleMedium,
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            else -> LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(vertical = 16.dp)
-            ) {
-                items(filteredAppointment) { filteredAppointment ->
-                    FilteredAppointmentCard(
-                        filteredAppointment = filteredAppointment,
-                        onClick = onFilteredAppointmentClick
+            filteredAppointment.isEmpty() -> item {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = stringResource(R.string.lbl_no_filtered_appointments),
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Center
                     )
                 }
+            }
+
+            else -> items(filteredAppointment) { filteredAppointment ->
+                FilteredAppointmentCard(
+                    filteredAppointment = filteredAppointment,
+                    detailed = true,
+                    onClick = onFilteredAppointmentClick
+                )
             }
         }
     }

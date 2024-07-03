@@ -1,14 +1,13 @@
 package com.example.healthhub.feature.appointments
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.example.healthhub.feature.appointments.di.AppointmentsScope
 import com.example.healthhub.feature.appointments.viewmodel.AppointmentsViewModel
 import com.example.healthhub.ui.catalog.components.ErrorScreen
 import com.example.healthhub.ui.catalog.components.LoadingScreen
+import com.example.healthhub.ui.navigation.model.NavDestination
 import com.example.healthhub.ui.navigation.util.LocalNavController
 import org.koin.compose.getKoin
 
@@ -40,8 +39,10 @@ fun FilteredAppointmentsRoute(
             countyName = countyName,
             startDateMillis = startDateMillis,
             filteredAppointment = viewModel.uiState.filteredAppointments,
-            onFilteredAppointmentClick = {},
-            modifier = Modifier.padding(16.dp)
+            onFilteredAppointmentClick = {
+                viewModel.selectFilteredAppointment(it)
+                navController.navigate(NavDestination.FilteredAppointmentDetails)
+            }
         )
     }
 }

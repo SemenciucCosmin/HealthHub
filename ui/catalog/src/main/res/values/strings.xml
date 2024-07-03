@@ -18,6 +18,10 @@
     <string name="lbl_create_appointment">Create appointment</string>
     <string name="lbl_medics">Medics</string>
     <string name="lbl_filtered_appointments">Filtered Appointments</string>
+    <string name="lbl_filtered_appointment_details">Filtered Appointment Details</string>
+    <string name="lbl_total_price">Total price</string>
+    <string name="lbl_total_duration">Total duration</string>
+    <string name="lbl_finish">Finish</string>
 
     <!--  AUTHENTICATION  -->
     <string name="lbl_welcome">Welcome to HealthHub!</string>

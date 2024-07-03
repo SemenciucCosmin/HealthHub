@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.appointments.model.AppointmentTimeframe
+import com.example.healthhub.data.appointments.model.Service
 import com.example.healthhub.data.appointments.repository.AppointmentsRepository
 import com.example.healthhub.domain.account.GetUsersInfoUseCase
 import com.example.healthhub.feature.appointments.viewmodel.model.AppointmentsUiState
@@ -137,5 +138,29 @@ class AppointmentsViewModel(
                 }
             }
         }
+    }
+
+    fun selectFilteredAppointment(filteredAppointmentId: Int) {
+        val filteredAppointment = uiState.filteredAppointments.firstOrNull {
+            it.id == filteredAppointmentId
+        }
+
+        uiState = uiState.copy(filteredAppointment = filteredAppointment)
+    }
+
+    fun handleServiceSelection(service: Service) {
+        val newSelectedServices = when (uiState.selectedServices.contains(service)) {
+            true -> uiState.selectedServices.toMutableList().apply { remove(service) }
+            else -> uiState.selectedServices.toMutableList().apply { add(service) }
+        }
+
+        val newTotalPrice = newSelectedServices.map { it.price }.sum()
+        val newTotalDuration = newSelectedServices.sumOf { it.duration }
+
+        uiState = uiState.copy(
+            selectedServices = newSelectedServices.toList(),
+            totalPrice = newTotalPrice,
+            totalDuration = newTotalDuration
+        )
     }
 }
