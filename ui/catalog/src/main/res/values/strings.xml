@@ -62,6 +62,10 @@
     <string name="lbl_date">Date</string>
     <string name="lbl_location">Location</string>
     <string name="lbl_counties">Counties</string>
+    <string name="lbl_county">County</string>
+    <string name="lbl_start_date">Start date</string>
+    <string name="lbl_no_filtered_appointments">There are no appointments available for the specialization, county and start date you chose.</string>
+    <string name="lbl_select_appointment">Select appointment</string>
 
     <!--  INFO  -->
     <string name="lbl_users_information">Users information</string>

@@ -2,6 +2,7 @@ package com.example.healthhub.ui.navigation.model
 
 import androidx.annotation.StringRes
 import com.example.healthhub.data.appointments.model.Medic
+import com.example.healthhub.data.util.BLANK
 import com.example.healthhub.ui.catalog.R
 import kotlinx.serialization.Serializable
 
@@ -36,9 +37,9 @@ sealed class NavDestination(@StringRes val stringRes: Int) {
 
     @Serializable
     data class FilteredAppointments(
-        val specializationName: String,
-        val countyName: String,
-        val startDateMillis: Long,
+        val specializationName: String = String.BLANK,
+        val countyName: String = String.BLANK,
+        val startDateMillis: Long = 0,
     ) : NavDestination(R.string.lbl_filtered_appointments)
 
     fun asRoute(): String? = this.javaClass.canonicalName

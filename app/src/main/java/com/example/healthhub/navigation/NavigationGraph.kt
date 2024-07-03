@@ -52,8 +52,8 @@ fun NavigationGraph(
         composable<NavDestination.FilteredAppointments> {
             val args = it.toRoute<NavDestination.FilteredAppointments>()
             FilteredAppointmentsRoute(
-                specializationId = args.specializationId,
-                countyId = args.countyId,
+                specializationName = args.specializationName,
+                countyName = args.countyName,
                 startDateMillis = args.startDateMillis
             )
         }
