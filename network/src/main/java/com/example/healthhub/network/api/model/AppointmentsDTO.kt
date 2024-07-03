@@ -6,7 +6,15 @@ data class AppointmentsDTO(
     @SerializedName("getActiveAppointmentsByUserId") val innerAppointmentsDTO: InnerAppointmentsDTO?
 )
 
+data class FilterAppointmentsDTO(
+    @SerializedName("getActiveAppointmentsByUserId") val innerFilterAppointments: InnerFilterAppointmentsDTO?
+)
+
 data class InnerAppointmentsDTO(
+    @SerializedName("appointmentEntityList") val entities: List<AppointmentDTO>?
+)
+
+data class InnerFilterAppointmentsDTO(
     @SerializedName("appointmentEntityList") val entities: List<AppointmentDTO>?
 )
 

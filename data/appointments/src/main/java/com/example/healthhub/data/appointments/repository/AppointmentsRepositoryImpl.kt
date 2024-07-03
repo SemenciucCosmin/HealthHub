@@ -136,6 +136,42 @@ class AppointmentsRepositoryImpl(
         return Resource(counties, resource.status)
     }
 
+    override suspend fun filterAppointments(
+        specializationName: String,
+        countyName: String,
+        startDateMillis: Long
+    ): Resource<List<Appointment>> {
+        val resource = appointmentsApi.filterAppointments(
+            specializationName = specializationName,
+            countyName = countyName,
+            startDateMillis = startDateMillis
+        )
+
+        val appointmentDTOs = resource.payload?.innerFilterAppointments?.entities ?: emptyList()
+        val appointments = appointmentDTOs.mapNotNull {
+            val specializations = mapSpecializationDTOs(it.specializations)
+            val specialization = mapSpecializationId(it.specializationId, it.specializations)
+
+            Appointment(
+                id = it.id ?: return@mapNotNull null,
+                availableAppointmentId = it.availableAppointmentId ?: return@mapNotNull null,
+                userId = it.userId ?: return@mapNotNull null,
+                medic = mapMedicId(it.doctorId) ?: return@mapNotNull null,
+                county = mapCountyId(it.countyId) ?: return@mapNotNull null,
+                location = mapLocationId(it.locationId) ?: return@mapNotNull null,
+                state = it.state ?: return@mapNotNull null,
+                startDate = it.startDate ?: return@mapNotNull null,
+                duration = it.duration ?: return@mapNotNull null,
+                price = it.price ?: return@mapNotNull null,
+                specialization = specialization ?: return@mapNotNull null,
+                childId = it.childId ?: return@mapNotNull null,
+                specializations = specializations ?: return@mapNotNull null,
+            )
+        }
+
+        return Resource(appointments, resource.status)
+    }
+
     private fun mapServiceDTOs(serviceDTOs: List<ServiceDTO>?): List<Service>? {
         return serviceDTOs?.mapNotNull { serviceDTO ->
             Service(

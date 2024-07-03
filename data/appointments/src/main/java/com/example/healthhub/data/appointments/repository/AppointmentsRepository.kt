@@ -19,4 +19,10 @@ interface AppointmentsRepository {
     suspend fun getMedics(): Resource<List<Medic>>
 
     suspend fun getCounties(): Resource<List<County>>
+
+    suspend fun filterAppointments(
+        specializationName: String,
+        countyName: String,
+        startDateMillis: Long
+    ): Resource<List<Appointment>>
 }
