@@ -6,6 +6,7 @@ import com.example.healthhub.data.appointments.model.FilteredAppointment
 import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.data.appointments.model.Service
 import com.example.healthhub.data.appointments.model.Specialization
+import com.example.healthhub.data.util.BLANK
 
 data class AppointmentsUiState(
     val pastAppointments: List<Appointment> = emptyList(),
@@ -14,6 +15,9 @@ data class AppointmentsUiState(
     val filteredAppointment: FilteredAppointment? = null,
     val specializations: List<Specialization> = emptyList(),
     val selectedServices: List<Service> = emptyList(),
+    val selectedSpecializationName: String = String.BLANK,
+    val selectedCountyName: String = String.BLANK,
+    val selectedStartDateMillis: Long = 0,
     val totalPrice: Float = 0f,
     val totalDuration: Int = 0,
     val counties: List<County> = emptyList(),

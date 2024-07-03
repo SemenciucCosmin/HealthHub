@@ -35,6 +35,7 @@ fun FilteredAppointmentsScreen(
     modifier: Modifier = Modifier
 ) {
     val startDate = SimpleDateFormat.getDateInstance().format(Date(startDateMillis))
+
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),

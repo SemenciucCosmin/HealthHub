@@ -12,11 +12,7 @@ import com.example.healthhub.ui.navigation.util.LocalNavController
 import org.koin.compose.getKoin
 
 @Composable
-fun FilteredAppointmentsRoute(
-    specializationName: String,
-    countyName: String,
-    startDateMillis: Long,
-) {
+fun FilteredAppointmentsRoute() {
     val koin = getKoin()
     val viewModel = koin.getScope(AppointmentsScope.ID).get<AppointmentsViewModel>()
     val navController = LocalNavController.current
@@ -25,19 +21,13 @@ fun FilteredAppointmentsRoute(
         viewModel.uiState.isLoading -> LoadingScreen(Modifier.fillMaxSize())
         viewModel.uiState.isError -> ErrorScreen(
             modifier = Modifier.fillMaxSize(),
-            onRetry = {
-                viewModel.filterAppointments(
-                    specializationName = specializationName,
-                    countyName = countyName,
-                    startDateMillis = startDateMillis
-                )
-            }
+            onRetry = viewModel::filterAppointments
         )
 
         else -> FilteredAppointmentsScreen(
-            specializationName = specializationName,
-            countyName = countyName,
-            startDateMillis = startDateMillis,
+            specializationName = viewModel.uiState.selectedSpecializationName,
+            countyName = viewModel.uiState.selectedCountyName,
+            startDateMillis = viewModel.uiState.selectedStartDateMillis,
             filteredAppointment = viewModel.uiState.filteredAppointments,
             onFilteredAppointmentClick = {
                 viewModel.selectFilteredAppointment(it)

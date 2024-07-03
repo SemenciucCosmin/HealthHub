@@ -46,19 +46,14 @@ fun CreateAppointmentRoute(medicId: Int) {
             specializations = viewModel.uiState.specializations,
             counties = viewModel.uiState.counties,
             onCreateAppointment = { specializationName, countyName, startDateMillis ->
-                viewModel.filterAppointments(
+                viewModel.selectFilters(
                     specializationName = specializationName,
                     countyName = countyName,
                     startDateMillis = startDateMillis
                 )
 
-                navController.navigate(
-                    NavDestination.FilteredAppointments(
-                        specializationName = specializationName,
-                        countyName = countyName,
-                        startDateMillis = startDateMillis
-                    )
-                )
+                viewModel.filterAppointments()
+                navController.navigate(NavDestination.FilteredAppointments)
             }
         )
     }

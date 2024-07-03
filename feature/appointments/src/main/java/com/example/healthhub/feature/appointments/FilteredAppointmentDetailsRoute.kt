@@ -18,17 +18,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.healthhub.feature.appointments.di.AppointmentsScope
 import com.example.healthhub.feature.appointments.viewmodel.AppointmentsViewModel
 import com.example.healthhub.ui.catalog.R
 import com.example.healthhub.ui.catalog.components.IconTextButton
 import com.example.healthhub.ui.catalog.components.OverlineText
+import com.example.healthhub.ui.navigation.model.NavDestination
+import com.example.healthhub.ui.navigation.util.LocalNavController
 import org.koin.compose.getKoin
 
 @Composable
 fun FilteredAppointmentDetailsRoute() {
     val koin = getKoin()
     val viewModel = koin.getScope(AppointmentsScope.ID).get<AppointmentsViewModel>()
+    val navController = LocalNavController.current
     val filteredAppointment = viewModel.uiState.filteredAppointment ?: return
 
     LazyColumn(
@@ -100,7 +104,14 @@ fun FilteredAppointmentDetailsRoute() {
                 text = stringResource(R.string.lbl_finish),
                 icon = painterResource(R.drawable.ic_checked),
                 enabled = viewModel.uiState.selectedServices.isNotEmpty(),
-                onClick = { }
+                onClick = {
+                    viewModel.finishAppointmentCreation()
+                    navController.navigate(NavDestination.Home) {
+                        popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             )
         }
     }

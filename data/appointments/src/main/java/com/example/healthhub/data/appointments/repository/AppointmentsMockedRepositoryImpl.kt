@@ -9,6 +9,7 @@ import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.data.appointments.model.Service
 import com.example.healthhub.data.appointments.model.Specialization
 import com.example.healthhub.data.info.model.Location
+import com.example.healthhub.network.api.model.AppointmentRequestBody
 import com.example.healthhub.network.resource.Resource
 import com.example.healthhub.network.resource.Status
 
@@ -54,6 +55,8 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
             payload = getMockedFilteredAppointments()
         )
     }
+
+    override suspend fun createAppointment(requestBody: AppointmentRequestBody) {}
 
     private fun getMockedSpecializations() = List(5) { specializationIndex ->
         Specialization(

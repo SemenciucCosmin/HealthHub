@@ -10,9 +10,12 @@ import com.example.healthhub.data.appointments.model.Service
 import com.example.healthhub.data.appointments.repository.AppointmentsRepository
 import com.example.healthhub.domain.account.GetUsersInfoUseCase
 import com.example.healthhub.feature.appointments.viewmodel.model.AppointmentsUiState
+import com.example.healthhub.network.api.model.AppointmentRequestBody
+import com.example.healthhub.network.api.model.ServiceRequestBody
 import com.example.healthhub.network.resource.Status
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 class AppointmentsViewModel(
@@ -109,16 +112,12 @@ class AppointmentsViewModel(
         }
     }
 
-    fun filterAppointments(
-        specializationName: String,
-        countyName: String,
-        startDateMillis: Long
-    ) {
+    fun filterAppointments() {
         viewModelScope.launch {
             val resource = appointmentsRepository.filterAppointments(
-                specializationName = specializationName,
-                countyName = countyName,
-                startDateMillis = startDateMillis
+                specializationName = uiState.selectedSpecializationName,
+                countyName = uiState.selectedCountyName,
+                startDateMillis = uiState.selectedStartDateMillis
             )
 
             when {
@@ -138,6 +137,18 @@ class AppointmentsViewModel(
                 }
             }
         }
+    }
+
+    fun selectFilters(
+        specializationName: String,
+        countyName: String,
+        startDateMillis: Long
+    ) {
+        uiState = uiState.copy(
+            selectedSpecializationName = specializationName,
+            selectedCountyName = countyName,
+            selectedStartDateMillis = startDateMillis
+        )
     }
 
     fun selectFilteredAppointment(filteredAppointmentId: Int) {
@@ -162,5 +173,41 @@ class AppointmentsViewModel(
             totalPrice = newTotalPrice,
             totalDuration = newTotalDuration
         )
+    }
+
+    fun finishAppointmentCreation() {
+        viewModelScope.launch {
+            val usersInfo = getUsersInfoUseCase().firstOrNull() ?: return@launch
+            val specialization = uiState.specializations.firstOrNull {
+                it.id == uiState.filteredAppointment?.specializationId
+            }
+
+            val servicesRequestBody = uiState.selectedServices.map { service ->
+                ServiceRequestBody(
+                    id = service.id,
+                    name = service.name,
+                    description = service.description,
+                    price = service.price,
+                    duration = service.duration
+                )
+            }
+
+            val appointmentRequestBody = AppointmentRequestBody(
+                id = uiState.filteredAppointment?.id ?: return@launch,
+                userId = usersInfo.selectedUserId,
+                doctorId = uiState.filteredAppointment?.doctorId ?: return@launch,
+                countyId = uiState.filteredAppointment?.county?.id ?: return@launch,
+                locationId = uiState.filteredAppointment?.location?.id ?: return@launch,
+                startDateMillis = uiState.selectedStartDateMillis,
+                duration = uiState.totalDuration,
+                price = uiState.totalPrice,
+                specializationId = specialization?.id ?: return@launch,
+                specializationName = specialization.name,
+                specializationDescription = specialization.description,
+                servicesRequestBody = servicesRequestBody
+            )
+
+            appointmentsRepository.createAppointment(appointmentRequestBody)
+        }
     }
 }

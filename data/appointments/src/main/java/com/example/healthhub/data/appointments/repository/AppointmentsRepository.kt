@@ -7,6 +7,7 @@ import com.example.healthhub.data.appointments.model.County
 import com.example.healthhub.data.appointments.model.FilteredAppointment
 import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.data.appointments.model.Specialization
+import com.example.healthhub.network.api.model.AppointmentRequestBody
 import com.example.healthhub.network.resource.Resource
 
 interface AppointmentsRepository {
@@ -26,4 +27,6 @@ interface AppointmentsRepository {
         countyName: String,
         startDateMillis: Long
     ): Resource<List<FilteredAppointment>>
+
+    suspend fun createAppointment(requestBody: AppointmentRequestBody)
 }

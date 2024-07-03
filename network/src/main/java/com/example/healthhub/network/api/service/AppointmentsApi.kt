@@ -3,7 +3,9 @@ package com.example.healthhub.network.api.service
 import com.example.healthhub.network.api.model.AppointmentsDTO
 import com.example.healthhub.network.api.model.FilteredAppointmentsDTO
 import com.example.healthhub.network.resource.Resource
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -36,4 +38,7 @@ interface AppointmentsApi {
         @Query("county") countyName: String,
         @Query("startDate") startDateMillis: Long,
     ): Resource<FilteredAppointmentsDTO>
+
+    @POST("/api/v1/medicalclinicproject/appointments/create")
+    suspend fun createAppointment(@Body params: Map<String, Any>)
 }
