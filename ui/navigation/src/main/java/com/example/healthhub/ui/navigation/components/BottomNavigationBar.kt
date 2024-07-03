@@ -9,14 +9,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.healthhub.ui.navigation.util.LocalNavController
+import com.example.healthhub.ui.navigation.model.NavDestination
 import com.example.healthhub.ui.navigation.model.bottomNavigationItems
+import com.example.healthhub.ui.navigation.util.LocalNavController
 import com.example.healthhub.ui.navigation.util.navDestination
 
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigationBar(onItemClick: (NavDestination) -> Unit) {
     val navController = LocalNavController.current
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -24,13 +24,7 @@ fun BottomNavigationBar() {
         bottomNavigationItems.forEach { navigationItem ->
             NavigationBarItem(
                 selected = navBackStackEntry?.navDestination == navigationItem.destination,
-                onClick = {
-                    navController.navigate(navigationItem.destination) {
-                        popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
+                onClick = { onItemClick(navigationItem.destination) },
                 icon = {
                     Icon(
                         painter = painterResource(id = navigationItem.icon),
