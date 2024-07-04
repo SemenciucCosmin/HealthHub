@@ -2,9 +2,9 @@ package com.example.healthhub.data.account.model
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 
-class UserPreviewParameterProvider : PreviewParameterProvider<User> {
+class ParentPreviewParameterProvider : PreviewParameterProvider<Parent> {
     override val values = sequenceOf(
-        User(
+        Parent(
             id = 1,
             email = "cosminsemenciuc@gmail.com",
             cnp = "123456789",

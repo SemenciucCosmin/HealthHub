@@ -12,15 +12,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.example.healthhub.data.account.model.User
-import com.example.healthhub.data.account.model.UserPreviewParameterProvider
+import com.example.healthhub.data.account.model.Parent
+import com.example.healthhub.data.account.model.ParentPreviewParameterProvider
 import com.example.healthhub.ui.catalog.R
 import com.example.healthhub.ui.catalog.components.OverlineText
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 
 @Composable
-fun UserInfoCard(
-    user: User,
+fun ParentInfoCard(
+    parent: Parent,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(modifier = modifier) {
@@ -31,24 +31,24 @@ fun UserInfoCard(
             Row {
                 OverlineText(
                     modifier = Modifier.weight(0.5f),
-                    text = user.firstname,
+                    text = parent.firstname,
                     overlineText = stringResource(R.string.lbl_firstname)
                 )
 
                 OverlineText(
                     modifier = Modifier.weight(0.5f),
-                    text = user.lastname,
+                    text = parent.lastname,
                     overlineText = stringResource(R.string.lbl_lastname)
                 )
             }
 
             OverlineText(
-                text = user.email,
+                text = parent.email,
                 overlineText = stringResource(R.string.lbl_email)
             )
 
             OverlineText(
-                text = user.nationality,
+                text = parent.nationality,
                 overlineText = stringResource(R.string.lbl_nationality)
             )
 
@@ -56,13 +56,13 @@ fun UserInfoCard(
             Row {
                 OverlineText(
                     modifier = Modifier.weight(0.5f),
-                    text = user.cnp,
+                    text = parent.cnp,
                     overlineText = stringResource(R.string.lbl_security_code)
                 )
 
                 OverlineText(
                     modifier = Modifier.weight(0.5f),
-                    text = user.series,
+                    text = parent.series,
                     overlineText = stringResource(R.string.lbl_series)
                 )
             }
@@ -70,14 +70,14 @@ fun UserInfoCard(
             Row {
                 OverlineText(
                     modifier = Modifier.weight(0.5f),
-                    text = user.dateOfBirth,
+                    text = parent.dateOfBirth,
                     overlineText = stringResource(R.string.lbl_date_of_birth),
                     hideDivider = true
                 )
 
                 OverlineText(
                     modifier = Modifier.weight(0.5f),
-                    text = user.gender,
+                    text = parent.gender,
                     overlineText = stringResource(R.string.lbl_gender),
                     hideDivider = true
                 )
@@ -89,13 +89,13 @@ fun UserInfoCard(
 @Preview
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun UserInfoCardPreview(
-    @PreviewParameter(UserPreviewParameterProvider::class)
-    user: User,
+private fun ParentInfoCardPreview(
+    @PreviewParameter(ParentPreviewParameterProvider::class)
+    parent: Parent,
 ) {
     HealthHubTheme {
-        UserInfoCard(
-            user = user
+        ParentInfoCard(
+            parent = parent
         )
     }
 }

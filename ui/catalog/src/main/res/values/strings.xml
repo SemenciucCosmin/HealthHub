@@ -80,6 +80,10 @@
     <string name="lbl_series">Series</string>
     <string name="lbl_lastname">Lastname</string>
     <string name="lbl_firstname">Firstname</string>
+    <string name="lbl_father_lastname">Father lastname</string>
+    <string name="lbl_father_firstname">Father firstname</string>
+    <string name="lbl_mother_lastname">Mother lastname</string>
+    <string name="lbl_mother_firstname">Mother firstname</string>
     <string name="lbl_nationality">Nationality</string>
     <string name="lbl_date_of_birth">Date of birth</string>
     <string name="lbl_gender">Gender</string>

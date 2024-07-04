@@ -27,7 +27,7 @@ class AccountViewModel(private val accountRepository: AccountRepository) : ViewM
                     childAccount = usersInfo.child?.let { child ->
                         Account(
                             id = child.id,
-                            name = "${child.firstname} ${child.lastname}",
+                            name = "${child.firstname} ${child.surname}",
                             isSelected = child.id == usersInfo.selectedUserId
                         )
                     },

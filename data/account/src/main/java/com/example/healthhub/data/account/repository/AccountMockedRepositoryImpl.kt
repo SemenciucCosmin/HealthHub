@@ -1,6 +1,7 @@
 package com.example.healthhub.data.account.repository
 
-import com.example.healthhub.data.account.model.User
+import com.example.healthhub.data.account.model.Child
+import com.example.healthhub.data.account.model.Parent
 import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.account.preferences.PreferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +23,7 @@ class AccountMockedRepositoryImpl(
     }
 
     override suspend fun setupUsersInfo(parentUserId: Int) {
-        val parent = User(
+        val parent = Parent(
             id = 1,
             email = "parent.email@healthhub.com",
             cnp = "PRNT_123456789",
@@ -34,16 +35,16 @@ class AccountMockedRepositoryImpl(
             gender = "PRNT_GNDR"
         )
 
-        val child = User(
+        val child = Child(
             id = 2,
-            email = "child.email@healthhub.com",
-            cnp = "CHLD_123456789",
-            series = "CHLD_SRS",
-            lastname = "User",
+            surname = "User",
             firstname = "Child",
-            nationality = "CHLD_NTNLT",
+            cnp = "CHLD_123456789",
             dateOfBirth = "cc-cc-cccc",
-            gender = "CHLD_GNDR"
+            fatherSurname = "FATHER_SURNAME",
+            fatherFirstname = "FATHER_FIRSTNAME",
+            motherSurname = "MOTHER_SURNAME",
+            motherFirstName = "MOTHER_FIRSTNAME"
         )
 
         preferencesDataStore.saveParent(parent)

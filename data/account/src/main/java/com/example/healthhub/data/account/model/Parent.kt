@@ -2,7 +2,7 @@ package com.example.healthhub.data.account.model
 
 import com.example.healthhub.data.util.BLANK
 
-data class User(
+data class Parent(
     val id: Int,
     val email: String,
     val cnp: String,

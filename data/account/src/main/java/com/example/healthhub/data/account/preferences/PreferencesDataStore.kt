@@ -8,7 +8,8 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.healthhub.data.account.model.User
+import com.example.healthhub.data.account.model.Child
+import com.example.healthhub.data.account.model.Parent
 import com.example.healthhub.data.account.model.UsersInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -43,16 +44,16 @@ class PreferencesDataStore(private val context: Context) {
             val parentGender = preferences[PARENT_GENDER] ?: return@map null
 
             val childId = preferences[CHILD_ID]
-            val childEmail = preferences[CHILD_EMAIL]
-            val childCnp = preferences[CHILD_CNP]
-            val childSeries = preferences[CHILD_SERIES]
-            val childLastName = preferences[CHILD_LASTNAME]
+            val childSurname = preferences[CHILD_SURNAME]
             val childFirstname = preferences[CHILD_FIRSTNAME]
-            val childNationality = preferences[CHILD_NATIONALITY]
+            val childCnp = preferences[CHILD_CNP]
             val childDateOfBirth = preferences[CHILD_DATE]
-            val childGender = preferences[CHILD_GENDER]
+            val childFatherSurname = preferences[CHILD_F_SURNAME]
+            val childFatherFirstname = preferences[CHILD_F_FIRSTNAME]
+            val childMotherSurname = preferences[CHILD_M_SURNAME]
+            val childMotherFirstname = preferences[CHILD_M_FIRSTNAME]
 
-            val parent = User(
+            val parent = Parent(
                 id = parentId,
                 email = parentEmail,
                 cnp = parentCnp,
@@ -70,16 +71,16 @@ class PreferencesDataStore(private val context: Context) {
                 selectedUserId = selectedUserId
             )
 
-            val child = User(
+            val child = Child(
                 id = childId ?: return@map incompleteUsersInfo,
-                email = childEmail ?: return@map incompleteUsersInfo,
-                cnp = childCnp ?: return@map incompleteUsersInfo,
-                series = childSeries ?: return@map incompleteUsersInfo,
-                lastname = childLastName ?: return@map incompleteUsersInfo,
+                surname = childSurname ?: return@map incompleteUsersInfo,
                 firstname = childFirstname ?: return@map incompleteUsersInfo,
-                nationality = childNationality ?: return@map incompleteUsersInfo,
+                cnp = childCnp ?: return@map incompleteUsersInfo,
                 dateOfBirth = childDateOfBirth ?: return@map incompleteUsersInfo,
-                gender = childGender ?: return@map incompleteUsersInfo
+                fatherSurname = childFatherSurname ?: return@map incompleteUsersInfo,
+                fatherFirstname = childFatherFirstname ?: return@map incompleteUsersInfo,
+                motherSurname = childMotherSurname ?: return@map incompleteUsersInfo,
+                motherFirstName = childMotherFirstname ?: return@map incompleteUsersInfo,
             )
 
             UsersInfo(
@@ -89,28 +90,32 @@ class PreferencesDataStore(private val context: Context) {
             )
         }
 
-    suspend fun saveParent(user: User) {
-        context.dataStore.edit { it[PARENT_ID] = user.id }
-        context.dataStore.edit { preferences -> preferences[PARENT_EMAIL] = user.email }
-        context.dataStore.edit { preferences -> preferences[PARENT_CNP] = user.cnp }
-        context.dataStore.edit { preferences -> preferences[PARENT_SERIES] = user.series }
-        context.dataStore.edit { preferences -> preferences[PARENT_LASTNAME] = user.lastname }
-        context.dataStore.edit { preferences -> preferences[PARENT_FIRSTNAME] = user.firstname }
-        context.dataStore.edit { preferences -> preferences[PARENT_NATIONALITY] = user.nationality }
-        context.dataStore.edit { preferences -> preferences[PARENT_DATE] = user.dateOfBirth }
-        context.dataStore.edit { preferences -> preferences[PARENT_GENDER] = user.gender }
+    suspend fun saveParent(parent: Parent) {
+        context.dataStore.edit { it[PARENT_ID] = parent.id }
+        context.dataStore.edit { preferences -> preferences[PARENT_EMAIL] = parent.email }
+        context.dataStore.edit { preferences -> preferences[PARENT_CNP] = parent.cnp }
+        context.dataStore.edit { preferences -> preferences[PARENT_SERIES] = parent.series }
+        context.dataStore.edit { preferences -> preferences[PARENT_LASTNAME] = parent.lastname }
+        context.dataStore.edit { preferences -> preferences[PARENT_FIRSTNAME] = parent.firstname }
+        context.dataStore.edit { preferences ->
+            preferences[PARENT_NATIONALITY] = parent.nationality
+        }
+        context.dataStore.edit { preferences -> preferences[PARENT_DATE] = parent.dateOfBirth }
+        context.dataStore.edit { preferences -> preferences[PARENT_GENDER] = parent.gender }
     }
 
-    suspend fun saveChild(child: User) {
-        context.dataStore.edit { it[CHILD_ID] = child.id }
-        context.dataStore.edit { preferences -> preferences[CHILD_EMAIL] = child.email }
-        context.dataStore.edit { preferences -> preferences[CHILD_CNP] = child.cnp }
-        context.dataStore.edit { preferences -> preferences[CHILD_SERIES] = child.series }
-        context.dataStore.edit { preferences -> preferences[CHILD_LASTNAME] = child.lastname }
-        context.dataStore.edit { preferences -> preferences[CHILD_FIRSTNAME] = child.firstname }
-        context.dataStore.edit { preferences -> preferences[CHILD_NATIONALITY] = child.nationality }
-        context.dataStore.edit { preferences -> preferences[CHILD_DATE] = child.dateOfBirth }
-        context.dataStore.edit { preferences -> preferences[CHILD_GENDER] = child.gender }
+    suspend fun saveChild(child: Child) {
+        context.dataStore.edit { preferences ->
+            preferences[CHILD_ID] = child.id
+            preferences[CHILD_SURNAME] = child.surname
+            preferences[CHILD_FIRSTNAME] = child.firstname
+            preferences[CHILD_CNP] = child.cnp
+            preferences[CHILD_DATE] = child.dateOfBirth
+            preferences[CHILD_F_SURNAME] = child.fatherSurname
+            preferences[CHILD_F_FIRSTNAME] = child.fatherFirstname
+            preferences[CHILD_M_SURNAME] = child.motherSurname
+            preferences[CHILD_M_FIRSTNAME] = child.motherFirstName
+        }
     }
 
     suspend fun selectUser(id: Int) {
@@ -134,13 +139,13 @@ class PreferencesDataStore(private val context: Context) {
         private val PARENT_DATE = stringPreferencesKey("parent_date")
         private val PARENT_GENDER = stringPreferencesKey("parent_gender")
         private val CHILD_ID = intPreferencesKey("child_id")
-        private val CHILD_EMAIL = stringPreferencesKey("child_email")
-        private val CHILD_CNP = stringPreferencesKey("child_cnp")
-        private val CHILD_SERIES = stringPreferencesKey("child_series")
-        private val CHILD_LASTNAME = stringPreferencesKey("child_lastname")
+        private val CHILD_SURNAME = stringPreferencesKey("child_surname")
         private val CHILD_FIRSTNAME = stringPreferencesKey("child_firstname")
-        private val CHILD_NATIONALITY = stringPreferencesKey("child_nationality")
+        private val CHILD_CNP = stringPreferencesKey("child_cnp")
         private val CHILD_DATE = stringPreferencesKey("child_date")
-        private val CHILD_GENDER = stringPreferencesKey("child_gender")
+        private val CHILD_F_SURNAME = stringPreferencesKey("child_f_surname")
+        private val CHILD_F_FIRSTNAME = stringPreferencesKey("child_f_firstname")
+        private val CHILD_M_SURNAME = stringPreferencesKey("child_m_surname")
+        private val CHILD_M_FIRSTNAME = stringPreferencesKey("child_m_firstname")
     }
 }

@@ -18,8 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.example.healthhub.data.account.model.User
-import com.example.healthhub.data.account.model.UserPreviewParameterProvider
+import com.example.healthhub.data.account.model.Child
+import com.example.healthhub.data.account.model.Parent
+import com.example.healthhub.data.account.model.ParentPreviewParameterProvider
 import com.example.healthhub.ui.catalog.R
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 import kotlinx.coroutines.launch
@@ -31,12 +32,17 @@ private const val PAGE_COUNT = 2
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserInfoSection(
-    parent: User,
-    child: User?,
+    parent: Parent,
+    child: Child?,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState { PAGE_COUNT }
+    val pagerState = rememberPagerState {
+        when {
+            child == null -> PAGE_COUNT - CHILD_PAGE
+            else -> PAGE_COUNT
+        }
+    }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(24.dp),
@@ -80,9 +86,10 @@ fun UserInfoSection(
             state = pagerState,
             pageSpacing = 16.dp
         ) { pageIndex ->
-            val selectedUser = if (pageIndex == PARENT_PAGE) parent else child
-            selectedUser?.let {
-                UserInfoCard(user = it)
+            if (pageIndex == PARENT_PAGE) {
+                ParentInfoCard(parent = parent)
+            } else {
+                child?.let { ChildInfoCard(child = it) }
             }
         }
     }
@@ -92,13 +99,13 @@ fun UserInfoSection(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewUserInfoSection(
-    @PreviewParameter(UserPreviewParameterProvider::class)
-    user: User,
+    @PreviewParameter(ParentPreviewParameterProvider::class)
+    parent: Parent,
 ) {
     HealthHubTheme {
         UserInfoSection(
-            parent = user,
-            child = user
+            parent = parent,
+            child = null
         )
     }
 }

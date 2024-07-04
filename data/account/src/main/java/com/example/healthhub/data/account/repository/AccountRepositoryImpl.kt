@@ -1,6 +1,7 @@
 package com.example.healthhub.data.account.repository
 
-import com.example.healthhub.data.account.model.User
+import com.example.healthhub.data.account.model.Child
+import com.example.healthhub.data.account.model.Parent
 import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.account.preferences.PreferencesDataStore
 import com.example.healthhub.network.api.service.AccountApi
@@ -25,9 +26,9 @@ class AccountRepositoryImpl(
 
     override suspend fun setupUsersInfo(parentUserId: Int) {
         val parentResource = accountApi.getUserInformation(parentUserId)
-        val childResource = accountApi.getUserInformation(parentUserId)
+        val childResource = accountApi.getUserChildInformation(parentUserId)
         parentResource.payload?.innerUserInformationDTO?.let { parentInformationDto ->
-            val parent = User(
+            val parent = Parent(
                 id = parentUserId,
                 email = parentInformationDto.email ?: return,
                 cnp = parentInformationDto.cnp ?: return,
@@ -42,17 +43,17 @@ class AccountRepositoryImpl(
             preferencesDataStore.saveParent(parent)
             preferencesDataStore.selectUser(parent.id)
 
-            childResource.payload?.innerUserInformationDTO?.let { childInformationDto ->
-                val child = User(
-                    id = childInformationDto.id ?: return,
-                    email = childInformationDto.email ?: return,
-                    cnp = childInformationDto.cnp ?: return,
-                    series = childInformationDto.series ?: return,
-                    lastname = childInformationDto.lastname ?: return,
-                    firstname = childInformationDto.firstname ?: return,
-                    nationality = childInformationDto.nationality ?: return,
-                    dateOfBirth = childInformationDto.dateOfBirth ?: return,
-                    gender = childInformationDto.gender ?: return
+            childResource.payload?.innerUserChildInformationDTO?.entities?.firstOrNull()?.let {
+                val child = Child(
+                    id = it.id ?: return,
+                    surname = it.surname ?: return,
+                    firstname = it.firstname ?: return,
+                    cnp = it.cnp ?: return,
+                    dateOfBirth = it.dateOfBirth ?: return,
+                    fatherSurname = it.fatherSurname ?: return,
+                    fatherFirstname = it.fatherFirstname ?: return,
+                    motherSurname = it.motherSurname ?: return,
+                    motherFirstName = it.motherFirstName ?: return
                 )
 
                 preferencesDataStore.saveChild(child)
