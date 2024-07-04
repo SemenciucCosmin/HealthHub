@@ -114,11 +114,15 @@ class MedicalFileViewModel(
     fun selectSpecialization(specializationId: Int?) {
         val filteredMedics = uiState.medics.filter { medic ->
             medic.specializations.map { it.id }.contains(specializationId)
-        }.ifEmpty { uiState.medics }
+        }
 
         uiState = uiState.copy(
-            filteredMedics = filteredMedics,
-            selectedSpecializationId = specializationId
+            selectedSpecializationId = specializationId,
+            filteredMedics = if (filteredMedics.isEmpty() && specializationId == null) {
+                uiState.medics
+            } else {
+                filteredMedics
+            }
         )
     }
 }

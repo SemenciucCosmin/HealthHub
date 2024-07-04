@@ -28,7 +28,7 @@ class AccountRepositoryImpl(
         val childResource = accountApi.getUserInformation(parentUserId)
         parentResource.payload?.innerUserInformationDTO?.let { parentInformationDto ->
             val parent = User(
-                id = parentInformationDto.id ?: return,
+                id = parentUserId,
                 email = parentInformationDto.email ?: return,
                 cnp = parentInformationDto.cnp ?: return,
                 series = parentInformationDto.series ?: return,

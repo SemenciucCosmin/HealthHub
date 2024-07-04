@@ -39,6 +39,9 @@ dependencies {
     // COMPOSE
     implementation(libs.ui.tooling.preview.android)
 
+    // GSON
+    implementation (libs.gson)
+
     // KOIN
     implementation(libs.koin.android)
 

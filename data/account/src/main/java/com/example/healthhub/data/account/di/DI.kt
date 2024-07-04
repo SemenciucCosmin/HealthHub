@@ -9,6 +9,6 @@ import org.koin.dsl.module
 
 val dataAccountModule = module {
     single { PreferencesDataStore(androidContext()) }
-//    factory<AccountRepository> { AccountRepositoryImpl(get(), get()) }
-    factory<AccountRepository> { AccountMockedRepositoryImpl(get()) }
+    factory<AccountRepository> { AccountRepositoryImpl(get(), get()) }
+//    factory<AccountRepository> { AccountMockedRepositoryImpl(get()) }
 }

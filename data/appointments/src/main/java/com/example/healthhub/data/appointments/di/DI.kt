@@ -6,9 +6,9 @@ import com.example.healthhub.data.appointments.repository.AppointmentsRepository
 import org.koin.dsl.module
 
 val dataAppointmentsModule = module {
-//    factory<AppointmentsRepository> {
-//        AppointmentsRepositoryImpl(get(), get(), get(), get(), get())
-//    }
+    factory<AppointmentsRepository> {
+        AppointmentsRepositoryImpl(get(), get(), get(), get(), get())
+    }
 
-    factory<AppointmentsRepository> { AppointmentsMockedRepositoryImpl() }
+//    factory<AppointmentsRepository> { AppointmentsMockedRepositoryImpl() }
 }

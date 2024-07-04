@@ -2,6 +2,7 @@ package com.example.healthhub.feature.medicalfile
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -48,7 +49,8 @@ fun MedicsScreen(
         )
 
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            contentPadding = PaddingValues(vertical = 16.dp)
         ) {
             items(medics) { medic ->
                 val specializationsDescriptions = medic.specializations.joinToString(String.BLANK) {

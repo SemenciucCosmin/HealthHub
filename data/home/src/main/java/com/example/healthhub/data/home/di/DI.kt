@@ -6,6 +6,6 @@ import com.example.healthhub.data.home.repository.HomeRepositoryImpl
 import org.koin.dsl.module
 
 val dataHomeModule = module {
-//    factory<HomeRepository> { HomeRepositoryImpl(get()) }
-    factory<HomeRepository> { HomeMockedRepositoryImpl() }
+    factory<HomeRepository> { HomeRepositoryImpl(get()) }
+//    factory<HomeRepository> { HomeMockedRepositoryImpl() }
 }

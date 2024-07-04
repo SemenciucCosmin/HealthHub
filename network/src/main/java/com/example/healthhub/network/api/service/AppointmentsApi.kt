@@ -10,23 +10,23 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AppointmentsApi {
-    @GET("/api/v1/medicalclinicproject/appointments/getActiveAppointmentsByUserId/{parentId}")
+    @POST("/api/v1/medicalclinicproject/appointments/getActiveAppointmentsByUserId/{parentId}")
     suspend fun getParentFutureAppointments(
         @Path("parentId") parentId: Int
     ): Resource<AppointmentsDTO>
 
-    @GET("/api/v1/medicalclinicproject/appointments/getPastAppointmentsByUserId/{parentId}")
+    @POST("/api/v1/medicalclinicproject/appointments/getPastAppointmentsByUserId/{parentId}")
     suspend fun getParentPastAppointments(
         @Path("parentId") parentId: Int
     ): Resource<AppointmentsDTO>
 
-    @GET("/api/v1/medicalclinicproject/appointments/getActiveAppointmentsByUserIdAndChildId/{parentId}/{childId}")
+    @POST("/api/v1/medicalclinicproject/appointments/getActiveAppointmentsByUserIdAndChildId/{parentId}/{childId}")
     suspend fun getChildFutureAppointments(
         @Path("parentId") parentId: Int,
         @Path("childId") childId: Int,
     ): Resource<AppointmentsDTO>
 
-    @GET("/api/v1/medicalclinicproject/appointments/getPastAppointmentsByUserIdAndChildId/{parentId}/{childId}")
+    @POST("/api/v1/medicalclinicproject/appointments/getPastAppointmentsByUserIdAndChildId/{parentId}/{childId}")
     suspend fun getChildPastAppointments(
         @Path("parentId") parentId: Int,
         @Path("childId") childId: Int,
@@ -40,5 +40,5 @@ interface AppointmentsApi {
     ): Resource<FilteredAppointmentsDTO>
 
     @POST("/api/v1/medicalclinicproject/appointments/create")
-    suspend fun createAppointment(@Body params: Map<String, Any>)
+    suspend fun createAppointment(@Body body: String)
 }

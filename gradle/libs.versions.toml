@@ -2,11 +2,14 @@
 # ANDROIDX
 androidx-activity-compose = "1.9.0"
 androidx-core-ktx = "1.13.1"
-androidx-lifecycle-runtime = "2.8.2"
-lifecycle-viewmodel-compose = "2.8.2"
+androidx-lifecycle-runtime = "2.8.3"
+lifecycle-viewmodel-compose = "2.8.3"
 
 # COMPOSE
 compose-bom = "2024.06.00"
+
+# GSON
+gson = "2.11.0"
 
 # KOIN
 koin-android = "3.5.6"
@@ -57,6 +60,9 @@ compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android" }
+
+# GSON
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 # KOIN
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin-android" }

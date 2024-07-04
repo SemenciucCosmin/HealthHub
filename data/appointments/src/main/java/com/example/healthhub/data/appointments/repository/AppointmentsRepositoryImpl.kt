@@ -9,7 +9,7 @@ import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.data.appointments.model.Service
 import com.example.healthhub.data.appointments.model.Specialization
 import com.example.healthhub.data.info.model.Location
-import com.example.healthhub.network.api.model.AppointmentRequestBody
+import com.example.healthhub.network.api.model.AppointmentRequest
 import com.example.healthhub.network.api.model.LocationDTO
 import com.example.healthhub.network.api.model.ServiceDTO
 import com.example.healthhub.network.api.model.SpecializationDTO
@@ -19,6 +19,7 @@ import com.example.healthhub.network.api.service.LocationsApi
 import com.example.healthhub.network.api.service.MedicsApi
 import com.example.healthhub.network.api.service.SpecializationsApi
 import com.example.healthhub.network.resource.Resource
+import com.google.gson.Gson
 
 class AppointmentsRepositoryImpl(
     private val appointmentsApi: AppointmentsApi,
@@ -177,8 +178,9 @@ class AppointmentsRepositoryImpl(
         return Resource(appointments, resource.status)
     }
 
-    override suspend fun createAppointment(requestBody: AppointmentRequestBody) {
-        appointmentsApi.createAppointment(requestBody.build())
+    override suspend fun createAppointment(request: AppointmentRequest) {
+        val json = Gson().toJson(request)
+        appointmentsApi.createAppointment(json)
     }
 
     private fun mapServiceDTOs(serviceDTOs: List<ServiceDTO>?): List<Service>? {

@@ -10,8 +10,9 @@ import com.example.healthhub.data.appointments.model.Service
 import com.example.healthhub.data.appointments.repository.AppointmentsRepository
 import com.example.healthhub.domain.account.GetUsersInfoUseCase
 import com.example.healthhub.feature.appointments.viewmodel.model.AppointmentsUiState
-import com.example.healthhub.network.api.model.AppointmentRequestBody
-import com.example.healthhub.network.api.model.ServiceRequestBody
+import com.example.healthhub.network.api.model.AppointmentRequest
+import com.example.healthhub.network.api.model.ServiceRequest
+import com.example.healthhub.network.api.model.SpecializationRequest
 import com.example.healthhub.network.resource.Status
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
@@ -182,8 +183,8 @@ class AppointmentsViewModel(
                 it.id == uiState.filteredAppointment?.specializationId
             }
 
-            val servicesRequestBody = uiState.selectedServices.map { service ->
-                ServiceRequestBody(
+            val serviceRequests = uiState.selectedServices.map { service ->
+                ServiceRequest(
                     id = service.id,
                     name = service.name,
                     description = service.description,
@@ -192,22 +193,28 @@ class AppointmentsViewModel(
                 )
             }
 
-            val appointmentRequestBody = AppointmentRequestBody(
-                id = uiState.filteredAppointment?.id ?: return@launch,
+            val specializationRequest = SpecializationRequest(
+                id = specialization?.id ?: return@launch,
+                name = specialization.name,
+                description = specialization.description,
+                services = serviceRequests
+            )
+
+            val appointmentRequest = AppointmentRequest(
+                availableAppointmentId = uiState.filteredAppointment?.id ?: return@launch,
                 userId = usersInfo.selectedUserId,
                 doctorId = uiState.filteredAppointment?.doctorId ?: return@launch,
                 countyId = uiState.filteredAppointment?.county?.id ?: return@launch,
                 locationId = uiState.filteredAppointment?.location?.id ?: return@launch,
-                startDateMillis = uiState.selectedStartDateMillis,
-                duration = uiState.totalDuration,
-                price = uiState.totalPrice,
-                specializationId = specialization?.id ?: return@launch,
-                specializationName = specialization.name,
-                specializationDescription = specialization.description,
-                servicesRequestBody = servicesRequestBody
+                stateId = null,
+                appointmentStartDate = uiState.selectedStartDateMillis,
+                appointmentDuration = null,
+                price = null,
+                specializationId = specialization.id,
+                specializations = listOf(specializationRequest)
             )
 
-            appointmentsRepository.createAppointment(appointmentRequestBody)
+            appointmentsRepository.createAppointment(appointmentRequest)
         }
     }
 }
