@@ -142,12 +142,14 @@ class AppointmentsRepositoryImpl(
     override suspend fun filterAppointments(
         specializationName: String,
         countyName: String,
-        startDateMillis: Long
+        startDateMillis: Long,
+        userId: Int,
     ): Resource<List<FilteredAppointment>> {
         val resource = appointmentsApi.filterAppointments(
             specializationName = specializationName,
             countyName = countyName,
-            startDateMillis = startDateMillis
+            startDateMillis = startDateMillis,
+            userId = userId
         )
 
         val appointmentDTOs = resource.payload?.innerFilteredAppointments?.entities ?: emptyList()

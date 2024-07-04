@@ -25,7 +25,8 @@ interface AppointmentsRepository {
     suspend fun filterAppointments(
         specializationName: String,
         countyName: String,
-        startDateMillis: Long
+        startDateMillis: Long,
+        userId: Int,
     ): Resource<List<FilteredAppointment>>
 
     suspend fun createAppointment(request: AppointmentRequest)

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.healthhub.feature.appointments.di.AppointmentsScope
 import com.example.healthhub.feature.medicalfile.viewmodel.MedicalFileViewModel
 import com.example.healthhub.ui.catalog.components.LoadingScreen
 import com.example.healthhub.ui.navigation.components.NavigationButtonsGrid
@@ -15,11 +14,9 @@ import com.example.healthhub.ui.navigation.model.NavDestination
 import com.example.healthhub.ui.navigation.model.NavigationButtonType
 import com.example.healthhub.ui.navigation.util.LocalNavController
 import org.koin.androidx.compose.koinViewModel
-import org.koin.compose.getKoin
 
 @Composable
 fun MedicalFileRoute() {
-    val koin = getKoin()
     val viewModel = koinViewModel<MedicalFileViewModel>()
     val navController = LocalNavController.current
 
@@ -33,7 +30,6 @@ fun MedicalFileRoute() {
             PastAppointmentsSection(
                 appointments = viewModel.uiState.pastAppointments,
                 onCreateAppointmentClick = {
-                    AppointmentsScope.create(koin)
                     navController.navigate(NavDestination.CreateAppointment())
                 }
             )

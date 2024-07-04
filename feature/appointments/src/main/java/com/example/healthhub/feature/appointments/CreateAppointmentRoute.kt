@@ -1,6 +1,5 @@
 package com.example.healthhub.feature.appointments
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -56,9 +55,5 @@ fun CreateAppointmentRoute(medicId: Int) {
                 navController.navigate(NavDestination.FilteredAppointments)
             }
         )
-    }
-
-    BackHandler {
-        AppointmentsScope.delete(koin)
     }
 }

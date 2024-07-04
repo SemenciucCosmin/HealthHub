@@ -1,6 +1,5 @@
 package com.example.healthhub.feature.appointments
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -61,9 +60,5 @@ fun AppointmentsRoute() {
                 futureAppointments = viewModel.uiState.futureAppointments,
             )
         }
-    }
-
-    BackHandler {
-        AppointmentsScope.delete(koin)
     }
 }

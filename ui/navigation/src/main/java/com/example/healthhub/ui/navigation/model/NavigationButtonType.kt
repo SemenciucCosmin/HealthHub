@@ -1,7 +1,6 @@
 package com.example.healthhub.ui.navigation.model
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.example.healthhub.ui.catalog.R
 

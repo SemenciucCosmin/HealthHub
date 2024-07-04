@@ -48,7 +48,8 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
     override suspend fun filterAppointments(
         specializationName: String,
         countyName: String,
-        startDateMillis: Long
+        startDateMillis: Long,
+        userId: Int,
     ): Resource<List<FilteredAppointment>> {
         return Resource(
             status = Status.Success,

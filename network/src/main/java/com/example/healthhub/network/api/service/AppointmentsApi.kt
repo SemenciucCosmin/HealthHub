@@ -37,6 +37,7 @@ interface AppointmentsApi {
         @Query("specialization") specializationName: String,
         @Query("county") countyName: String,
         @Query("startDate") startDateMillis: Long,
+        @Query("userId") userId: Int,
     ): Resource<FilteredAppointmentsDTO>
 
     @POST("/api/v1/medicalclinicproject/appointments/create")

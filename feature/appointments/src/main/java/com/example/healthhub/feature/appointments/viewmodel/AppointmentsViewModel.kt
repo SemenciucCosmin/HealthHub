@@ -115,10 +115,12 @@ class AppointmentsViewModel(
 
     fun filterAppointments() {
         viewModelScope.launch {
+            val userId = getUsersInfoUseCase().firstOrNull()?.selectedUserId ?: return@launch
             val resource = appointmentsRepository.filterAppointments(
                 specializationName = uiState.selectedSpecializationName,
                 countyName = uiState.selectedCountyName,
-                startDateMillis = uiState.selectedStartDateMillis
+                startDateMillis = uiState.selectedStartDateMillis,
+                userId = userId
             )
 
             when {
