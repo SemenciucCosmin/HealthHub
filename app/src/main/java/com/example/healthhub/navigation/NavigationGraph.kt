@@ -10,6 +10,7 @@ import androidx.navigation.toRoute
 import com.example.healthhub.app.AuthenticationActivity
 import com.example.healthhub.app.MainActivity
 import com.example.healthhub.feature.account.AccountRoute
+import com.example.healthhub.feature.account.AddChildRoute
 import com.example.healthhub.feature.appointments.AppointmentsRoute
 import com.example.healthhub.feature.appointments.CreateAppointmentRoute
 import com.example.healthhub.feature.appointments.FilteredAppointmentDetailsRoute
@@ -55,6 +56,9 @@ fun NavigationGraph(
         }
         composable<NavDestination.FilteredAppointmentDetails> {
             FilteredAppointmentDetailsRoute()
+        }
+        composable<NavDestination.AddChild> {
+            AddChildRoute()
         }
     }
 }

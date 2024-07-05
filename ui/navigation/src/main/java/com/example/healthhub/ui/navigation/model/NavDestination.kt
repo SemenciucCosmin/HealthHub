@@ -41,5 +41,8 @@ sealed class NavDestination(@StringRes val stringRes: Int) {
     @Serializable
     data object FilteredAppointmentDetails : NavDestination(R.string.lbl_filtered_appointment_details)
 
+    @Serializable
+    data object AddChild : NavDestination(R.string.lbl_filtered_appointment_details)
+
     fun asRoute(): String? = this.javaClass.canonicalName
 }
