@@ -38,6 +38,13 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
         )
     }
 
+    override suspend fun getMedicsById(usersInfo: UsersInfo): Resource<List<Medic>> {
+        return Resource(
+            status = Status.Success,
+            payload = getMockedMedics()
+        )
+    }
+
     override suspend fun getCounties(): Resource<List<County>> {
         return Resource(
             status = Status.Success,

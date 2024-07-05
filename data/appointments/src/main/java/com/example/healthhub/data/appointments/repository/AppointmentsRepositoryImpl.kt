@@ -19,6 +19,7 @@ import com.example.healthhub.network.api.service.LocationsApi
 import com.example.healthhub.network.api.service.MedicsApi
 import com.example.healthhub.network.api.service.SpecializationsApi
 import com.example.healthhub.network.resource.Resource
+import com.example.healthhub.network.resource.Status
 import com.google.gson.Gson
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -127,6 +128,37 @@ class AppointmentsRepositoryImpl(
         }
 
         return Resource(medics, resource.status)
+    }
+
+    override suspend fun getMedicsById(usersInfo: UsersInfo): Resource<List<Medic>> {
+        val medicDTOs = when (usersInfo.selectedUserId) {
+            usersInfo.child?.id -> medicsApi.getChildMedics(
+                childId = usersInfo.selectedUserId
+            ).payload?.innerMedicsDTO?.entities
+
+            else -> medicsApi.getParentMedics(
+                parentId = usersInfo.selectedUserId
+            ).payload?.innerMedicsDTO?.entities
+        }
+
+        val medics = medicDTOs?.mapNotNull { medicDTO ->
+            val specializations = mapSpecializationDTOs(medicDTO.specializations)
+
+            Medic(
+                id = medicDTO.id ?: return@mapNotNull null,
+                name = medicDTO.name ?: return@mapNotNull null,
+                ranking = medicDTO.ranking ?: return@mapNotNull null,
+                specializations = specializations ?: return@mapNotNull null,
+                services = mapServiceDTOs(medicDTO.services) ?: return@mapNotNull null,
+                locations = mapLocationDTOs(medicDTO.locations) ?: return@mapNotNull null,
+                county = County(
+                    id = medicDTO.county?.id ?: return@mapNotNull null,
+                    name = medicDTO.county?.name ?: return@mapNotNull null,
+                )
+            )
+        }
+
+        return Resource(medics, Status.Success)
     }
 
     override suspend fun getCounties(): Resource<List<County>> {

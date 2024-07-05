@@ -30,7 +30,8 @@ fun MedicsRoute() {
 
         else -> MedicsScreen(
             modifier = Modifier.padding(16.dp),
-            medics = viewModel.uiState.filteredMedics,
+            allMedics = viewModel.uiState.filteredMedics,
+            medicsById = viewModel.uiState.filteredMedicsById,
             specializations = viewModel.uiState.specializations,
             selectedSpecializationId = viewModel.uiState.selectedSpecializationId,
             onSpecializationSelected = viewModel::selectSpecialization,

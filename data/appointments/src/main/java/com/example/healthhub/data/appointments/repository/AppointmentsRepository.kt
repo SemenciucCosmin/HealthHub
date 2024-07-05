@@ -20,6 +20,8 @@ interface AppointmentsRepository {
 
     suspend fun getMedics(): Resource<List<Medic>>
 
+    suspend fun getMedicsById(usersInfo: UsersInfo): Resource<List<Medic>>
+
     suspend fun getCounties(): Resource<List<County>>
 
     suspend fun getMedicsBySpecializationAndCounty(

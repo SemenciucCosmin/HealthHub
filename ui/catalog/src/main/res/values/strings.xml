@@ -97,5 +97,7 @@
     <string name="lbl_ranking">Ranking</string>
     <string name="lbl_specializations">Specializations</string>
     <string name="lbl_services">Services</string>
+    <string name="lbl_all_medics">All medics</string>
+    <string name="lbl_your_medics">Yours</string>
 
 </resources>

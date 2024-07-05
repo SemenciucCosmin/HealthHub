@@ -10,7 +10,9 @@ import com.example.healthhub.data.appointments.repository.AppointmentsRepository
 import com.example.healthhub.domain.account.GetUsersInfoUseCase
 import com.example.healthhub.feature.medicalfile.viewmodel.model.MedicalFileUiState
 import com.example.healthhub.network.resource.Status
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 class MedicalFileViewModel(
@@ -29,23 +31,31 @@ class MedicalFileViewModel(
 
     private fun loadMedics() {
         viewModelScope.launch {
+            val usersInfo = getUsersInfoUseCase().firstOrNull() ?: return@launch
+
             uiState = uiState.copy(
                 selectedSpecializationId = null,
                 isLoading = true,
                 isError = false,
             )
 
-            val resource = appointmentsRepository.getMedics()
+            val medicsAsync = async { appointmentsRepository.getMedics() }
+            val medicsByIdAsync = async { appointmentsRepository.getMedicsById(usersInfo) }
 
-            uiState = when (val medics = resource.payload) {
-                null -> uiState.copy(
+            val medics= medicsAsync.await().payload
+            val medicsById = medicsByIdAsync.await().payload
+
+            uiState = when {
+                medics == null || medicsById == null -> uiState.copy(
                     isLoading = false,
                     isError = true
                 )
 
                 else -> uiState.copy(
                     medics = medics,
+                    medicsById = medicsById,
                     filteredMedics = medics,
+                    filteredMedicsById = medicsById,
                     isLoading = false
                 )
             }
@@ -116,12 +126,21 @@ class MedicalFileViewModel(
             medic.specializations.map { it.id }.contains(specializationId)
         }
 
+        val filteredMedicsById = uiState.medicsById.filter { medic ->
+            medic.specializations.map { it.id }.contains(specializationId)
+        }
+
         uiState = uiState.copy(
             selectedSpecializationId = specializationId,
             filteredMedics = if (filteredMedics.isEmpty() && specializationId == null) {
                 uiState.medics
             } else {
                 filteredMedics
+            },
+            filteredMedicsById = if (filteredMedicsById.isEmpty() && specializationId == null) {
+                uiState.medicsById
+            } else {
+                filteredMedicsById
             }
         )
     }

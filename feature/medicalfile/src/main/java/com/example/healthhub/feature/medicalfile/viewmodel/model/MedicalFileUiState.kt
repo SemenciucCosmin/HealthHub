@@ -6,7 +6,9 @@ import com.example.healthhub.data.appointments.model.Specialization
 
 data class MedicalFileUiState(
     val medics: List<Medic> = emptyList(),
+    val medicsById: List<Medic> = emptyList(),
     val filteredMedics: List<Medic> = emptyList(),
+    val filteredMedicsById: List<Medic> = emptyList(),
     val specializations: List<Specialization> = emptyList(),
     val pastAppointments: List<Appointment> = emptyList(),
     val selectedSpecializationId: Int? = null,
