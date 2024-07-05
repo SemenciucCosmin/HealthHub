@@ -4,9 +4,15 @@ import com.example.healthhub.data.account.model.Child
 import com.example.healthhub.data.account.model.Parent
 import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.account.preferences.PreferencesDataStore
+import com.example.healthhub.data.authentication.model.IdValidation
 import com.example.healthhub.network.api.service.AccountApi
+import com.example.healthhub.network.resource.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 
 class AccountRepositoryImpl(
     private val accountApi: AccountApi,
@@ -59,5 +65,26 @@ class AccountRepositoryImpl(
                 preferencesDataStore.saveChild(child)
             }
         }
+    }
+
+    override suspend fun uploadBirthCertificate(
+        parentId: Int,
+        imageFile: File
+    ): Resource<Boolean> {
+        val requestBody = imageFile.asRequestBody("image/png".toMediaTypeOrNull())
+        val multiPart = MultipartBody.Part.createFormData("picture", "image", requestBody)
+        val body = MultipartBody.Builder().setType(MultipartBody.FORM).apply {
+            addPart(multiPart)
+        }.build()
+
+        val resource = accountApi.uploadBirthCertificate(
+            parentId = parentId,
+            requestBody = body
+        )
+
+        return Resource(
+            payload = resource.payload?.innerBirthCertificateValidationDTO?.integrity ?: false,
+            status = resource.status
+        )
     }
 }

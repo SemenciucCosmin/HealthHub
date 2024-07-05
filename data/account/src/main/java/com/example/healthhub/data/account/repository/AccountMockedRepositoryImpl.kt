@@ -4,8 +4,12 @@ import com.example.healthhub.data.account.model.Child
 import com.example.healthhub.data.account.model.Parent
 import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.account.preferences.PreferencesDataStore
+import com.example.healthhub.data.authentication.model.IdValidation
+import com.example.healthhub.network.resource.Resource
+import com.example.healthhub.network.resource.Status
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
+import java.io.File
 
 class AccountMockedRepositoryImpl(
     private val preferencesDataStore: PreferencesDataStore,
@@ -50,5 +54,15 @@ class AccountMockedRepositoryImpl(
         preferencesDataStore.saveParent(parent)
         preferencesDataStore.saveChild(child)
         preferencesDataStore.selectUser(parent.id)
+    }
+
+    override suspend fun uploadBirthCertificate(
+        parentId: Int,
+        imageFile: File
+    ): Resource<Boolean> {
+        return Resource(
+            status = Status.Success,
+            payload = true
+        )
     }
 }

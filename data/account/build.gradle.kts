@@ -50,8 +50,12 @@ dependencies {
     implementation(libs.koin.android)
 
     // MODULES
+    implementation(project(":data:authentication"))
     implementation(project(":data:util"))
     implementation(project(":network"))
+
+    // NETWORK
+    implementation(libs.okhttp3)
 
     // PREFERENCES
     implementation(libs.datastore.preferences)

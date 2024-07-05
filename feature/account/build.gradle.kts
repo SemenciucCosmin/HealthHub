@@ -58,6 +58,10 @@ dependencies {
 
     // MODULES
     implementation(project(":data:account"))
+    implementation(project(":domain:account"))
+    implementation(project(":domain:provider"))
+    implementation(project(":feature:authentication"))
+    implementation(project(":network"))
     implementation(project(":ui:catalog"))
     implementation(project(":ui:navigation"))
 

@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.koin.compose)
 
     // MODULES
+    implementation(project(":data:account"))
     implementation(project(":data:authentication"))
     implementation(project(":data:util"))
     implementation(project(":domain:account"))

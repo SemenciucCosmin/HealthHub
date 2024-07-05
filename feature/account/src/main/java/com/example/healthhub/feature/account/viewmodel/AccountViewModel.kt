@@ -6,12 +6,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.account.repository.AccountRepository
+import com.example.healthhub.domain.account.SetUserInformationUseCase
 import com.example.healthhub.feature.account.viewmodel.model.Account
 import com.example.healthhub.feature.account.viewmodel.model.AccountUiState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.File
 
-class AccountViewModel(private val accountRepository: AccountRepository) : ViewModel() {
+class AccountViewModel(
+    private val accountRepository: AccountRepository,
+    private val setUserInformationUseCase: SetUserInformationUseCase
+) : ViewModel() {
     var uiState by mutableStateOf<AccountUiState?>(null)
         private set
 
@@ -43,6 +48,37 @@ class AccountViewModel(private val accountRepository: AccountRepository) : ViewM
     fun signOut() {
         viewModelScope.launch {
             accountRepository.clearUsersInfo()
+        }
+    }
+
+    fun retry() = uiState?.imageFile?.let { uploadImage(it) }
+
+    fun uploadImage(imageFile: File) {
+        viewModelScope.launch {
+            val parentId = uiState?.parentAccount?.id ?: return@launch
+            uiState = uiState?.copy(
+                imageFile = imageFile,
+                isLoading = true,
+                isError = false
+            )
+
+            val resource = accountRepository.uploadBirthCertificate(parentId, imageFile)
+            when {
+                resource.payload == true -> {
+                    setUserInformationUseCase(parentId)
+                    uiState = uiState?.copy(
+                        isLoading = false,
+                        isSuccess = true
+                    )
+                }
+
+                else -> {
+                    uiState = uiState?.copy(
+                        isLoading = false,
+                        isError = true
+                    )
+                }
+            }
         }
     }
 }
