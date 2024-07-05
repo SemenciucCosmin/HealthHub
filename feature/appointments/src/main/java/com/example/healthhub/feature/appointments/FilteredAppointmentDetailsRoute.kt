@@ -86,7 +86,15 @@ fun FilteredAppointmentDetailsRoute() {
                         modifier = Modifier.weight(0.5f),
                         text = viewModel.uiState.totalPrice.toString(),
                         overlineText = stringResource(R.string.lbl_total_price),
-                        hideDivider = true
+                        hasStrike = true,
+                        hideDivider = true,
+                    )
+
+                    OverlineText(
+                        modifier = Modifier.weight(0.5f),
+                        text = viewModel.uiState.totalDiscountedPrice.toString(),
+                        overlineText = stringResource(R.string.lbl_discounted_price),
+                        hideDivider = true,
                     )
 
                     OverlineText(

@@ -20,6 +20,7 @@
     <string name="lbl_filtered_appointments">Filtered Appointments</string>
     <string name="lbl_filtered_appointment_details">Filtered Appointment Details</string>
     <string name="lbl_total_price">Total price</string>
+    <string name="lbl_discounted_price">Discounted price</string>
     <string name="lbl_total_duration">Total duration</string>
     <string name="lbl_finish">Finish</string>
     <string name="lbl_add_child">Add Child</string>

@@ -22,6 +22,7 @@ data class AppointmentsUiState(
     val selectedLocationId: Int? = null,
     val selectedStartDateMillis: Long = 0,
     val totalPrice: Float = 0f,
+    val totalDiscountedPrice: Float = 0f,
     val totalDuration: Int = 0,
     val counties: List<County> = emptyList(),
     val medics: List<Medic> = emptyList(),

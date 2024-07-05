@@ -5,5 +5,6 @@ data class Service(
     val name: String,
     val description: String,
     val price: Float,
+    val discountedPrice: Float,
     val duration: Int,
 )

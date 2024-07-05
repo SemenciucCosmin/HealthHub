@@ -7,5 +7,6 @@ data class ServiceDTO(
     @SerializedName("name") val name: String?,
     @SerializedName("description") val description: String?,
     @SerializedName("price") val price: Float?,
+    @SerializedName("discountedPrice") val discountedPrice: Float?,
     @SerializedName("duration") val duration: Int?,
 )

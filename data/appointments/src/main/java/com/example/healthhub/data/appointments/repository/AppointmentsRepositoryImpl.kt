@@ -237,6 +237,7 @@ class AppointmentsRepositoryImpl(
                 name = serviceDTO.name ?: return@mapNotNull null,
                 description = serviceDTO.description ?: return@mapNotNull null,
                 price = serviceDTO.price ?: return@mapNotNull null,
+                discountedPrice = serviceDTO.discountedPrice ?: return@mapNotNull null,
                 duration = serviceDTO.duration ?: return@mapNotNull null,
             )
         }

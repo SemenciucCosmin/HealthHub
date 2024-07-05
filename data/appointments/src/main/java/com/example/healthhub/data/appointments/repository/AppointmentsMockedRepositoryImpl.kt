@@ -88,6 +88,7 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
             name = "Service $serviceIndex",
             description = "$serviceIndex",
             price = serviceIndex.toFloat(),
+            discountedPrice = serviceIndex.toFloat(),
             duration = serviceIndex
         )
     }

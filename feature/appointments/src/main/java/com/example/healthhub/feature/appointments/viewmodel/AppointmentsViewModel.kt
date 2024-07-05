@@ -210,11 +210,13 @@ class AppointmentsViewModel(
         }
 
         val newTotalPrice = newSelectedServices.map { it.price }.sum()
+        val newTotalDiscountedPrice = newSelectedServices.map { it.discountedPrice }.sum()
         val newTotalDuration = newSelectedServices.sumOf { it.duration }
 
         uiState = uiState.copy(
             selectedServices = newSelectedServices.toList(),
             totalPrice = newTotalPrice,
+            totalDiscountedPrice = newTotalDiscountedPrice,
             totalDuration = newTotalDuration
         )
     }

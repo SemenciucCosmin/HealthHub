@@ -18,6 +18,7 @@ class FilteredAppointmentPreviewParameterProvider : PreviewParameterProvider<Fil
                     name = "Alyssa Wise",
                     description = "comprehensam",
                     price = 18.19f,
+                    discountedPrice = 1f,
                     duration = 9288
                 )
             },
