@@ -11,7 +11,7 @@ data class InnerLocationsDTO(
 )
 
 data class LocationDTO(
-    @SerializedName("id") val id: String?,
+    @SerializedName("id") val id: Int?,
     @SerializedName("name") val name: String?,
     @SerializedName("address") val address: String?,
     @SerializedName("latitude") val latitude: Double?,

@@ -1,8 +1,10 @@
 package com.example.healthhub.feature.info.components
 
 import android.content.res.Configuration
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,7 +47,7 @@ fun UserInfoSection(
     }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
@@ -84,7 +86,9 @@ fun UserInfoSection(
 
         HorizontalPager(
             state = pagerState,
-            pageSpacing = 16.dp
+            pageSpacing = 16.dp,
+            contentPadding = PaddingValues(vertical = 16.dp),
+            modifier = Modifier.animateContentSize()
         ) { pageIndex ->
             if (pageIndex == PARENT_PAGE) {
                 ParentInfoCard(parent = parent)

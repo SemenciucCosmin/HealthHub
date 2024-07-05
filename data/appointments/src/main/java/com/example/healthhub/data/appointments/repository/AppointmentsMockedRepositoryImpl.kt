@@ -87,7 +87,7 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
 
     private fun getMockedLocations() = List(5) { locationIndex ->
         Location(
-            id = "$locationIndex",
+            id = locationIndex,
             name = "Location $locationIndex",
             address = "Address $locationIndex",
             latitude = locationIndex.toDouble(),
@@ -132,7 +132,7 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
                 name = "County $appointmentIndex"
             ),
             location = Location(
-                id = "$appointmentIndex",
+                id = appointmentIndex,
                 name = "Location $appointmentIndex",
                 address = "Address $appointmentIndex",
                 latitude = appointmentIndex.toDouble(),
@@ -167,7 +167,7 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
                 name = "County $appointmentIndex"
             ),
             location = Location(
-                id = "$appointmentIndex",
+                id = appointmentIndex,
                 name = "Location $appointmentIndex",
                 address = "Address $appointmentIndex",
                 latitude = appointmentIndex.toDouble(),

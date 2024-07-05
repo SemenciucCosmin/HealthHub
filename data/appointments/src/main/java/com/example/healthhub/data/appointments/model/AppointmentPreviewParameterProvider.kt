@@ -26,7 +26,7 @@ class AppointmentPreviewParameterProvider : PreviewParameterProvider<Appointment
                 name = "Josefina Bell"
             ),
             location = Location(
-                id = "decore",
+                id = 1331,
                 name = "Robbie Abbott",
                 address = "sanctus",
                 latitude = 30.31,

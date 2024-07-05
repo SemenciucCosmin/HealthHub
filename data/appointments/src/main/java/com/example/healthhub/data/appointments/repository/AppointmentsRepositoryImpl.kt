@@ -20,6 +20,8 @@ import com.example.healthhub.network.api.service.MedicsApi
 import com.example.healthhub.network.api.service.SpecializationsApi
 import com.example.healthhub.network.resource.Resource
 import com.google.gson.Gson
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class AppointmentsRepositoryImpl(
     private val appointmentsApi: AppointmentsApi,
@@ -75,7 +77,7 @@ class AppointmentsRepositoryImpl(
                 duration = it.duration ?: return@mapNotNull null,
                 price = it.price ?: return@mapNotNull null,
                 specialization = specialization ?: return@mapNotNull null,
-                childId = it.childId ?: return@mapNotNull null,
+                childId = it.childId,
                 specializations = specializations ?: return@mapNotNull null,
             )
         }
@@ -182,7 +184,9 @@ class AppointmentsRepositoryImpl(
 
     override suspend fun createAppointment(request: AppointmentRequest) {
         val json = Gson().toJson(request)
-        appointmentsApi.createAppointment(json)
+        appointmentsApi.createAppointment(
+            json.toRequestBody("application/json".toMediaTypeOrNull())
+        )
     }
 
     private fun mapServiceDTOs(serviceDTOs: List<ServiceDTO>?): List<Service>? {
@@ -220,7 +224,7 @@ class AppointmentsRepositoryImpl(
 
     private suspend fun mapLocationId(locationId: Int?): Location? {
         val locationDTOs = locationsApi.getLocations().payload?.innerLocationsDTO?.locationEntities
-        val locationDTO = locationDTOs?.firstOrNull { it.id == locationId.toString() }
+        val locationDTO = locationDTOs?.firstOrNull { it.id == locationId }
         return Location(
             id = locationDTO?.id ?: return null,
             name = locationDTO.name ?: return null,

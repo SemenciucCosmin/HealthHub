@@ -13,7 +13,7 @@ data class InnerUserChildInformationDTO(
 data class UserChildDTO(
     @SerializedName("id") val id: Int?,
     @SerializedName("surname") val surname: String?,
-    @SerializedName("firstname") val firstname: String?,
+    @SerializedName("firstName") val firstname: String?,
     @SerializedName("childCnp") val cnp: String?,
     @SerializedName("dob") val dateOfBirth: String?,
     @SerializedName("fatherSurname") val fatherSurname: String?,

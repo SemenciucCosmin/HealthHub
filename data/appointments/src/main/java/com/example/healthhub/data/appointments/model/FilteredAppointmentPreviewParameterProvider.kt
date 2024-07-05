@@ -22,7 +22,7 @@ class FilteredAppointmentPreviewParameterProvider : PreviewParameterProvider<Fil
                 )
             },
             location = Location(
-                id = "definitiones",
+                id = 123,
                 name = "Mari Gillespie",
                 address = "tale",
                 latitude = 12.13,

@@ -14,14 +14,12 @@ import com.example.healthhub.feature.appointments.AppointmentsRoute
 import com.example.healthhub.feature.appointments.CreateAppointmentRoute
 import com.example.healthhub.feature.appointments.FilteredAppointmentDetailsRoute
 import com.example.healthhub.feature.appointments.FilteredAppointmentsRoute
-import com.example.healthhub.feature.appointments.di.AppointmentsScope
 import com.example.healthhub.feature.home.HomeRoute
 import com.example.healthhub.feature.info.InfoRoute
 import com.example.healthhub.feature.info.LocationsRoute
 import com.example.healthhub.feature.medicalfile.MedicalFileRoute
 import com.example.healthhub.feature.medicalfile.MedicsRoute
 import com.example.healthhub.ui.navigation.model.NavDestination
-import org.koin.compose.getKoin
 
 @Composable
 fun NavigationGraph(
@@ -36,10 +34,7 @@ fun NavigationGraph(
     ) {
         composable<NavDestination.Home> { HomeRoute() }
         composable<NavDestination.MedicalFile> { MedicalFileRoute() }
-        composable<NavDestination.Appointments> {
-            AppointmentsScope.create(getKoin())
-            AppointmentsRoute()
-        }
+        composable<NavDestination.Appointments> { AppointmentsRoute() }
         composable<NavDestination.Info> { InfoRoute() }
         composable<NavDestination.Account> {
             AccountRoute(
@@ -51,7 +46,6 @@ fun NavigationGraph(
         }
         composable<NavDestination.Locations> { LocationsRoute() }
         composable<NavDestination.CreateAppointment> {
-            AppointmentsScope.create(getKoin())
             val args = it.toRoute<NavDestination.CreateAppointment>()
             CreateAppointmentRoute(args.medicId)
         }

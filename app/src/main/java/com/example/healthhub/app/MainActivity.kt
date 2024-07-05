@@ -23,6 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.healthhub.data.util.BLANK
 import com.example.healthhub.domain.account.GetUsersInfoUseCase
+import com.example.healthhub.feature.appointments.di.AppointmentsScope
 import com.example.healthhub.navigation.NavigationGraph
 import com.example.healthhub.ui.catalog.components.TopAppBar
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
@@ -34,6 +35,7 @@ import com.example.healthhub.ui.navigation.util.navDestination
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.compose.getKoin
 
 class MainActivity : ComponentActivity() {
     private val getUsersInfoUseCase: GetUsersInfoUseCase by inject()
@@ -53,6 +55,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
+            val koin = getKoin()
             val navController = rememberNavController()
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.navDestination ?: NavDestination.Home
@@ -81,6 +84,10 @@ class MainActivity : ComponentActivity() {
                                 content = {
                                     BottomNavigationBar(
                                         onItemClick = {
+                                            if (it == NavDestination.Appointments) {
+                                                AppointmentsScope.create(koin)
+                                            }
+
                                             navController.navigate(it) {
                                                 popUpTo(
                                                     navController.graph.findStartDestination().id

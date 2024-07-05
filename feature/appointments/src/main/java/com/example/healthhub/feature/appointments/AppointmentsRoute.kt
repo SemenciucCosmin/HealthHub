@@ -28,8 +28,11 @@ fun AppointmentsRoute() {
     val koin = getKoin()
     val viewModel = koin.getScope(AppointmentsScope.ID).get<AppointmentsViewModel>()
     val navController = LocalNavController.current
+    val uiState = viewModel.uiState
 
-    LaunchedEffect(Unit) { viewModel.loadAppointments() }
+    LaunchedEffect(Unit) {
+        viewModel.loadAppointments()
+    }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -49,15 +52,15 @@ fun AppointmentsRoute() {
         )
 
         when {
-            viewModel.uiState.isLoading -> LoadingScreen(Modifier.fillMaxSize())
-            viewModel.uiState.isError -> ErrorScreen(
+            uiState.isLoading -> LoadingScreen(Modifier.fillMaxSize())
+            uiState.isError -> ErrorScreen(
                 onRetry = viewModel::loadAppointments,
                 modifier = Modifier.fillMaxSize()
             )
 
             else -> AppointmentsScreen(
-                pastAppointments = viewModel.uiState.pastAppointments,
-                futureAppointments = viewModel.uiState.futureAppointments,
+                pastAppointments = uiState.pastAppointments,
+                futureAppointments = uiState.futureAppointments,
             )
         }
     }

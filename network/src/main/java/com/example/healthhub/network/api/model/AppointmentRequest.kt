@@ -3,9 +3,10 @@ package com.example.healthhub.network.api.model
 data class AppointmentRequest(
     private val availableAppointmentId: Int,
     private val userId: Int,
+    private val childId: Int?,
     private val doctorId: Int,
     private val countyId: Int,
-    private val locationId: String,
+    private val locationId: Int,
     private val stateId: String?,
     private val appointmentStartDate: Long,
     private val appointmentDuration: Int?,

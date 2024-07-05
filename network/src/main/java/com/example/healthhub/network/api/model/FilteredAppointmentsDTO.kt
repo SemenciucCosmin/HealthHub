@@ -27,7 +27,7 @@ data class FilteredAppointmentDetailsDTO(
 )
 
 data class FilteredAppointmentLocationDTO(
-    @SerializedName("id") val id: String?,
+    @SerializedName("id") val id: Int?,
     @SerializedName("name") val name: String?,
     @SerializedName("address") val address: String?,
     @SerializedName("latitude") val latitude: Double?,

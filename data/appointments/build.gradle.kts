@@ -50,6 +50,9 @@ dependencies {
     implementation(project(":data:info"))
     implementation(project(":network"))
 
+    // NETWORK
+    implementation(libs.okhttp3)
+
     // TEST
     androidTestImplementation(libs.test.espresso.core)
     androidTestImplementation(libs.test.ext)

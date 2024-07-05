@@ -181,6 +181,14 @@ class AppointmentsViewModel(
     fun finishAppointmentCreation() {
         viewModelScope.launch {
             val usersInfo = getUsersInfoUseCase().firstOrNull() ?: return@launch
+            val childId = when {
+                usersInfo.child?.id != null && usersInfo.selectedUserId == usersInfo.child?.id -> {
+                    usersInfo.selectedUserId
+                }
+
+                else -> null
+            }
+
             val specialization = uiState.specializations.firstOrNull {
                 it.id == uiState.filteredAppointment?.specializationId
             }
@@ -204,7 +212,8 @@ class AppointmentsViewModel(
 
             val appointmentRequest = AppointmentRequest(
                 availableAppointmentId = uiState.filteredAppointment?.id ?: return@launch,
-                userId = usersInfo.selectedUserId,
+                userId = usersInfo.parent.id,
+                childId = childId,
                 doctorId = uiState.filteredAppointment?.doctorId ?: return@launch,
                 countyId = uiState.filteredAppointment?.county?.id ?: return@launch,
                 locationId = uiState.filteredAppointment?.location?.id ?: return@launch,
