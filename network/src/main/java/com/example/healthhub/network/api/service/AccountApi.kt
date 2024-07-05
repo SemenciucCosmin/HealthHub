@@ -22,4 +22,10 @@ interface AccountApi {
         @Path("parentId") parentId: Int,
         @Body requestBody: RequestBody
     ): Resource<BirthCertificateValidationDTO>
+
+    @POST("/api/v1/medicalclinicproject/user/updateEmail")
+    suspend fun changeEmail(@Body requestBody: RequestBody): Resource<Unit>
+
+    @POST("/api/v1/medicalclinicproject/user/changePassword")
+    suspend fun changePassword(@Body requestBody: RequestBody): Resource<Unit>
 }

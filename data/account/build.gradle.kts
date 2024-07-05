@@ -46,6 +46,9 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.androidx.ui.tooling.preview.android)
 
+    // GSON
+    implementation (libs.gson)
+
     // KOIN
     implementation(libs.koin.android)
 

@@ -4,7 +4,6 @@ import com.example.healthhub.data.account.model.Child
 import com.example.healthhub.data.account.model.Parent
 import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.account.preferences.PreferencesDataStore
-import com.example.healthhub.data.authentication.model.IdValidation
 import com.example.healthhub.network.resource.Resource
 import com.example.healthhub.network.resource.Status
 import kotlinx.coroutines.flow.Flow
@@ -65,4 +64,8 @@ class AccountMockedRepositoryImpl(
             payload = true
         )
     }
+
+    override suspend fun changeEmail(newEmail: String, parentId: Int) {}
+
+    override suspend fun changePassword(newPassword: String, parentId: Int) {}
 }

@@ -1,17 +1,21 @@
 package com.example.healthhub.data.account.repository
 
+import com.example.healthhub.data.account.model.AppUserEntity
+import com.example.healthhub.data.account.model.ChangeEmailRequest
+import com.example.healthhub.data.account.model.ChangePasswordRequest
 import com.example.healthhub.data.account.model.Child
 import com.example.healthhub.data.account.model.Parent
 import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.account.preferences.PreferencesDataStore
-import com.example.healthhub.data.authentication.model.IdValidation
 import com.example.healthhub.network.api.service.AccountApi
 import com.example.healthhub.network.resource.Resource
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class AccountRepositoryImpl(
@@ -85,6 +89,32 @@ class AccountRepositoryImpl(
         return Resource(
             payload = resource.payload?.innerBirthCertificateValidationDTO?.integrity ?: false,
             status = resource.status
+        )
+    }
+
+    override suspend fun changeEmail(newEmail: String, parentId: Int) {
+        val json = Gson().toJson(
+            ChangeEmailRequest(
+                appUserEntity = AppUserEntity(parentId),
+                email = newEmail
+            )
+        )
+
+        accountApi.changeEmail(
+            json.toRequestBody("application/json".toMediaTypeOrNull())
+        )
+    }
+
+    override suspend fun changePassword(newPassword: String, parentId: Int) {
+        val json = Gson().toJson(
+            ChangePasswordRequest(
+                userId = parentId,
+                newPassword = newPassword
+            )
+        )
+
+        accountApi.changePassword(
+            json.toRequestBody("application/json".toMediaTypeOrNull())
         )
     }
 }

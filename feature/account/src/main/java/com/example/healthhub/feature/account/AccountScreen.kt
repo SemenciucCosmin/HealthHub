@@ -31,6 +31,8 @@ fun AccountScreen(
     parentAccount: Account,
     onSelectAccountClick: (Int) -> Unit,
     onAddAccountClick: () -> Unit,
+    onChangeEmailClick: () -> Unit,
+    onChangePasswordClick: () -> Unit,
     onSignOutClick: () -> Unit,
     modifier: Modifier = Modifier,
     childAccount: Account? = null,
@@ -67,6 +69,18 @@ fun AccountScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
+        IconTextButton(
+            text = stringResource(R.string.lbl_change_email),
+            icon = painterResource(R.drawable.ic_edit),
+            onClick = onChangeEmailClick,
+        )
+
+        IconTextButton(
+            text = stringResource(R.string.lbl_change_password),
+            icon = painterResource(R.drawable.ic_edit),
+            onClick = onChangePasswordClick,
+        )
+
         OutlinedCard(onClick = onSignOutClick) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -101,6 +115,8 @@ private fun AccountScreenPreview() {
             childAccount = null,
             onSelectAccountClick = {},
             onAddAccountClick = {},
+            onChangeEmailClick = {},
+            onChangePasswordClick = {},
             onSignOutClick = {},
             parentAccount = Account(
                 id = 6153,

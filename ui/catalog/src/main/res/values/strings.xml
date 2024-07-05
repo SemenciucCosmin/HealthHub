@@ -46,10 +46,13 @@
     <string name="lbl_patient_code">Patient code: %s</string>
     <string name="lbl_add_child_account">Add child account</string>
     <string name="lbl_sign_out">Sign out</string>
-    <string name="lbl_sign_out_dialog_title">Are you sure you want to sign out?</string>
+    <string name="lbl_sign_out_dialog_message">Are you sure you want to sign out?</string>
     <string name="lbl_birth_certificate_validation_message">Please add a photo of your child\'s birth certificate to finish the registration.</string>
     <string name="lbl_birth_certificate_upload_action">Upload birth certificate image</string>
     <string name="lbl_birth_certificate_take_photo_action">Take photo of child\'s birth certificate</string>
+    <string name="lbl_change_password">Change password</string>
+    <string name="lbl_change_email">Change email</string>
+    <string name="lbl_password">Password</string>
 
     <!--  HOME  -->
     <string name="lbl_subscriptions_title">Your subscriptions</string>

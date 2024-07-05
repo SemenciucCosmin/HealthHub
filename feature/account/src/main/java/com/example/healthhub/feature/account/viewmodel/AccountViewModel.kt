@@ -51,6 +51,16 @@ class AccountViewModel(
         }
     }
 
+    fun changeEmail(newEmail: String) {
+        viewModelScope.launch {
+        }
+    }
+
+    fun changePassword(newPassword: String) {
+        viewModelScope.launch {
+        }
+    }
+
     fun retry() = uiState?.imageFile?.let { uploadImage(it) }
 
     fun uploadImage(imageFile: File) {
