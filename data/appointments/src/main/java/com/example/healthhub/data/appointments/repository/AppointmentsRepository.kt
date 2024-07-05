@@ -22,11 +22,18 @@ interface AppointmentsRepository {
 
     suspend fun getCounties(): Resource<List<County>>
 
+    suspend fun getMedicsBySpecializationAndCounty(
+        specializationId: Int,
+        countyId: Int,
+    ): Resource<List<Medic>>
+
     suspend fun filterAppointments(
         specializationName: String,
         countyName: String,
         startDateMillis: Long,
         userId: Int,
+        medicId: Int?,
+        locationId: Int?
     ): Resource<List<FilteredAppointment>>
 
     suspend fun createAppointment(request: AppointmentRequest)

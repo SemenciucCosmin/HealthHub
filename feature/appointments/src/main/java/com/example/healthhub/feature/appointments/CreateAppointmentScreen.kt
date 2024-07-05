@@ -1,6 +1,7 @@
 package com.example.healthhub.feature.appointments
 
 import android.content.res.Configuration
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.healthhub.data.appointments.model.County
+import com.example.healthhub.data.appointments.model.Medic
 import com.example.healthhub.data.appointments.model.Specialization
 import com.example.healthhub.ui.catalog.R
 import com.example.healthhub.ui.catalog.components.IconTextButton
@@ -39,25 +41,36 @@ import java.util.Date
 fun CreateAppointmentScreen(
     specializations: List<Specialization>,
     counties: List<County>,
-    onCreateAppointment: (String, String, Long) -> Unit,
+    filteredMedics: List<Medic>,
+    selectedSpecializationId: Int?,
+    selectedCountyId: Int?,
+    selectedMedicId: Int?,
+    selectedLocationId: Int?,
+    onSelectSpecialization: (Int?) -> Unit,
+    onSelectCounty: (Int?) -> Unit,
+    onSelectMedic: (Int?) -> Unit,
+    onSelectLocation: (Int?) -> Unit,
+    onSelectStartDate: (Long) -> Unit,
+    onCreateAppointment: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var selectedSpecializationId by remember { mutableStateOf<Int?>(null) }
-    var selectedCountyId by remember { mutableStateOf<Int?>(null) }
     var showDialog by remember { mutableStateOf(false) }
     val dateState = rememberDatePickerState()
+    val selectedMedic = filteredMedics.firstOrNull { it.id == selectedMedicId }
     val formattedDate = dateState.selectedDateMillis?.let { millis ->
         SimpleDateFormat.getDateInstance().format(Date(millis))
     } ?: "Choose Date"
 
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier
+        modifier = modifier.animateContentSize()
     ) {
         Menu(
             overlineTitle = stringResource(R.string.lbl_specializations),
             selectedMenuItemId = selectedSpecializationId,
-            onMenuItemSelected = { selectedSpecializationId = it },
+            onMenuItemSelected = { specializationId ->
+                specializationId?.let(onSelectSpecialization)
+            },
             menuItems = specializations.map {
                 MenuItem(
                     id = it.id,
@@ -69,7 +82,9 @@ fun CreateAppointmentScreen(
         Menu(
             overlineTitle = stringResource(R.string.lbl_counties),
             selectedMenuItemId = selectedCountyId,
-            onMenuItemSelected = { selectedCountyId = it },
+            onMenuItemSelected = { countyId ->
+                countyId?.let(onSelectCounty)
+            },
             menuItems = counties.map {
                 MenuItem(
                     id = it.id,
@@ -110,21 +125,46 @@ fun CreateAppointmentScreen(
             }
         }
 
+        if (filteredMedics.isNotEmpty()) {
+            Menu(
+                overlineTitle = stringResource(R.string.lbl_medics),
+                selectedMenuItemId = selectedMedicId,
+                onMenuItemSelected = { medicId ->
+                    medicId?.let(onSelectMedic)
+                },
+                menuItems = filteredMedics.map {
+                    MenuItem(
+                        id = it.id,
+                        name = it.name
+                    )
+                }
+            )
+
+            selectedMedic?.let { medic ->
+                Menu(
+                    overlineTitle = stringResource(R.string.lbl_locations),
+                    selectedMenuItemId = selectedLocationId,
+                    onMenuItemSelected = { locationId ->
+                        locationId?.let(onSelectLocation)
+                    },
+                    menuItems = medic.locations.map {
+                        MenuItem(
+                            id = it.id,
+                            name = it.name
+                        )
+                    }
+                )
+            }
+        }
+
         IconTextButton(
             text = stringResource(R.string.lbl_create_appointment),
             icon = painterResource(R.drawable.ic_checked),
             enabled = selectedSpecializationId != null && selectedCountyId != null && dateState.selectedDateMillis != null,
             onClick = {
                 val startDateMillis = dateState.selectedDateMillis ?: return@IconTextButton
-                val specializationName = specializations.firstOrNull {
-                    it.id == selectedSpecializationId
-                }?.name ?: return@IconTextButton
-
-                val countyName = counties.firstOrNull {
-                    it.id == selectedCountyId
-                }?.name ?: return@IconTextButton
-
-                onCreateAppointment(specializationName, countyName, startDateMillis)
+                onSelectStartDate(startDateMillis)
+                onCreateAppointment()
             }
         )
     }
@@ -138,7 +178,17 @@ private fun CreateAppointmentScreenPreview() {
         CreateAppointmentScreen(
             specializations = emptyList(),
             counties = emptyList(),
-            onCreateAppointment = { _, _, _ -> }
+            filteredMedics = emptyList(),
+            selectedSpecializationId = null,
+            selectedCountyId = null,
+            selectedMedicId = null,
+            selectedLocationId = null,
+            onSelectSpecialization = {},
+            onSelectCounty = {},
+            onSelectMedic = {},
+            onSelectLocation = {},
+            onSelectStartDate = {},
+            onCreateAppointment = {}
         )
     }
 }

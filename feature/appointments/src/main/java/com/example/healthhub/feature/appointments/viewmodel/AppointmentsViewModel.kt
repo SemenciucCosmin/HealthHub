@@ -116,11 +116,21 @@ class AppointmentsViewModel(
     fun filterAppointments() {
         viewModelScope.launch {
             val userId = getUsersInfoUseCase().firstOrNull()?.selectedUserId ?: return@launch
+            val specializationName = uiState.specializations.firstOrNull {
+                it.id == uiState.selectedSpecializationId
+            }?.name ?: return@launch
+
+            val countyName = uiState.counties.firstOrNull {
+                it.id == uiState.selectedCountyId
+            }?.name ?: return@launch
+
             val resource = appointmentsRepository.filterAppointments(
-                specializationName = uiState.selectedSpecializationName,
-                countyName = uiState.selectedCountyName,
+                specializationName = specializationName,
+                countyName = countyName,
                 startDateMillis = uiState.selectedStartDateMillis,
-                userId = userId
+                userId = userId,
+                medicId = uiState.selectedMedicId,
+                locationId = uiState.selectedLocationId,
             )
 
             when {
@@ -142,16 +152,47 @@ class AppointmentsViewModel(
         }
     }
 
-    fun selectFilters(
-        specializationName: String,
-        countyName: String,
-        startDateMillis: Long
-    ) {
-        uiState = uiState.copy(
-            selectedSpecializationName = specializationName,
-            selectedCountyName = countyName,
-            selectedStartDateMillis = startDateMillis
-        )
+    fun selectSpecialization(specializationId: Int?) {
+        uiState = uiState.copy(selectedSpecializationId = specializationId)
+        loadFilteredMedics()
+    }
+
+    fun selectCounty(countyId: Int?) {
+        uiState = uiState.copy(selectedCountyId = countyId)
+        loadFilteredMedics()
+    }
+
+    fun selectStartDateMillis(startDateMillis: Long) {
+        uiState = uiState.copy(selectedStartDateMillis = startDateMillis)
+    }
+
+    fun selectMedic(medicId: Int?) {
+        uiState = uiState.copy(selectedMedicId = medicId)
+    }
+
+    fun selectLocation(locationId: Int?) {
+        uiState = uiState.copy(selectedLocationId = locationId)
+    }
+
+    private fun loadFilteredMedics() {
+        viewModelScope.launch {
+            val specializationId = uiState.selectedSpecializationId
+            val countyId = uiState.selectedCountyId
+
+            if (countyId != null && specializationId != null) {
+                uiState = uiState.copy(isLoading = true)
+
+                val resource = appointmentsRepository.getMedicsBySpecializationAndCounty(
+                    specializationId = specializationId,
+                    countyId = countyId
+                )
+
+                uiState = uiState.copy(
+                    isLoading = false,
+                    filteredMedics = resource.payload ?: emptyList()
+                )
+            }
+        }
     }
 
     fun selectFilteredAppointment(filteredAppointmentId: Int) {

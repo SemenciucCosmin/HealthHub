@@ -2,6 +2,7 @@ package com.example.healthhub.network.api.service
 
 import com.example.healthhub.network.api.model.AppointmentsDTO
 import com.example.healthhub.network.api.model.FilteredAppointmentsDTO
+import com.example.healthhub.network.api.model.FilteredMedicsDTO
 import com.example.healthhub.network.resource.Resource
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -34,12 +35,19 @@ interface AppointmentsApi {
         @Path("childId") childId: Int,
     ): Resource<AppointmentsDTO>
 
+    @POST("/api/v1/medicalclinicproject/doctor/getAllMedicsBySpecializationAndCounty")
+    suspend fun getMedicBySpecializationsAndCounty(
+        @Body params: Map<String, Int>
+    ): Resource<FilteredMedicsDTO>
+
     @GET("/api/v1/medicalclinicproject/appointments/filter")
     suspend fun filterAppointments(
         @Query("specialization") specializationName: String,
         @Query("county") countyName: String,
         @Query("startDate") startDateMillis: Long,
         @Query("userId") userId: Int,
+        @Query("medicId") medicId: Int?,
+        @Query("locationId") locationId: Int?,
     ): Resource<FilteredAppointmentsDTO>
 
     @POST("/api/v1/medicalclinicproject/appointments/create")

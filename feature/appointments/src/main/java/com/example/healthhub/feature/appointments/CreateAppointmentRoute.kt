@@ -44,13 +44,17 @@ fun CreateAppointmentRoute(medicId: Int) {
             modifier = Modifier.padding(16.dp),
             specializations = viewModel.uiState.specializations,
             counties = viewModel.uiState.counties,
-            onCreateAppointment = { specializationName, countyName, startDateMillis ->
-                viewModel.selectFilters(
-                    specializationName = specializationName,
-                    countyName = countyName,
-                    startDateMillis = startDateMillis
-                )
-
+            filteredMedics = viewModel.uiState.filteredMedics,
+            selectedSpecializationId = viewModel.uiState.selectedSpecializationId,
+            selectedCountyId = viewModel.uiState.selectedCountyId,
+            selectedMedicId = viewModel.uiState.selectedMedicId,
+            selectedLocationId = viewModel.uiState.selectedLocationId,
+            onSelectSpecialization = viewModel::selectSpecialization,
+            onSelectCounty = viewModel::selectCounty,
+            onSelectMedic = viewModel::selectMedic,
+            onSelectLocation = viewModel::selectLocation,
+            onSelectStartDate = viewModel::selectStartDateMillis,
+            onCreateAppointment = {
                 viewModel.filterAppointments()
                 navController.navigate(NavDestination.FilteredAppointments)
             }

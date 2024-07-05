@@ -142,17 +142,53 @@ class AppointmentsRepositoryImpl(
         return Resource(counties, resource.status)
     }
 
+    override suspend fun getMedicsBySpecializationAndCounty(
+        specializationId: Int,
+        countyId: Int
+    ): Resource<List<Medic>> {
+        val resource = appointmentsApi.getMedicBySpecializationsAndCounty(
+            mapOf(
+                "specializationId" to specializationId,
+                "countyId" to countyId,
+            )
+        )
+
+        val medicsDTOs = resource.payload?.innerFilteredMedics?.entities
+        val medics = medicsDTOs?.mapNotNull { medicDTO ->
+            val specializations = mapSpecializationDTOs(medicDTO.specializations)
+
+            Medic(
+                id = medicDTO.id ?: return@mapNotNull null,
+                name = medicDTO.name ?: return@mapNotNull null,
+                ranking = medicDTO.ranking ?: return@mapNotNull null,
+                specializations = specializations ?: return@mapNotNull null,
+                services = mapServiceDTOs(medicDTO.services) ?: return@mapNotNull null,
+                locations = mapLocationDTOs(medicDTO.locations) ?: return@mapNotNull null,
+                county = County(
+                    id = medicDTO.county?.id ?: return@mapNotNull null,
+                    name = medicDTO.county?.name ?: return@mapNotNull null,
+                )
+            )
+        }
+
+        return Resource(medics, resource.status)
+    }
+
     override suspend fun filterAppointments(
         specializationName: String,
         countyName: String,
         startDateMillis: Long,
         userId: Int,
+        medicId: Int?,
+        locationId: Int?
     ): Resource<List<FilteredAppointment>> {
         val resource = appointmentsApi.filterAppointments(
             specializationName = specializationName,
             countyName = countyName,
             startDateMillis = startDateMillis,
-            userId = userId
+            userId = userId,
+            medicId = medicId,
+            locationId = locationId
         )
 
         val appointmentDTOs = resource.payload?.innerFilteredAppointments?.entities ?: emptyList()
