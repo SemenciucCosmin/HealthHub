@@ -34,6 +34,7 @@ private const val PAGE_COUNT = 2
 fun AppointmentsScreen(
     pastAppointments: List<Appointment>,
     futureAppointments: List<Appointment>,
+    onCancelAppointmentClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -77,7 +78,8 @@ fun AppointmentsScreen(
             val appointments = if (pageIndex == PAST_PAGE) pastAppointments else futureAppointments
             AppointmentsPage(
                 modifier = Modifier.fillMaxSize(),
-                appointments = appointments
+                appointments = appointments,
+                onCancelAppointmentClick = onCancelAppointmentClick
             )
         }
     }
@@ -94,6 +96,7 @@ private fun AppointmentsScreenPreview(
         AppointmentsScreen(
             pastAppointments = List(5) { appointment },
             futureAppointments = List(5) { appointment },
+            onCancelAppointmentClick = {}
         )
     }
 }

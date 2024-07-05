@@ -4,10 +4,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -28,7 +34,8 @@ fun AppointmentsRoute() {
     val koin = getKoin()
     val viewModel = koin.getScope(AppointmentsScope.ID).get<AppointmentsViewModel>()
     val navController = LocalNavController.current
-    val uiState = viewModel.uiState
+    var showCancelAppointmentDialog by remember { mutableStateOf(false) }
+    var appointmentIdToCancel by remember { mutableStateOf<Int?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.loadAppointments()
@@ -52,16 +59,56 @@ fun AppointmentsRoute() {
         )
 
         when {
-            uiState.isLoading -> LoadingScreen(Modifier.fillMaxSize())
-            uiState.isError -> ErrorScreen(
+            viewModel.uiState.isLoading -> LoadingScreen(Modifier.fillMaxSize())
+            viewModel.uiState.isError -> ErrorScreen(
                 onRetry = viewModel::loadAppointments,
                 modifier = Modifier.fillMaxSize()
             )
 
             else -> AppointmentsScreen(
-                pastAppointments = uiState.pastAppointments,
-                futureAppointments = uiState.futureAppointments,
+                pastAppointments = viewModel.uiState.pastAppointments,
+                futureAppointments = viewModel.uiState.futureAppointments,
+                onCancelAppointmentClick = {
+                    showCancelAppointmentDialog = true
+                    appointmentIdToCancel = it
+                }
             )
         }
+    }
+
+    if (showCancelAppointmentDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showCancelAppointmentDialog = false
+                appointmentIdToCancel = null
+            },
+            title = {
+                Text(text = stringResource(R.string.lbl_cancel_appointment))
+            },
+            text = {
+                Text(text = stringResource(R.string.lbl_cancel_appointment_dialog_message))
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showCancelAppointmentDialog = false
+                        appointmentIdToCancel?.let { viewModel.cancelAppointment(it) }
+                        appointmentIdToCancel = null
+                    }
+                ) {
+                    Text(text = stringResource(R.string.lbl_yes_action))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showCancelAppointmentDialog = false
+                        appointmentIdToCancel = null
+                    }
+                ) {
+                    Text(text = stringResource(R.string.lbl_cancel_action))
+                }
+            }
+        )
     }
 }

@@ -43,7 +43,8 @@ class AppointmentPreviewParameterProvider : PreviewParameterProvider<Appointment
                 services = listOf()
             ),
             childId = null,
-            specializations = listOf()
+            specializations = listOf(),
+            isCancelable = true
         )
     )
 }

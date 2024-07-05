@@ -22,6 +22,7 @@ import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 @Composable
 fun AppointmentsPage(
     appointments: List<Appointment>,
+    onCancelAppointmentClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when {
@@ -47,7 +48,10 @@ fun AppointmentsPage(
                 modifier = modifier
             ) {
                 items(appointments) {
-                    AppointmentCard(appointment = it)
+                    AppointmentCard(
+                        appointment = it,
+                        onCancelClick = onCancelAppointmentClick
+                    )
                 }
             }
         }
@@ -61,6 +65,7 @@ private fun AppointmentsPagePreview() {
     HealthHubTheme {
         AppointmentsPage(
             appointments = emptyList(),
+            onCancelAppointmentClick = {}
         )
     }
 }

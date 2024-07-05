@@ -71,6 +71,8 @@
     <string name="lbl_start_date">Start date</string>
     <string name="lbl_no_filtered_appointments">There are no appointments available for the specialization, county and start date you chose.</string>
     <string name="lbl_select_appointment">Select appointment</string>
+    <string name="lbl_cancel_appointment">Cancel appointment</string>
+    <string name="lbl_cancel_appointment_dialog_message">Are you sure you want to cancel the appointment?</string>
 
     <!--  INFO  -->
     <string name="lbl_users_information">Users information</string>

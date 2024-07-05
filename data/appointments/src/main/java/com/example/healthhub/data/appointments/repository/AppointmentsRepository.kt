@@ -30,4 +30,6 @@ interface AppointmentsRepository {
     ): Resource<List<FilteredAppointment>>
 
     suspend fun createAppointment(request: AppointmentRequest)
+
+    suspend fun cancelAppointment(appointmentId: Int)
 }

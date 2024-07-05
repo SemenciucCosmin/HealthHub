@@ -228,4 +228,12 @@ class AppointmentsViewModel(
             appointmentsRepository.createAppointment(appointmentRequest)
         }
     }
+
+    fun cancelAppointment(appointmentId: Int) {
+        viewModelScope.launch {
+            val asyncCall = async { appointmentsRepository.cancelAppointment(appointmentId) }
+            asyncCall.await()
+            loadAppointments()
+        }
+    }
 }

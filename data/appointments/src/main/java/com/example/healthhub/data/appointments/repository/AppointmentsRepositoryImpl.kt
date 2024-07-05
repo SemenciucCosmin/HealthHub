@@ -79,6 +79,7 @@ class AppointmentsRepositoryImpl(
                 specialization = specialization ?: return@mapNotNull null,
                 childId = it.childId,
                 specializations = specializations ?: return@mapNotNull null,
+                isCancelable = timeframe == AppointmentTimeframe.FUTURE
             )
         }
 
@@ -187,6 +188,10 @@ class AppointmentsRepositoryImpl(
         appointmentsApi.createAppointment(
             json.toRequestBody("application/json".toMediaTypeOrNull())
         )
+    }
+
+    override suspend fun cancelAppointment(appointmentId: Int) {
+        appointmentsApi.cancelAppointment(appointmentId)
     }
 
     private fun mapServiceDTOs(serviceDTOs: List<ServiceDTO>?): List<Service>? {

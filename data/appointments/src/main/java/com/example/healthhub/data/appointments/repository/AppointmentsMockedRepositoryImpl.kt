@@ -59,6 +59,8 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
 
     override suspend fun createAppointment(request: AppointmentRequest) {}
 
+    override suspend fun cancelAppointment(appointmentId: Int) {}
+
     private fun getMockedSpecializations() = List(5) { specializationIndex ->
         Specialization(
             id = specializationIndex,
@@ -149,7 +151,8 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
                 services = getMockedServices()
             ),
             childId = null,
-            specializations = getMockedSpecializations()
+            specializations = getMockedSpecializations(),
+            isCancelable = true
         )
     }
 

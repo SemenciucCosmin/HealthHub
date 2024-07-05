@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -15,12 +16,14 @@ import androidx.compose.ui.unit.dp
 import com.example.healthhub.data.appointments.model.Appointment
 import com.example.healthhub.data.appointments.model.AppointmentPreviewParameterProvider
 import com.example.healthhub.ui.catalog.R
+import com.example.healthhub.ui.catalog.components.IconTextButton
 import com.example.healthhub.ui.catalog.components.OverlineText
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 
 @Composable
 fun AppointmentCard(
     appointment: Appointment,
+    onCancelClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     ElevatedCard(modifier = modifier) {
@@ -53,6 +56,14 @@ fun AppointmentCard(
                     hideDivider = true
                 )
             }
+
+            if (appointment.isCancelable) {
+                IconTextButton(
+                    text = stringResource(R.string.lbl_cancel_appointment),
+                    icon = painterResource(R.drawable.ic_checked),
+                    onClick = { onCancelClick(appointment.id) }
+                )
+            }
         }
     }
 }
@@ -66,7 +77,8 @@ private fun AppointmentCardPreview(
 ) {
     HealthHubTheme {
         AppointmentCard(
-            appointment = appointment
+            appointment = appointment,
+            onCancelClick = {}
         )
     }
 }

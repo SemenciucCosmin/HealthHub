@@ -16,4 +16,5 @@ data class Appointment(
     val specialization: Specialization,
     val childId: Int?,
     val specializations: List<Specialization>,
+    val isCancelable: Boolean
 )
