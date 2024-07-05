@@ -23,7 +23,8 @@ class AuthenticationViewModel(
 
     init {
         viewModelScope.launch {
-            getUsersInfoUseCase().filterNotNull().collectLatest { _ ->
+            getUsersInfoUseCase().filterNotNull().collectLatest { usersInfo ->
+                setUserInformationUseCase(usersInfo.parent.id)
                 uiState = uiState.copy(
                     authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED
                 )
@@ -82,6 +83,7 @@ class AuthenticationViewModel(
             val resource = authenticationRepository.uploadID(uiState.email, imageFile)
             resource.payload?.let { idValidation ->
                 uiState = if (idValidation.updated && idValidation.integrity) {
+                    setUserInformationUseCase(uiState.id)
                     uiState.copy(
                         authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED,
                         isLoading = false
