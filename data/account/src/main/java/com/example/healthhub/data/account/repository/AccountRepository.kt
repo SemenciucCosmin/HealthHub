@@ -11,6 +11,6 @@ interface AccountRepository {
     suspend fun clearUsersInfo()
     suspend fun setupUsersInfo(parentUserId: Int)
     suspend fun uploadBirthCertificate(parentId: Int, imageFile: File): Resource<Boolean>
-    suspend fun changeEmail(newEmail: String, parentId: Int)
-    suspend fun changePassword(newPassword: String, parentId: Int)
+    suspend fun changeEmail(newEmail: String, parentId: Int): Resource<Boolean>
+    suspend fun changePassword(newPassword: String, parentId: Int): Resource<Boolean>
 }

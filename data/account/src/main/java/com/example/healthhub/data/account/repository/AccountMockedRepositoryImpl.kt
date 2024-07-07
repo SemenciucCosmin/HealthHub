@@ -65,7 +65,17 @@ class AccountMockedRepositoryImpl(
         )
     }
 
-    override suspend fun changeEmail(newEmail: String, parentId: Int) {}
+    override suspend fun changeEmail(newEmail: String, parentId: Int): Resource<Boolean> {
+        return Resource(
+            status = Status.Success,
+            payload = true
+        )
+    }
 
-    override suspend fun changePassword(newPassword: String, parentId: Int) {}
+    override suspend fun changePassword(newPassword: String, parentId: Int): Resource<Boolean> {
+        return Resource(
+            status = Status.Success,
+            payload = true
+        )
+    }
 }

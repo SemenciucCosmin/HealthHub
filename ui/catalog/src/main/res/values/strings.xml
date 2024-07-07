@@ -53,6 +53,10 @@
     <string name="lbl_change_password">Change password</string>
     <string name="lbl_change_email">Change email</string>
     <string name="lbl_password">Password</string>
+    <string name="lbl_email_update_success_toast">Email updated successfully! Check your email inbox!</string>
+    <string name="lbl_email_update_error_toast">Error updating your email!</string>
+    <string name="lbl_password_update_success_toast">Password updated successfully!</string>
+    <string name="lbl_password_update_error_toast">Error updating your password!</string>
 
     <!--  HOME  -->
     <string name="lbl_subscriptions_title">Your subscriptions</string>
@@ -105,5 +109,6 @@
     <string name="lbl_services">Services</string>
     <string name="lbl_all_medics">All medics</string>
     <string name="lbl_your_medics">Yours</string>
+    <string name="lbl_no_medics_message">There are no medics available.</string>
 
 </resources>

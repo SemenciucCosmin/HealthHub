@@ -9,9 +9,13 @@ import com.example.healthhub.network.api.service.MedicsApi
 import com.example.healthhub.network.api.service.SpecializationsApi
 import com.example.healthhub.network.api.service.SubscriptionsApi
 import com.example.healthhub.network.call.CallAdapterFactory
+import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.Duration
+import java.time.temporal.TemporalUnit
+import java.util.concurrent.TimeUnit
 
 val networkModule = module {
     single {
@@ -19,6 +23,13 @@ val networkModule = module {
             .baseUrl("http://192.168.100.97:8080")
             .addCallAdapterFactory(CallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder().apply {
+                    readTimeout(30, TimeUnit.SECONDS)
+                    connectTimeout(30, TimeUnit.SECONDS)
+                    connectTimeout(30, TimeUnit.SECONDS)
+                }.build()
+            )
             .build()
     }
 

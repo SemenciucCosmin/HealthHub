@@ -17,7 +17,7 @@ class HomeMockedRepositoryImpl : HomeRepository {
         Subscription(
             id = subscriptionIndex,
             name = "Subscription $subscriptionIndex",
-            active = if (subscriptionIndex % 2 == 0) true else false,
+            active = subscriptionIndex % 2 == 0,
             pricePerMonth = subscriptionIndex.toDouble(),
             period = subscriptionIndex,
             specializationId = subscriptionIndex

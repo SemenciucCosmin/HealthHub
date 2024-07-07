@@ -1,5 +1,6 @@
 package com.example.healthhub.feature.account.viewmodel.model
 
+import com.example.healthhub.network.resource.Status
 import java.io.File
 
 data class AccountUiState(
@@ -8,5 +9,7 @@ data class AccountUiState(
     val imageFile: File? = null,
     val isLoading: Boolean = false,
     val isError: Boolean = false,
-    val isSuccess: Boolean = false
+    val isSuccess: Boolean = false,
+    val emailUpdateStatus: Status = Status.Empty,
+    val passwordUpdateStatus: Status = Status.Empty
 )

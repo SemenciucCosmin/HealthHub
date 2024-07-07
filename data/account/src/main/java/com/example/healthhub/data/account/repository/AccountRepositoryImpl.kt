@@ -9,6 +9,7 @@ import com.example.healthhub.data.account.model.UsersInfo
 import com.example.healthhub.data.account.preferences.PreferencesDataStore
 import com.example.healthhub.network.api.service.AccountApi
 import com.example.healthhub.network.resource.Resource
+import com.example.healthhub.network.resource.Status
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
@@ -92,7 +93,7 @@ class AccountRepositoryImpl(
         )
     }
 
-    override suspend fun changeEmail(newEmail: String, parentId: Int) {
+    override suspend fun changeEmail(newEmail: String, parentId: Int): Resource<Boolean> {
         val json = Gson().toJson(
             ChangeEmailRequest(
                 appUserEntity = AppUserEntity(parentId),
@@ -100,12 +101,14 @@ class AccountRepositoryImpl(
             )
         )
 
-        accountApi.changeEmail(
+        val resource = accountApi.changeEmail(
             json.toRequestBody("application/json".toMediaTypeOrNull())
         )
+
+        return Resource(resource.status == Status.Success, resource.status)
     }
 
-    override suspend fun changePassword(newPassword: String, parentId: Int) {
+    override suspend fun changePassword(newPassword: String, parentId: Int): Resource<Boolean> {
         val json = Gson().toJson(
             ChangePasswordRequest(
                 userId = parentId,
@@ -113,8 +116,10 @@ class AccountRepositoryImpl(
             )
         )
 
-        accountApi.changePassword(
+        val resource = accountApi.changePassword(
             json.toRequestBody("application/json".toMediaTypeOrNull())
         )
+
+        return Resource(resource.status == Status.Success, resource.status)
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -100,57 +101,76 @@ fun MedicsScreen(
         ) { pageIndex ->
             val medics = if (pageIndex == ALL_MEDICS_PAGE) allMedics else medicsById
 
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(vertical = 16.dp)
-            ) {
-                items(medics) { medic ->
-                    val specializationsDescriptions =
-                        medic.specializations.joinToString(String.BLANK) {
-                            it.name.getStringWithBullet()
-                        }
+            when {
+                medics.isEmpty() -> Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = stringResource(R.string.lbl_no_medics_message),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                }
 
-                    val servicesDescriptions = medic.services.joinToString(String.BLANK) {
-                        it.name.getStringWithBullet()
-                    }
-
-                    ElevatedCard(
-                        onClick = { onMedicClick(medic.id) }
+                else -> {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(vertical = 16.dp)
                     ) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Row {
-                                OverlineText(
-                                    modifier = Modifier.weight(0.5f),
-                                    text = stringResource(R.string.lbl_medic_title, medic.name),
-                                    overlineText = stringResource(R.string.lbl_medic_name)
-                                )
+                        items(medics) { medic ->
+                            val specializationsDescriptions =
+                                medic.specializations.joinToString(String.BLANK) {
+                                    it.name.getStringWithBullet()
+                                }
 
-                                OverlineText(
-                                    modifier = Modifier.weight(0.5f),
-                                    text = medic.ranking.toString(),
-                                    overlineText = stringResource(R.string.lbl_ranking)
-                                )
+                            val servicesDescriptions = medic.services.joinToString(String.BLANK) {
+                                it.name.getStringWithBullet()
                             }
 
-                            OverlineText(
-                                text = medic.county.name,
-                                overlineText = stringResource(R.string.lbl_location)
-                            )
+                            ElevatedCard(
+                                onClick = { onMedicClick(medic.id) }
+                            ) {
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                                    modifier = Modifier.padding(16.dp)
+                                ) {
+                                    Row {
+                                        OverlineText(
+                                            modifier = Modifier.weight(0.5f),
+                                            text = stringResource(
+                                                R.string.lbl_medic_title,
+                                                medic.name
+                                            ),
+                                            overlineText = stringResource(R.string.lbl_medic_name)
+                                        )
 
-                            OverlineText(
-                                text = specializationsDescriptions,
-                                overlineText = stringResource(R.string.lbl_specializations)
-                            )
+                                        OverlineText(
+                                            modifier = Modifier.weight(0.5f),
+                                            text = medic.ranking.toString(),
+                                            overlineText = stringResource(R.string.lbl_ranking)
+                                        )
+                                    }
 
-                            OverlineText(
-                                text = servicesDescriptions,
-                                overlineText = stringResource(R.string.lbl_services),
-                                hideDivider = true
-                            )
+                                    OverlineText(
+                                        text = medic.county.name,
+                                        overlineText = stringResource(R.string.lbl_location)
+                                    )
+
+                                    OverlineText(
+                                        text = specializationsDescriptions,
+                                        overlineText = stringResource(R.string.lbl_specializations)
+                                    )
+
+                                    OverlineText(
+                                        text = servicesDescriptions,
+                                        overlineText = stringResource(R.string.lbl_services),
+                                        hideDivider = true
+                                    )
+                                }
+                            }
                         }
+
                     }
                 }
             }
