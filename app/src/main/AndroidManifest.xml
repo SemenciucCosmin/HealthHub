@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="com.example.healthhub.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
     <application
         android:name=".app.HealthHubApplication"
         android:allowBackup="true"
@@ -19,7 +23,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCZ8BiYgELYUktdM1TbA57wQDW6tbZyESc" />
+            android:value="AIzaSyAK0nO0GF0rZtR-G3GmUcDvu81-V4SDj4o" />
 
         <activity
             android:name="com.example.healthhub.app.AuthenticationActivity"
