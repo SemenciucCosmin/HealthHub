@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.koin.android)
 
     // MODULES
+    implementation(project(":data:appointments"))
     implementation(project(":network"))
 
     // TEST

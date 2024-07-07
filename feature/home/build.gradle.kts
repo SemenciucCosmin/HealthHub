@@ -58,12 +58,16 @@ dependencies {
 
     // MODULES
     implementation(project(":data:account"))
+    implementation(project(":data:appointments"))
     implementation(project(":data:home"))
     implementation(project(":data:util"))
     implementation(project(":domain:account"))
     implementation(project(":network"))
     implementation(project(":ui:catalog"))
     implementation(project(":ui:navigation"))
+
+    // NAVIGATION
+    implementation(libs.navigation.compose)
 
     // TEST
     androidTestImplementation(libs.test.espresso.core)

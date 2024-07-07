@@ -24,6 +24,7 @@
     <string name="lbl_total_duration">Total duration</string>
     <string name="lbl_finish">Finish</string>
     <string name="lbl_add_child">Add Child</string>
+    <string name="lbl_subscription_details">Subscription Details</string>
 
     <!--  AUTHENTICATION  -->
     <string name="lbl_welcome">Welcome to HealthHub!</string>
@@ -65,7 +66,18 @@
     <string name="lbl_active">Active</string>
     <string name="lbl_inactive">Inactive</string>
     <string name="lbl_no_subscriptions_message">Looks like you have no subscriptions.</string>
-
+    <string name="lbl_price">Price</string>
+    <string name="lbl_service_name">Service name</string>
+    <string name="lbl_service_description">Service description</string>
+    <string name="lbl_duration">Duration</string>
+    <string name="lbl_no_services">There are no services available for this subscription.</string>
+    <string name="lbl_specialization_name">Specialization name</string>
+    <string name="lbl_specialization_description">Specialization description</string>
+    <string name="lbl_subscription_name">Subscription name</string>
+    <string name="lbl_subscription_description">Subscription description</string>
+    <string name="lbl_subscription_status">Status</string>
+    <string name="lbl_price_per_month">Price per month</string>
+    <string name="lbl_period">Period</string>
 
     <!--  APPOINTMENTS  -->
     <string name="lbl_your_appointments">Your appointments</string>

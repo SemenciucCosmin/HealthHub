@@ -12,7 +12,6 @@ import com.example.healthhub.feature.medicalfile.viewmodel.MedicalFileViewModel
 import com.example.healthhub.ui.catalog.components.LoadingScreen
 import com.example.healthhub.ui.navigation.components.NavigationButtonsGrid
 import com.example.healthhub.ui.navigation.model.NavDestination
-import com.example.healthhub.ui.navigation.model.NavigationButtonType
 import com.example.healthhub.ui.navigation.util.LocalNavController
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.getKoin
@@ -38,14 +37,7 @@ fun MedicalFileRoute() {
                 }
             )
 
-            NavigationButtonsGrid(
-                buttons = listOf(
-                    NavigationButtonType.Account,
-                    NavigationButtonType.Location,
-                    NavigationButtonType.Medics,
-                    NavigationButtonType.FutureAppointments,
-                )
-            )
+            NavigationButtonsGrid()
         }
     }
 }

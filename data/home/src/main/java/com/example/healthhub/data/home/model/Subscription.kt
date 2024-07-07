@@ -7,4 +7,8 @@ data class Subscription(
     val pricePerMonth: Double,
     val period: Int,
     val specializationId: Int,
-)
+) {
+    companion object {
+        const val INVALID_ID = -1
+    }
+}

@@ -25,9 +25,13 @@ import com.example.healthhub.data.home.model.Subscription
 @Composable
 fun SubscriptionCard(
     subscription: Subscription,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ElevatedCard(modifier = modifier) {
+    ElevatedCard(
+        onClick = onClick,
+        modifier = modifier
+    ) {
         Box {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -78,6 +82,7 @@ fun SubscriptionCard(
 private fun SubscriptionCardActivePreview() {
     HealthHubTheme {
         SubscriptionCard(
+            onClick = {},
             subscription = Subscription(
                 id = 5164,
                 name = "Diana Skinner",
@@ -96,6 +101,7 @@ private fun SubscriptionCardActivePreview() {
 private fun SubscriptionCardInactivePreview() {
     HealthHubTheme {
         SubscriptionCard(
+            onClick = {},
             subscription = Subscription(
                 id = 5164,
                 name = "Diana Skinner",

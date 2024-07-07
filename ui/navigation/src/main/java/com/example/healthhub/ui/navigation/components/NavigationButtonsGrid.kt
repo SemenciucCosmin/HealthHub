@@ -2,9 +2,8 @@ package com.example.healthhub.ui.navigation.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,17 +13,32 @@ import com.example.healthhub.ui.navigation.model.NavigationButtonType
 
 @Composable
 fun NavigationButtonsGrid(
-    buttons: List<NavigationButtonType>,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
+    Column(
         modifier = modifier,
-        columns = GridCells.Fixed(2),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(buttons) {
-            NavigationButton(type = it)
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            NavigationButton(
+                type = NavigationButtonType.Account,
+                modifier = Modifier.weight(0.5f)
+            )
+            NavigationButton(
+                type = NavigationButtonType.Location,
+                modifier = Modifier.weight(0.5f)
+            )
+        }
+
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            NavigationButton(
+                type = NavigationButtonType.Medics,
+                modifier = Modifier.weight(0.5f)
+            )
+            NavigationButton(
+                type = NavigationButtonType.FutureAppointments,
+                modifier = Modifier.weight(0.5f)
+            )
         }
     }
 }
@@ -34,13 +48,6 @@ fun NavigationButtonsGrid(
 @Composable
 private fun NavigationButtonsGridPreview() {
     HealthHubTheme {
-        NavigationButtonsGrid(
-            buttons = listOf(
-                NavigationButtonType.Account,
-                NavigationButtonType.Location,
-                NavigationButtonType.Medics,
-                NavigationButtonType.FutureAppointments,
-            )
-        )
+        NavigationButtonsGrid()
     }
 }

@@ -2,6 +2,7 @@ package com.example.healthhub.ui.navigation.model
 
 import androidx.annotation.StringRes
 import com.example.healthhub.data.appointments.model.Medic
+import com.example.healthhub.data.home.model.Subscription
 import com.example.healthhub.data.util.BLANK
 import com.example.healthhub.ui.catalog.R
 import kotlinx.serialization.Serializable
@@ -43,6 +44,12 @@ sealed class NavDestination(@StringRes val stringRes: Int) {
 
     @Serializable
     data object AddChild : NavDestination(R.string.lbl_filtered_appointment_details)
+
+    @Serializable
+    data class SubscriptionDetails(
+        val subscriptionId: Int = Subscription.INVALID_ID,
+        val specializationId: Int = Subscription.INVALID_ID,
+    ) : NavDestination(R.string.lbl_subscription_details)
 
     fun asRoute(): String? = this.javaClass.canonicalName
 }

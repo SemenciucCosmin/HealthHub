@@ -18,6 +18,7 @@ import com.example.healthhub.ui.catalog.R
 @Composable
 fun SubscriptionsSection(
     subscriptions: List<Subscription>,
+    onSubscriptionClick: (Int, Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -40,7 +41,15 @@ fun SubscriptionsSection(
 
             else -> LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(subscriptions, { it.id }) { subscription ->
-                    SubscriptionCard(subscription)
+                    SubscriptionCard(
+                        subscription = subscription,
+                        onClick = {
+                            onSubscriptionClick(
+                                subscription.id,
+                                subscription.specializationId
+                            )
+                        }
+                    )
                 }
             }
         }

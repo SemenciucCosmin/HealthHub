@@ -60,6 +60,7 @@ dependencies {
 
     // MODULES
     implementation(project(":data:appointments"))
+    implementation(project(":data:home"))
     implementation(project(":data:util"))
     implementation(project(":ui:catalog"))
 
