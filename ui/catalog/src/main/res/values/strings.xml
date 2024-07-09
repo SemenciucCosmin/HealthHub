@@ -7,6 +7,7 @@
     <string name="lbl_cancel_action">Cancel</string>
     <string name="lbl_ok_action">OK</string>
     <string name="lbl_none">None</string>
+    <string name="lbl_loading">Loading…</string>
 
     <!--  NAVIGATION DESTINATIONS  -->
     <string name="lbl_home">Home</string>
@@ -41,6 +42,7 @@
     <string name="lbl_id_validation_error">Id information is invalid, please try again.</string>
     <string name="lbl_id_upload_action">Upload ID image</string>
     <string name="lbl_id_take_photo_action">Take photo of ID</string>
+    <string name="lbl_email_validation_toast">Please wait a moment. We are sending you a confirmation email.</string>
 
     <!--  ACCOUNT  -->
     <string name="lbl_my_accounts">My Accounts</string>

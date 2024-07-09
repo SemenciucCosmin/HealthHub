@@ -2,6 +2,7 @@ package com.example.healthhub.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,13 +15,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import com.example.healthhub.ui.catalog.R
 import com.example.healthhub.feature.authentication.AuthenticationScreen
 import com.example.healthhub.feature.authentication.EmailValidationScreen
 import com.example.healthhub.feature.authentication.IdValidationScreen
 import com.example.healthhub.feature.authentication.viewmodel.AuthenticationViewModel
 import com.example.healthhub.feature.authentication.viewmodel.model.AuthenticationUiState
+import com.example.healthhub.ui.catalog.R
 import com.example.healthhub.ui.catalog.components.ErrorScreen
 import com.example.healthhub.ui.catalog.components.LoadingScreen
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
@@ -35,11 +37,13 @@ class AuthenticationActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HealthHubTheme {
+                val context = LocalContext.current
                 val coroutineScope = rememberCoroutineScope()
                 val snackbarHostState = remember { SnackbarHostState() }
                 val authenticationError = stringResource(R.string.lbl_authentication_error)
                 val emailValidationError = stringResource(R.string.lbl_email_validation_error)
                 val idValidationError = stringResource(R.string.lbl_id_validation_error)
+                val emailValidationToast = stringResource(R.string.lbl_email_validation_toast)
 
                 Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { padding ->
                     when {
@@ -68,6 +72,12 @@ class AuthenticationActivity : ComponentActivity() {
                                 }
 
                                 AuthenticationUiState.Step.EMAIL_VALIDATION -> {
+                                    Toast.makeText(
+                                        context,
+                                        emailValidationToast,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
                                     EmailValidationScreen(
                                         modifier = Modifier.fillMaxSize(),
                                         onNextStepClick = viewModel::getAccountValidationStatus
