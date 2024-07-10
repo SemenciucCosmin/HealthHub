@@ -7,30 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.authentication.model.LoginStatus
 import com.example.healthhub.data.authentication.repository.AuthenticationRepository
-import com.example.healthhub.domain.account.GetUsersInfoUseCase
 import com.example.healthhub.domain.account.SetUserInformationUseCase
 import com.example.healthhub.feature.authentication.viewmodel.model.AuthenticationUiState
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import java.io.File
 
 class AuthenticationViewModel(
     private val authenticationRepository: AuthenticationRepository,
-    private val getUsersInfoUseCase: GetUsersInfoUseCase,
     private val setUserInformationUseCase: SetUserInformationUseCase
 ) : ViewModel() {
-
-    init {
-        viewModelScope.launch {
-            getUsersInfoUseCase().filterNotNull().collectLatest { usersInfo ->
-                setUserInformationUseCase(usersInfo.parent.id)
-                uiState = uiState.copy(
-                    authenticationStep = AuthenticationUiState.Step.AUTHENTICATION_COMPLETED
-                )
-            }
-        }
-    }
 
     var uiState by mutableStateOf(AuthenticationUiState())
         private set
@@ -41,7 +26,8 @@ class AuthenticationViewModel(
                 email = email,
                 password = password,
                 isLoading = true,
-                isError = false
+                isError = false,
+                showToast = true
             )
 
             val resource = authenticationRepository.login(email, password)
@@ -51,7 +37,8 @@ class AuthenticationViewModel(
                 LoginStatus.PasswordError -> {
                     uiState = uiState.copy(
                         isLoading = false,
-                        isPasswordIncorrectError = true
+                        isPasswordIncorrectError = true,
+                        showToast = false
                     )
                 }
 
@@ -59,13 +46,15 @@ class AuthenticationViewModel(
                     setUserInformationUseCase(loginStatus.userId)
                     uiState = uiState.copy(
                         id = loginStatus.userId,
-                        isLoading = false
+                        isLoading = false,
+                        showToast = false
                     )
                 }
 
                 else -> uiState = uiState.copy(
                     isLoading = false,
-                    isError = true
+                    isError = true,
+                    showToast = false
                 )
             }
         }
@@ -102,7 +91,8 @@ class AuthenticationViewModel(
         viewModelScope.launch {
             uiState = uiState.copy(
                 isLoading = true,
-                isError = false
+                isError = false,
+                showToast = false
             )
 
             val resource = authenticationRepository.getAccountValidationStatus(uiState.email)
@@ -129,7 +119,6 @@ class AuthenticationViewModel(
         setEmptyState()
 
         when (uiState.authenticationStep) {
-            AuthenticationUiState.Step.AUTHENTICATION_COMPLETED -> Unit
             AuthenticationUiState.Step.AUTHENTICATION -> authenticate(
                 email = uiState.email,
                 password = uiState.password
@@ -154,15 +143,16 @@ class AuthenticationViewModel(
 
     private suspend fun register() {
         val resource = authenticationRepository.register(uiState.email, uiState.password)
-        uiState = when (resource.payload) {
-            true -> uiState.copy(
-                authenticationStep = AuthenticationUiState.Step.EMAIL_VALIDATION,
-                isLoading = false
+        uiState = when (val userId = resource.payload?.userId) {
+            null -> uiState.copy(
+                isLoading = false,
+                isError = true
             )
 
             else -> uiState.copy(
-                isLoading = false,
-                isError = true
+                authenticationStep = AuthenticationUiState.Step.EMAIL_VALIDATION,
+                id = userId,
+                isLoading = false
             )
         }
     }

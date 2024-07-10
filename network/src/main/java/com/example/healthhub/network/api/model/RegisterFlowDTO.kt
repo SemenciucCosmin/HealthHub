@@ -7,5 +7,9 @@ data class RegisterFlowDTO(
 )
 
 data class InnerRegisterFlowDTO(
-    @SerializedName("status") val status: String?,
+    @SerializedName("tokenAndIdModel") val model: RegisterDTO?,
+)
+
+data class RegisterDTO (
+    @SerializedName("userId") val userId: Int?,
 )

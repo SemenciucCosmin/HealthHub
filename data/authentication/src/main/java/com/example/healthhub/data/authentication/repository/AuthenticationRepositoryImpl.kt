@@ -2,11 +2,11 @@ package com.example.healthhub.data.authentication.repository
 
 import com.example.healthhub.data.authentication.model.IdValidation
 import com.example.healthhub.data.authentication.model.LoginStatus
+import com.example.healthhub.data.authentication.model.RegisterStatus
 import com.example.healthhub.network.api.model.AccountValidationRequestBody
 import com.example.healthhub.network.api.model.AuthenticationRequestBody
 import com.example.healthhub.network.api.service.AuthenticationApi
 import com.example.healthhub.network.resource.Resource
-import com.example.healthhub.network.resource.Status
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -66,13 +66,15 @@ class AuthenticationRepositoryImpl(
     override suspend fun register(
         email: String,
         password: String
-    ): Resource<Boolean> {
+    ): Resource<RegisterStatus> {
         val resource = authenticationApi.register(
             AuthenticationRequestBody(email, password).build()
         )
 
+        val userId = resource.payload?.innerRegisterFlowDTO?.model?.userId
+
         return Resource(
-            resource.status == Status.Success,
+            userId?.let { RegisterStatus(it) },
             resource.status
         )
     }

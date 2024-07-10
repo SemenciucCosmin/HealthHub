@@ -14,10 +14,10 @@ data class AuthenticationUiState(
     val isEmailValidationError: Boolean = false,
     val isIdValidationError: Boolean = false,
     val authenticationStep: Step = Step.AUTHENTICATION,
+    val showToast: Boolean = false
 ) {
     enum class Step {
         AUTHENTICATION,
-        AUTHENTICATION_COMPLETED,
         EMAIL_VALIDATION,
         ID_VALIDATION,
     }
