@@ -48,6 +48,13 @@ class AuthenticationActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            getUsersInfoUseCase().filterNotNull().collectLatest { _ ->
+                MainActivity.startActivity(this@AuthenticationActivity)
+                this@AuthenticationActivity.finish()
+            }
+        }
+
         enableEdgeToEdge()
         setContent {
             HealthHubTheme {
@@ -147,16 +154,6 @@ class AuthenticationActivity : ComponentActivity() {
                         }
                     }
                 }
-            }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        lifecycleScope.launch {
-            getUsersInfoUseCase().filterNotNull().collectLatest { _ ->
-                MainActivity.startActivity(this@AuthenticationActivity)
-                this@AuthenticationActivity.finish()
             }
         }
     }

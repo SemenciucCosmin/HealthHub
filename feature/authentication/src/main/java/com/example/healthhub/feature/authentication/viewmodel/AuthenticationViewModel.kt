@@ -27,7 +27,7 @@ class AuthenticationViewModel(
                 password = password,
                 isLoading = true,
                 isError = false,
-                showToast = true
+                showToast = false
             )
 
             val resource = authenticationRepository.login(email, password)
@@ -44,11 +44,7 @@ class AuthenticationViewModel(
 
                 is LoginStatus.Success -> {
                     setUserInformationUseCase(loginStatus.userId)
-                    uiState = uiState.copy(
-                        id = loginStatus.userId,
-                        isLoading = false,
-                        showToast = false
-                    )
+                    uiState = uiState.copy(id = loginStatus.userId)
                 }
 
                 else -> uiState = uiState.copy(
@@ -152,7 +148,8 @@ class AuthenticationViewModel(
             else -> uiState.copy(
                 authenticationStep = AuthenticationUiState.Step.EMAIL_VALIDATION,
                 id = userId,
-                isLoading = false
+                isLoading = false,
+                showToast = true
             )
         }
     }
