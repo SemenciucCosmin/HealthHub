@@ -161,7 +161,7 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
                 longitude = appointmentIndex.toDouble()
             ),
             state = "State $appointmentIndex",
-            startDate = "Start date $appointmentIndex",
+            startDate = appointmentIndex.toLong(),
             duration = appointmentIndex,
             price = appointmentIndex.toFloat(),
             specialization = Specialization(

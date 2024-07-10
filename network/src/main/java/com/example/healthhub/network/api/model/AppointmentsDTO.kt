@@ -18,7 +18,7 @@ data class AppointmentDTO(
     @SerializedName("countyId") val countyId: Int?,
     @SerializedName("locationId") val locationId: Int?,
     @SerializedName("state") val state: String?,
-    @SerializedName("appointmentStartDate") val startDate: String?,
+    @SerializedName("appointmentStartDate") val startDate: Long?,
     @SerializedName("appointmentDuration") val duration: Int?,
     @SerializedName("price") val price: Float?,
     @SerializedName("specializationId") val specializationId: Int?,

@@ -19,6 +19,8 @@ import com.example.healthhub.ui.catalog.R
 import com.example.healthhub.ui.catalog.components.IconTextButton
 import com.example.healthhub.ui.catalog.components.OverlineText
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun AppointmentCard(
@@ -44,7 +46,7 @@ fun AppointmentCard(
             Row {
                 OverlineText(
                     modifier = Modifier.weight(0.5f),
-                    text = appointment.startDate,
+                    text = SimpleDateFormat.getDateInstance().format(Date(appointment.startDate)),
                     overlineText = stringResource(R.string.lbl_date),
                     hideDivider = true
                 )

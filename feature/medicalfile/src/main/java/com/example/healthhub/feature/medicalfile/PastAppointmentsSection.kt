@@ -25,6 +25,8 @@ import com.example.healthhub.ui.catalog.R
 import com.example.healthhub.ui.catalog.components.IconTextButton
 import com.example.healthhub.ui.catalog.components.OverlineText
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Composable
 fun PastAppointmentsSection(
@@ -80,9 +82,11 @@ fun PastAppointmentsSection(
 
                             Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
                                 OverlineText(
-                                    text = appointment.startDate,
                                     overlineText = stringResource(R.string.lbl_date),
-                                    hideDivider = true
+                                    hideDivider = true,
+                                    text = SimpleDateFormat.getDateInstance().format(
+                                        Date(appointment.startDate)
+                                    )
                                 )
 
                                 OverlineText(

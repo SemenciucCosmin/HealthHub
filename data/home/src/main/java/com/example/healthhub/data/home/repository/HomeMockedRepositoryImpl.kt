@@ -5,15 +5,20 @@ import com.example.healthhub.data.home.model.Subscription
 import com.example.healthhub.data.home.model.SubscriptionDetails
 import com.example.healthhub.network.resource.Resource
 import com.example.healthhub.network.resource.Status
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class HomeMockedRepositoryImpl : HomeRepository {
 
-    override suspend fun getUserSubscriptions(userId: Int): Resource<List<Subscription>> {
-        return Resource(
-            status = Status.Success,
-            payload = getMockedSubscriptions()
+    override suspend fun getUserSubscriptions(userId: Int) = flow {
+        emit(
+            Resource(
+                status = Status.Success,
+                payload = getMockedSubscriptions()
+            )
         )
-    }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getAllSubscriptions(): Resource<List<Subscription>> {
         return Resource(

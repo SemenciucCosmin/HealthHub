@@ -10,7 +10,7 @@ data class Appointment(
     val county: County,
     val location: Location,
     val state: String,
-    val startDate: String,
+    val startDate: Long,
     val duration: Int,
     val price: Float,
     val specialization: Specialization,

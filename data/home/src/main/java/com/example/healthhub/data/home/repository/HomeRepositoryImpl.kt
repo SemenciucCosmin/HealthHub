@@ -8,28 +8,37 @@ import com.example.healthhub.network.api.service.SubscriptionsApi
 import com.example.healthhub.network.resource.Resource
 import com.example.healthhub.network.resource.Status
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 
 class HomeRepositoryImpl(
     private val subscriptionsApi: SubscriptionsApi
 ) : HomeRepository {
-    override suspend fun getUserSubscriptions(userId: Int): Resource<List<Subscription>> {
-        val resource = subscriptionsApi.getUserSubscriptions(userId)
-        val subscriptionDTOs = resource.payload?.innerSubscriptionsDTO?.subscriptions ?: emptyList()
-        val subscriptions = subscriptionDTOs.mapNotNull { dto ->
-            Subscription(
-                id = dto.id ?: return@mapNotNull null,
-                name = dto.name ?: return@mapNotNull null,
-                active = dto.active ?: return@mapNotNull null,
-                pricePerMonth = dto.pricePerMonth ?: return@mapNotNull null,
-                period = dto.subscriptionAgeMonths ?: return@mapNotNull null,
-                specializationId = dto.specializationId ?: return@mapNotNull null
-            )
-        }
+    override suspend fun getUserSubscriptions(userId: Int) = flow {
+        while (true) {
+            val resource = subscriptionsApi.getUserSubscriptions(userId)
+            val subscriptionDTOs =
+                resource.payload?.innerSubscriptionsDTO?.subscriptions ?: emptyList()
+            val subscriptions = subscriptionDTOs.mapNotNull { dto ->
+                Subscription(
+                    id = dto.id ?: return@mapNotNull null,
+                    name = dto.name ?: return@mapNotNull null,
+                    active = dto.active ?: return@mapNotNull null,
+                    pricePerMonth = dto.pricePerMonth ?: return@mapNotNull null,
+                    period = dto.subscriptionAgeMonths ?: return@mapNotNull null,
+                    specializationId = dto.specializationId ?: return@mapNotNull null
+                )
+            }
 
-        return Resource(subscriptions, resource.status)
-    }
+            emit(Resource(subscriptions, resource.status))
+
+            delay(5000)
+        }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getAllSubscriptions(): Resource<List<Subscription>> {
         val resource = subscriptionsApi.getAllSubscriptions()

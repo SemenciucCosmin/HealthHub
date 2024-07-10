@@ -1,5 +1,6 @@
 package com.example.healthhub.feature.home.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,10 +23,14 @@ class HomeViewModel(
     init {
         viewModelScope.launch {
             getUsersInfoUseCase().filterNotNull().collectLatest { usersInfo ->
-                val resource = homeRepository.getUserSubscriptions(usersInfo.selectedUserId)
-                val subscriptions = resource.payload ?: emptyList()
-                val sortedSubscriptions = subscriptions.groupBy { !it.active }.values.flatten()
-                uiState = uiState.copy(userSubscriptions = sortedSubscriptions)
+                homeRepository.getUserSubscriptions(
+                    userId = usersInfo.selectedUserId
+                ).collectLatest { resource ->
+                    Log.d("TESTMESSAGE", "$resource")
+                    val subscriptions = resource.payload ?: emptyList()
+                    val sortedSubscriptions = subscriptions.groupBy { !it.active }.values.flatten()
+                    uiState = uiState.copy(userSubscriptions = sortedSubscriptions)
+                }
             }
         }
 

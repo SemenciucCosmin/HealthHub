@@ -33,7 +33,7 @@ class AppointmentPreviewParameterProvider : PreviewParameterProvider<Appointment
                 longitude = 32.33
             ),
             state = "Iowa",
-            startDate = "10-06-2024",
+            startDate = 1720631478446,
             duration = List(60) { it }.random(),
             price = List(30) { it.toFloat() }.random(),
             specialization = Specialization(

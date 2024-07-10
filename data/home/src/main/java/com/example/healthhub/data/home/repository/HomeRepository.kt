@@ -3,9 +3,10 @@ package com.example.healthhub.data.home.repository
 import com.example.healthhub.data.home.model.Subscription
 import com.example.healthhub.data.home.model.SubscriptionDetails
 import com.example.healthhub.network.resource.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
-    suspend fun getUserSubscriptions(userId: Int): Resource<List<Subscription>>
+    suspend fun getUserSubscriptions(userId: Int): Flow<Resource<List<Subscription>>>
 
     suspend fun getAllSubscriptions(): Resource<List<Subscription>>
 
