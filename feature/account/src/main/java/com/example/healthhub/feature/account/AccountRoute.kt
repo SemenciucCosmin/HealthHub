@@ -118,6 +118,7 @@ fun AccountRoute(onSignOut: () -> Unit) {
                                 if (text.isNotBlank()) {
                                     showDialog = false
                                     viewModel.changeEmail(text)
+                                    text = ""
                                 }
                             }
 
@@ -125,6 +126,7 @@ fun AccountRoute(onSignOut: () -> Unit) {
                                 if (text.isNotBlank()) {
                                     showDialog = false
                                     viewModel.changePassword(text)
+                                    text = ""
                                 }
                             }
 
