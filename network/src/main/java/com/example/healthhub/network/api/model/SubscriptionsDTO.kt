@@ -2,8 +2,12 @@ package com.example.healthhub.network.api.model
 
 import com.google.gson.annotations.SerializedName
 
-data class SubscriptionsDTO(
+data class UserSubscriptionsDTO(
     @SerializedName("getSubscriptionsByUserId") val innerSubscriptionsDTO: InnerSubscriptionsDTO?,
+)
+
+data class AllSubscriptionsDTO(
+    @SerializedName("getAllSubscription") val innerSubscriptionsDTO: InnerSubscriptionsDTO?,
 )
 
 data class InnerSubscriptionsDTO(

@@ -11,6 +11,7 @@ import com.example.healthhub.feature.home.viewmodel.model.SubscriptionDetailsUiS
 import com.example.healthhub.network.resource.Status
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 class SubscriptionDetailsViewModel(
@@ -44,5 +45,19 @@ class SubscriptionDetailsViewModel(
     fun retry(subscriptionId: Int, specializationId: Int) {
         uiState = uiState.copy(isLoading = true)
         loadSubscriptionDetails(subscriptionId, specializationId)
+    }
+
+    fun addSubscription(subscriptionId: Int) {
+        viewModelScope.launch {
+            uiState = uiState.copy(subscriptionAdditionStatus = Status.Loading)
+            val userId = getUsersInfoUseCase().firstOrNull()?.parent?.id ?: return@launch
+            val resource = homeRepository.addSubscription(
+                userId = userId,
+                subscriptionId = subscriptionId,
+                validFromDateMillis = System.currentTimeMillis()
+            )
+
+            uiState = uiState.copy(subscriptionAdditionStatus = resource.status)
+        }
     }
 }

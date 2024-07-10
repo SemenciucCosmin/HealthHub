@@ -36,12 +36,18 @@ dependencies {
     // ANDROIDX
     implementation(libs.androidx.core.ktx)
 
+    // GSON
+    implementation (libs.gson)
+
     // KOIN
     implementation(libs.koin.android)
 
     // MODULES
     implementation(project(":data:appointments"))
     implementation(project(":network"))
+
+    // NETWORK
+    implementation(libs.okhttp3)
 
     // TEST
     androidTestImplementation(libs.test.espresso.core)

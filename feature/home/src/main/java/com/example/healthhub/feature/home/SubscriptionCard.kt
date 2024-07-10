@@ -25,6 +25,7 @@ import com.example.healthhub.data.home.model.Subscription
 @Composable
 fun SubscriptionCard(
     subscription: Subscription,
+    isUserSubscription: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -46,7 +47,9 @@ fun SubscriptionCard(
                         style = MaterialTheme.typography.titleMedium
                     )
 
-                    ActivityIndicator(isActive = subscription.active)
+                    if (isUserSubscription) {
+                        ActivityIndicator(isActive = subscription.active)
+                    }
                 }
 
                 Text(
@@ -65,13 +68,15 @@ fun SubscriptionCard(
                 )
             }
 
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .thenIf(!subscription.active) {
-                        background(Color.DarkGray.copy(alpha = 0.3f))
-                    }
-            )
+            if (isUserSubscription) {
+                Box(
+                    modifier = Modifier
+                        .matchParentSize()
+                        .thenIf(!subscription.active) {
+                            background(Color.DarkGray.copy(alpha = 0.3f))
+                        }
+                )
+            }
         }
     }
 }
@@ -83,6 +88,7 @@ private fun SubscriptionCardActivePreview() {
     HealthHubTheme {
         SubscriptionCard(
             onClick = {},
+            isUserSubscription = true,
             subscription = Subscription(
                 id = 5164,
                 name = "Diana Skinner",
@@ -102,6 +108,7 @@ private fun SubscriptionCardInactivePreview() {
     HealthHubTheme {
         SubscriptionCard(
             onClick = {},
+            isUserSubscription = true,
             subscription = Subscription(
                 id = 5164,
                 name = "Diana Skinner",

@@ -1,16 +1,20 @@
 package com.example.healthhub.data.home.repository
 
 import com.example.healthhub.data.appointments.model.Service
+import com.example.healthhub.data.home.model.AddSubscriptionRequest
 import com.example.healthhub.data.home.model.Subscription
 import com.example.healthhub.data.home.model.SubscriptionDetails
 import com.example.healthhub.network.api.service.SubscriptionsApi
 import com.example.healthhub.network.resource.Resource
 import com.example.healthhub.network.resource.Status
+import com.google.gson.Gson
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class HomeRepositoryImpl(
     private val subscriptionsApi: SubscriptionsApi
 ) : HomeRepository {
-    override suspend fun getSubscriptions(userId: Int): Resource<List<Subscription>> {
+    override suspend fun getUserSubscriptions(userId: Int): Resource<List<Subscription>> {
         val resource = subscriptionsApi.getUserSubscriptions(userId)
         val subscriptionDTOs = resource.payload?.innerSubscriptionsDTO?.subscriptions ?: emptyList()
         val subscriptions = subscriptionDTOs.mapNotNull { dto ->
@@ -27,12 +31,49 @@ class HomeRepositoryImpl(
         return Resource(subscriptions, resource.status)
     }
 
+    override suspend fun getAllSubscriptions(): Resource<List<Subscription>> {
+        val resource = subscriptionsApi.getAllSubscriptions()
+        val subscriptionDTOs = resource.payload?.innerSubscriptionsDTO?.subscriptions ?: emptyList()
+        val subscriptions = subscriptionDTOs.mapNotNull { dto ->
+            Subscription(
+                id = dto.id ?: return@mapNotNull null,
+                name = dto.name ?: return@mapNotNull null,
+                active = dto.active ?: return@mapNotNull null,
+                pricePerMonth = dto.pricePerMonth ?: return@mapNotNull null,
+                period = dto.subscriptionAgeMonths ?: return@mapNotNull null,
+                specializationId = dto.specializationId ?: return@mapNotNull null
+            )
+        }
+
+        return Resource(subscriptions, resource.status)
+    }
+
+    override suspend fun addSubscription(
+        userId: Int,
+        subscriptionId: Int,
+        validFromDateMillis: Long
+    ): Resource<Unit> {
+        val json = Gson().toJson(
+            AddSubscriptionRequest(
+                userId = userId,
+                subscriptionId = subscriptionId,
+                validFrom = validFromDateMillis
+            )
+        )
+
+        val resource = subscriptionsApi.addSubscription(
+            json.toRequestBody("application/json".toMediaTypeOrNull())
+        )
+
+        return resource
+    }
+
     override suspend fun getSubscriptionDetails(
         userId: Int,
         subscriptionId: Int,
         specializationId: Int
     ): Resource<SubscriptionDetails> {
-        val subscriptionsResource = getSubscriptions(userId)
+        val subscriptionsResource = getAllSubscriptions()
         val subscriptions = subscriptionsResource.payload ?: emptyList()
         val subscriptionDetailsResource = subscriptionsApi.getUserSubscriptionDetails(
             mapOf(

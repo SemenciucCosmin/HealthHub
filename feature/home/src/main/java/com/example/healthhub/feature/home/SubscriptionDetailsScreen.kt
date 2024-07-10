@@ -15,17 +15,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.healthhub.data.home.model.SubscriptionDetails
 import com.example.healthhub.ui.catalog.R
+import com.example.healthhub.ui.catalog.components.IconTextButton
 import com.example.healthhub.ui.catalog.components.OverlineText
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 
 @Composable
 fun SubscriptionDetailsScreen(
     subscriptionDetails: SubscriptionDetails,
+    isUserSubscription: Boolean,
+    onAddSubscriptionClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -37,14 +41,16 @@ fun SubscriptionDetailsScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(16.dp)
             ) {
-                OverlineText(
-                    overlineText = stringResource(R.string.lbl_subscription_status),
-                    text = if (subscriptionDetails.active) {
-                        stringResource(R.string.lbl_active)
-                    } else {
-                        stringResource(R.string.lbl_inactive)
-                    }
-                )
+                if (isUserSubscription) {
+                    OverlineText(
+                        overlineText = stringResource(R.string.lbl_subscription_status),
+                        text = if (subscriptionDetails.active) {
+                            stringResource(R.string.lbl_active)
+                        } else {
+                            stringResource(R.string.lbl_inactive)
+                        }
+                    )
+                }
 
                 Row {
                     OverlineText(
@@ -89,6 +95,14 @@ fun SubscriptionDetailsScreen(
                         hideDivider = true
                     )
                 }
+
+                if (!isUserSubscription) {
+                    IconTextButton(
+                        text = stringResource(R.string.lbl_add_subscription),
+                        icon = painterResource(R.drawable.ic_add),
+                        onClick = onAddSubscriptionClick,
+                    )
+                }
             }
         }
 
@@ -124,6 +138,8 @@ fun SubscriptionDetailsScreen(
 private fun SubscriptionDetailsScreenPreview() {
     HealthHubTheme {
         SubscriptionDetailsScreen(
+            isUserSubscription = false,
+            onAddSubscriptionClick = {},
             subscriptionDetails = SubscriptionDetails(
                 id = 2182,
                 name = "Elijah Wong",

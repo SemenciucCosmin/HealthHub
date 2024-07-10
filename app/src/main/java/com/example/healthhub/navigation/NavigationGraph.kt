@@ -63,7 +63,11 @@ fun NavigationGraph(
         }
         composable<NavDestination.SubscriptionDetails> {
             val args = it.toRoute<NavDestination.SubscriptionDetails>()
-            SubscriptionDetailsRoute(args.subscriptionId, args.specializationId)
+            SubscriptionDetailsRoute(
+                subscriptionId = args.subscriptionId,
+                specializationId = args.specializationId,
+                isUserSubscription = args.isUserSubscription
+            )
         }
     }
 }

@@ -8,10 +8,28 @@ import com.example.healthhub.network.resource.Status
 
 class HomeMockedRepositoryImpl : HomeRepository {
 
-    override suspend fun getSubscriptions(userId: Int): Resource<List<Subscription>> {
+    override suspend fun getUserSubscriptions(userId: Int): Resource<List<Subscription>> {
         return Resource(
             status = Status.Success,
             payload = getMockedSubscriptions()
+        )
+    }
+
+    override suspend fun getAllSubscriptions(): Resource<List<Subscription>> {
+        return Resource(
+            status = Status.Success,
+            payload = getMockedSubscriptions()
+        )
+    }
+
+    override suspend fun addSubscription(
+        userId: Int,
+        subscriptionId: Int,
+        validFromDateMillis: Long
+    ): Resource<Unit> {
+        return Resource(
+            status = Status.Success,
+            payload = Unit
         )
     }
 

@@ -62,12 +62,18 @@
     <string name="lbl_password_update_error_toast">Error updating your password!</string>
 
     <!--  HOME  -->
-    <string name="lbl_subscriptions_title">Your subscriptions</string>
+    <string name="lbl_user_subscriptions_title">Your subscriptions</string>
+    <string name="lbl_all_subscriptions_title">All subscriptions</string>
     <string name="lbl_subscription_price">%.2f/month</string>
     <string name="lbl_subscription_period">Period: %d months</string>
     <string name="lbl_active">Active</string>
     <string name="lbl_inactive">Inactive</string>
-    <string name="lbl_no_subscriptions_message">Looks like you have no subscriptions.</string>
+    <string name="lbl_no_user_subscriptions_message">Looks like you have no subscriptions.</string>
+    <string name="lbl_no_subscriptions_message">Looks there are no subscriptions available.</string>
+    <string name="lbl_add_subscription">Add subscription</string>
+    <string name="lbl_subscription_add_success">Subscription was added! Check email for payment.</string>
+    <string name="lbl_subscription_add_error">Subscription could not be added! Please try again.</string>
+    <string name="lbl_subscription_add_loading">Please wait a moment. We are sending you an email for payment.</string>
     <string name="lbl_price">Price</string>
     <string name="lbl_service_name">Service name</string>
     <string name="lbl_service_description">Service description</string>

@@ -49,6 +49,7 @@ sealed class NavDestination(@StringRes val stringRes: Int) {
     data class SubscriptionDetails(
         val subscriptionId: Int = Subscription.INVALID_ID,
         val specializationId: Int = Subscription.INVALID_ID,
+        val isUserSubscription: Boolean = false,
     ) : NavDestination(R.string.lbl_subscription_details)
 
     fun asRoute(): String? = this.javaClass.canonicalName

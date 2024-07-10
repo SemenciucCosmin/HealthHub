@@ -22,11 +22,17 @@ class HomeViewModel(
     init {
         viewModelScope.launch {
             getUsersInfoUseCase().filterNotNull().collectLatest { usersInfo ->
-                val resource = homeRepository.getSubscriptions(usersInfo.selectedUserId)
+                val resource = homeRepository.getUserSubscriptions(usersInfo.selectedUserId)
                 val subscriptions = resource.payload ?: emptyList()
                 val sortedSubscriptions = subscriptions.groupBy { !it.active }.values.flatten()
-                uiState = uiState.copy(subscriptions = sortedSubscriptions)
+                uiState = uiState.copy(userSubscriptions = sortedSubscriptions)
             }
+        }
+
+        viewModelScope.launch {
+            val resource = homeRepository.getAllSubscriptions()
+            val subscriptions = resource.payload ?: emptyList()
+            uiState = uiState.copy(allSubscriptions = subscriptions)
         }
     }
 }

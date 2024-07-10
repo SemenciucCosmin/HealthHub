@@ -5,7 +5,15 @@ import com.example.healthhub.data.home.model.SubscriptionDetails
 import com.example.healthhub.network.resource.Resource
 
 interface HomeRepository {
-    suspend fun getSubscriptions(userId: Int): Resource<List<Subscription>>
+    suspend fun getUserSubscriptions(userId: Int): Resource<List<Subscription>>
+
+    suspend fun getAllSubscriptions(): Resource<List<Subscription>>
+
+    suspend fun addSubscription(
+        userId: Int,
+        subscriptionId: Int,
+        validFromDateMillis: Long
+    ): Resource<Unit>
 
     suspend fun getSubscriptionDetails(
         userId: Int,

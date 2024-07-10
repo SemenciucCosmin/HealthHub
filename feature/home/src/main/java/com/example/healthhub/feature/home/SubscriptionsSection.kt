@@ -17,6 +17,9 @@ import com.example.healthhub.ui.catalog.R
 
 @Composable
 fun SubscriptionsSection(
+    title: String,
+    emptyMessage: String,
+    isUserSection: Boolean,
     subscriptions: List<Subscription>,
     onSubscriptionClick: (Int, Int) -> Unit,
     modifier: Modifier = Modifier
@@ -26,7 +29,7 @@ fun SubscriptionsSection(
         modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.lbl_subscriptions_title),
+            text = title,
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -34,7 +37,7 @@ fun SubscriptionsSection(
         when {
             subscriptions.isEmpty() -> Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.lbl_no_subscriptions_message),
+                text = emptyMessage,
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center
             )
@@ -43,6 +46,7 @@ fun SubscriptionsSection(
                 items(subscriptions, { it.id }) { subscription ->
                     SubscriptionCard(
                         subscription = subscription,
+                        isUserSubscription = isUserSection,
                         onClick = {
                             onSubscriptionClick(
                                 subscription.id,
