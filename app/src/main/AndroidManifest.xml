@@ -23,7 +23,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAK0nO0GF0rZtR-G3GmUcDvu81-V4SDj4o" />
+            android:value="AIzaSyCZ8BiYgELYUktdM1TbA57wQDW6tbZyESc" />
 
         <activity
             android:name="com.example.healthhub.app.AuthenticationActivity"
