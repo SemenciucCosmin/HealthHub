@@ -27,6 +27,7 @@ import com.example.healthhub.ui.catalog.components.OverlineText
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 @Composable
 fun PastAppointmentsSection(
@@ -81,12 +82,14 @@ fun PastAppointmentsSection(
                             }
 
                             Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
+                                // Update date formatting to include time
+                                val dateFormat = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
+                                val date = dateFormat.format(Date(appointment.startDate))
+
                                 OverlineText(
                                     overlineText = stringResource(R.string.lbl_date),
                                     hideDivider = true,
-                                    text = SimpleDateFormat.getDateInstance().format(
-                                        Date(appointment.startDate)
-                                    )
+                                    text = date
                                 )
 
                                 OverlineText(

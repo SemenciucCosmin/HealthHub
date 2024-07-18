@@ -181,7 +181,7 @@ class AppointmentsMockedRepositoryImpl : AppointmentsRepository {
             id = appointmentIndex,
             doctorFullName = "Medic $appointmentIndex",
             doctorId = appointmentIndex,
-            ranking = appointmentIndex,
+            ranking = appointmentIndex.toDouble(),
             specializationId = appointmentIndex,
             specializationName = "Specialization $appointmentIndex",
             services = getMockedServices(),

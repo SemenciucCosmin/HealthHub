@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 val networkModule = module {
     single {
         Retrofit.Builder()
-            .baseUrl("http://192.168.100.97:8080")
+            .baseUrl("http://192.168.224.211:8080")
             .addCallAdapterFactory(CallAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .client(

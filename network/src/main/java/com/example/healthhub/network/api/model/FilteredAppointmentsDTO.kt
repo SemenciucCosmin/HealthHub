@@ -14,7 +14,7 @@ data class FilteredAppointmentDTO(
     @SerializedName("id") val id: Int?,
     @SerializedName("doctorFullName") val doctorFullName: String?,
     @SerializedName("doctorId") val doctorId: Int?,
-    @SerializedName("ranking") val ranking: Int?,
+    @SerializedName("ranking") val ranking: Double?,
     @SerializedName("specializationAndServicesModel") val details: FilteredAppointmentDetailsDTO?,
     @SerializedName("locationEntity") val locationEntity: FilteredAppointmentLocationDTO?,
     @SerializedName("date") val dateMillis: Long?,

@@ -6,7 +6,7 @@ data class FilteredAppointment(
     val id: Int,
     val doctorFullName: String,
     val doctorId: Int,
-    val ranking: Int,
+    val ranking: Double,
     val specializationId: Int,
     val specializationName: String,
     val services: List<Service>,

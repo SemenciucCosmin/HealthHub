@@ -9,7 +9,7 @@ class FilteredAppointmentPreviewParameterProvider : PreviewParameterProvider<Fil
             id = 9963,
             doctorFullName = "Liza Clements",
             doctorId = 4258,
-            ranking = 9364,
+            ranking = 9364.2,
             specializationId = 9759,
             specializationName = "Tia Webb",
             services = List(3) {

@@ -24,6 +24,7 @@ import com.example.healthhub.ui.catalog.components.OverlineText
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 @Composable
 fun FilteredAppointmentsScreen(
@@ -34,7 +35,9 @@ fun FilteredAppointmentsScreen(
     onFilteredAppointmentClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val startDate = SimpleDateFormat.getDateInstance().format(Date(startDateMillis))
+
+    val dateFormat = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
+    val startDate = dateFormat.format(Date(startDateMillis))
 
     LazyColumn(
         modifier = modifier,

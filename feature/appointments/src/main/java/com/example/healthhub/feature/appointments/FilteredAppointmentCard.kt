@@ -23,6 +23,7 @@ import com.example.healthhub.ui.catalog.components.OverlineText
 import com.example.healthhub.ui.catalog.theme.HealthHubTheme
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 @Composable
 fun FilteredAppointmentCard(
@@ -31,7 +32,8 @@ fun FilteredAppointmentCard(
     modifier: Modifier = Modifier,
     onClick: (Int) -> Unit = {}
 ) {
-    val date = SimpleDateFormat.getDateInstance().format(Date(filteredAppointment.dateMillis))
+    val dateFormat = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
+    val date = dateFormat.format(Date(filteredAppointment.dateMillis))
     val servicesDescriptions = filteredAppointment.services.joinToString(String.BLANK) {
         it.name.getStringWithBullet()
     }
