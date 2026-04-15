@@ -23,6 +23,7 @@ sonar {
     }
 }
 
+val googleMapsApiKey = localProperties.getProperty("GOOGLE_MAPS_API_KEY") ?: "YOUR_API_KEY"
 
 android {
     namespace = "com.example.healthhub"
@@ -39,6 +40,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        manifestPlaceholders["google_maps_key"] = googleMapsApiKey
     }
 
     buildTypes {
