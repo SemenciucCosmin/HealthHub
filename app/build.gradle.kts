@@ -12,7 +12,8 @@ val localProperties = Properties().apply {
     load(rootProject.file("local.properties").inputStream())
 }
 
-val sonarToken = localProperties.getProperty("SONAR_TOKEN") ?: ""
+val sonarToken = localProperties.getProperty("SONAR_TOKEN")
+require(!sonarToken.isNullOrBlank()) { "SONAR_TOKEN must be set in local.properties" }
 
 sonar {
     properties {
