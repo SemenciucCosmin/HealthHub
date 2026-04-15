@@ -110,22 +110,7 @@ class AppointmentsRepositoryImpl(
     override suspend fun getMedics(): Resource<List<Medic>> {
         val resource = medicsApi.getMedics()
         val medicDTOs = resource.payload?.innerMedicsDTO?.entities
-        val medics = medicDTOs?.mapNotNull { medicDTO ->
-            val specializations = mapSpecializationDTOs(medicDTO.specializations)
-
-            Medic(
-                id = medicDTO.id ?: return@mapNotNull null,
-                name = medicDTO.name ?: return@mapNotNull null,
-                ranking = medicDTO.ranking ?: return@mapNotNull null,
-                specializations = specializations ?: return@mapNotNull null,
-                services = mapServiceDTOs(medicDTO.services) ?: return@mapNotNull null,
-                locations = mapLocationDTOs(medicDTO.locations) ?: return@mapNotNull null,
-                county = County(
-                    id = medicDTO.county?.id ?: return@mapNotNull null,
-                    name = medicDTO.county?.name ?: return@mapNotNull null,
-                )
-            )
-        }
+        val medics = medicDTOs?.mapNotNull { mapMedicDTO(it) }
 
         return Resource(medics, resource.status)
     }
@@ -141,22 +126,7 @@ class AppointmentsRepositoryImpl(
             ).payload?.innerMedicsDTO?.entities
         }
 
-        val medics = medicDTOs?.mapNotNull { medicDTO ->
-            val specializations = mapSpecializationDTOs(medicDTO.specializations)
-
-            Medic(
-                id = medicDTO.id ?: return@mapNotNull null,
-                name = medicDTO.name ?: return@mapNotNull null,
-                ranking = medicDTO.ranking ?: return@mapNotNull null,
-                specializations = specializations ?: return@mapNotNull null,
-                services = mapServiceDTOs(medicDTO.services) ?: return@mapNotNull null,
-                locations = mapLocationDTOs(medicDTO.locations) ?: return@mapNotNull null,
-                county = County(
-                    id = medicDTO.county?.id ?: return@mapNotNull null,
-                    name = medicDTO.county?.name ?: return@mapNotNull null,
-                )
-            )
-        }
+        val medics = medicDTOs?.mapNotNull { mapMedicDTO(it) }
 
         return Resource(medics, Status.Success)
     }
@@ -186,22 +156,7 @@ class AppointmentsRepositoryImpl(
         )
 
         val medicsDTOs = resource.payload?.innerFilteredMedics?.entities
-        val medics = medicsDTOs?.mapNotNull { medicDTO ->
-            val specializations = mapSpecializationDTOs(medicDTO.specializations)
-
-            Medic(
-                id = medicDTO.id ?: return@mapNotNull null,
-                name = medicDTO.name ?: return@mapNotNull null,
-                ranking = medicDTO.ranking ?: return@mapNotNull null,
-                specializations = specializations ?: return@mapNotNull null,
-                services = mapServiceDTOs(medicDTO.services) ?: return@mapNotNull null,
-                locations = mapLocationDTOs(medicDTO.locations) ?: return@mapNotNull null,
-                county = County(
-                    id = medicDTO.county?.id ?: return@mapNotNull null,
-                    name = medicDTO.county?.name ?: return@mapNotNull null,
-                )
-            )
-        }
+        val medics = medicsDTOs?.mapNotNull { mapMedicDTO(it) }
 
         return Resource(medics, resource.status)
     }
@@ -311,11 +266,17 @@ class AppointmentsRepositoryImpl(
     private suspend fun mapMedicId(medicId: Int?): Medic? {
         val medicDTOs = medicsApi.getMedics().payload?.innerMedicsDTO?.entities
         val medicDTO = medicDTOs?.firstOrNull { it.id == medicId }
+        return medicDTO?.let { mapMedicDTO(it) }
+    }
+
+    // Extracted function to map MedicDTO to Medic, to remove duplicate code
+    private fun mapMedicDTO(medicDTO: com.example.healthhub.network.api.model.MedicDTO): Medic? {
+        val specializations = mapSpecializationDTOs(medicDTO.specializations)
         return Medic(
-            id = medicDTO?.id ?: return null,
+            id = medicDTO.id ?: return null,
             name = medicDTO.name ?: return null,
             ranking = medicDTO.ranking ?: return null,
-            specializations = mapSpecializationDTOs(medicDTO.specializations) ?: return null,
+            specializations = specializations ?: return null,
             services = mapServiceDTOs(medicDTO.services) ?: return null,
             locations = mapLocationDTOs(medicDTO.locations) ?: return null,
             county = County(

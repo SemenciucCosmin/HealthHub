@@ -23,6 +23,7 @@ class AccountRepositoryImpl(
     private val accountApi: AccountApi,
     private val preferencesDataStore: PreferencesDataStore,
 ) : AccountRepository {
+
     override suspend fun getUsersInfo(): Flow<UsersInfo> {
         return preferencesDataStore.usersInfoFlow.filterNotNull()
     }
@@ -74,7 +75,7 @@ class AccountRepositoryImpl(
 
     override suspend fun uploadBirthCertificate(
         parentId: Int,
-        imageFile: File
+        imageFile: File,
     ): Resource<Boolean> {
         val requestBody = imageFile.asRequestBody("image/png".toMediaTypeOrNull())
         val multiPart = MultipartBody.Part.createFormData("picture", "image", requestBody)
@@ -123,3 +124,5 @@ class AccountRepositoryImpl(
         return Resource(resource.status == Status.Success, resource.status)
     }
 }
+
+// TODO: Integrate secure authentication using OAuth2, server-side validation, or Android Keystore as appropriate for your backend and security requirements.

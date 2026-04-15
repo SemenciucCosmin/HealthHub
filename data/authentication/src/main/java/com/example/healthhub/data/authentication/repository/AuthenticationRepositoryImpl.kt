@@ -27,12 +27,12 @@ class AuthenticationRepositoryImpl(
             AuthenticationRequestBody(email, password).build()
         )
 
-        val loginFlowDto = loginResource.payload?.innerLoginFlowDTO
+        val loginFlowDto = loginResource.payload!!.innerLoginFlowDTO
         val userId = loginFlowDto?.userId
 
         return when {
             userId != null -> {
-                if (accountStatusResource.payload?.innerAccountRegistrationDTO?.validation == true) {
+                if (accountStatusResource.payload!!.innerAccountRegistrationDTO?.validation == true) {
                     Resource(
                         LoginStatus.Success(userId),
                         loginResource.status
@@ -83,7 +83,7 @@ class AuthenticationRepositoryImpl(
         val resource = authenticationApi.getAccountValidationStatus(mapOf("email" to email))
 
         return Resource(
-            resource.payload?.innerAccountRegistrationDTO?.validation,
+            resource.payload?.innerAccountRegistrationDTO!!.validation,
             resource.status
         )
     }
