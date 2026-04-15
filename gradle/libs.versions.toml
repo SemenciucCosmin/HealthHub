@@ -20,6 +20,7 @@ kotlin-serialization = "1.6.3"
 
 # MAPS
 google-maps = "6.0.0"
+sonar = "7.2.3.7755"
 
 # NAVIGATION
 navigation-compose = "2.8.0-beta04"
@@ -98,3 +99,4 @@ android-library = { id = "com.android.library", version.ref = "android-gradle-pl
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "google-ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-android" }
+sonar = { id = "org.sonarqube", version.ref = "sonar" }

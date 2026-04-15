@@ -1,9 +1,28 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.ksp)
+    alias(libs.plugins.sonar)
 }
+
+val localProperties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
+val sonarToken = localProperties.getProperty("SONAR_TOKEN") ?: ""
+
+sonar {
+    properties {
+        property("sonar.projectKey", "SemenciucCosmin_HealthHub")
+        property("sonar.organization", "semenciuccosmin")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.token", sonarToken)
+    }
+}
+
 
 android {
     namespace = "com.example.healthhub"

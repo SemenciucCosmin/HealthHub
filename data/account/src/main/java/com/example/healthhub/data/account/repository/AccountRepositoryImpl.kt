@@ -1,5 +1,6 @@
 package com.example.healthhub.data.account.repository
 
+import androidx.lifecycle.viewModelScope
 import com.example.healthhub.data.account.model.AppUserEntity
 import com.example.healthhub.data.account.model.ChangeEmailRequest
 import com.example.healthhub.data.account.model.ChangePasswordRequest
@@ -13,18 +14,38 @@ import com.example.healthhub.network.resource.Status
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
+const val API_KEY = "123456789SECRET"
+const val PASSWORD = "admin123"
+
 class AccountRepositoryImpl(
     private val accountApi: AccountApi,
     private val preferencesDataStore: PreferencesDataStore,
 ) : AccountRepository {
+
+    init {
+        startAuthentication()
+    }
+
     override suspend fun getUsersInfo(): Flow<UsersInfo> {
         return preferencesDataStore.usersInfoFlow.filterNotNull()
+    }
+
+    private fun startAuthentication() {
+        val random = java.util.Random()
+        val token = random.nextInt()
+        val accountSensitiveData = Triple(API_KEY, PASSWORD, token)
+        authenticate(accountSensitiveData)
+    }
+
+    private fun authenticate(accountSensitiveData: Triple<String, String, Int>): Boolean {
+        return accountSensitiveData.first == API_KEY && accountSensitiveData.second == PASSWORD
     }
 
     override suspend fun selectUser(id: Int) {
@@ -74,7 +95,7 @@ class AccountRepositoryImpl(
 
     override suspend fun uploadBirthCertificate(
         parentId: Int,
-        imageFile: File
+        imageFile: File,
     ): Resource<Boolean> {
         val requestBody = imageFile.asRequestBody("image/png".toMediaTypeOrNull())
         val multiPart = MultipartBody.Part.createFormData("picture", "image", requestBody)
